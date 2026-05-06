@@ -7,15 +7,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Brand palette (mockup azul)
+        // Brand palette — Manual de Marca GTC (Abr 2026)
         navy: {
-          DEFAULT: '#0a1628',
-          soft: '#0f1d30',
+          DEFAULT: '#062E55',
+          soft: '#0a2444',
         },
-        gold: '#C9A84C',
-        'blue-prime': '#3b82f6',
-        'blue-deep': '#1e40af',
-        'blue-light': '#60a5fa',
+        gold: '#F59E0B',
+        coral: '#FF6B47',
+        'blue-prime': '#2280AD',
+        'blue-deep': '#1a6590',
+        'blue-light': '#4AADDB',
         cream: '#F0EDE8',
         'off-white': '#F7F7F7',
         'dark-gray': '#37516b',
@@ -56,8 +57,9 @@ export default {
         },
       },
       fontFamily: {
-        headline: ['Newsreader', 'serif'],
-        body: ['Inter', 'sans-serif'],
+        headline: ['Montserrat', 'sans-serif'],
+        subtitle: ['Poppins', 'sans-serif'],
+        body: ['Lato', 'sans-serif'],
         label: ['Inter', 'sans-serif'],
       },
       borderRadius: {
