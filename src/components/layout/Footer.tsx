@@ -47,11 +47,15 @@ export function Footer() {
 
       <div className="max-w-7xl mx-auto px-8 lg:px-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 pb-8">
         <p className="text-white/40 text-[10px] font-label uppercase tracking-widest">
-          2026 Global Talent Connections. Todos los derechos reservados.
+          2025 Global Talent Connections. Todos los derechos reservados.
         </p>
-        <Link className="text-white/40 hover:text-white transition-colors text-[10px] font-label uppercase tracking-widest" to="/politica-de-privacidad">
-          Política de Privacidad
-        </Link>
+        <div className="flex items-center gap-4">
+          <span className="text-lg" title="España">🇪🇸</span>
+          <span className="text-lg" title="Estados Unidos">🇺🇸</span>
+          <Link className="text-white/40 hover:text-white transition-colors text-[10px] font-label uppercase tracking-widest" to="/politica-de-privacidad">
+            Política de Privacidad
+          </Link>
+        </div>
       </div>
     </footer>
   )

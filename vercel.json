@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/api/vacantes", "destination": "https://www.globaltalentconnections.online/api/public/vacantes" },
     { "source": "/((?!.*\\.xlsx$).*)", "destination": "/index.html" }
   ]
 }

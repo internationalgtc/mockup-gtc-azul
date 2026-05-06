@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones, Send, CheckCircle, AlertCircle } from 'lucide-react'
+import { ArrowRight, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones, Send, CheckCircle, AlertCircle, Megaphone, FileSpreadsheet, Code, Palette, BrainCircuit } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
 import Testimonials from '@/components/Testimonials'
@@ -25,7 +25,7 @@ const CLIENT_LOGOS = [
 
 const STAT_KEYS = [
   { value: '53', key: 'stat_empresas', color: 'text-blue-prime' },
-  { value: '111', key: 'stat_profesionales', color: 'text-blue-prime' },
+  { value: '110', key: 'stat_profesionales', color: 'text-blue-prime' },
   { value: '50%', key: 'stat_ahorro', color: 'text-gold' },
   { value: '95%', key: 'stat_retencion', color: 'text-gold' },
 ]
@@ -33,6 +33,17 @@ const STAT_KEYS = [
 const PROCESS_ICONS = [Search, Users, FileCheck, Headphones]
 const PROCESS_STEPS_META = ['01', '02', '03', '04']
 
+
+const HOME_SERVICIOS = [
+  { icon: Users, key: 'serv_admin' },
+  { icon: Megaphone, key: 'serv_marketing' },
+  { icon: FileSpreadsheet, key: 'serv_finanzas' },
+  { icon: Code, key: 'serv_webdev' },
+  { icon: Palette, key: 'serv_diseno' },
+  { icon: Headphones, key: 'serv_atencion' },
+  { icon: BrainCircuit, key: 'serv_ia' },
+  { icon: Brain, key: 'serv_tecnico' },
+] as const
 
 const ADVANTAGE_ICONS = [Zap, Brain, Handshake]
 const ADVANTAGE_KEYS = [
@@ -57,7 +68,7 @@ export default function HomePage() {
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
               <span className="text-blue-light text-xs font-label uppercase tracking-widest font-bold">{t('hero_badge')}</span>
             </div>
-            <h1 className="text-off-white font-headline text-4xl sm:text-5xl md:text-7xl leading-[1.1] mb-6 font-bold">
+            <h1 className="text-off-white font-headline text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.15] mb-6 font-bold">
               <span className="text-coral">{t('hero_title_1')}</span>{' '}
               {t('hero_title_2')}
             </h1>
@@ -212,6 +223,48 @@ export default function HomePage() {
               {t('ventajas_cta')}
               <ArrowRight className="w-4 h-4" />
             </a>
+          </div>
+        </div>
+      </RevealSection>
+
+      {/* SERVICIOS PREVIEW */}
+      <RevealSection className="py-24 lg:py-32 bg-cream relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-prime/[0.06] blur-[120px] rounded-full" />
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="max-w-2xl mb-16">
+            <span className="text-blue-prime text-xs font-label uppercase tracking-widest font-extrabold mb-6 block">{t('home_serv_label')}</span>
+            <h2 className="text-navy font-headline text-4xl lg:text-5xl leading-tight mb-6">
+              {t('home_serv_titulo_1')} <span className="text-blue-prime">{t('home_serv_titulo_2')}</span>.
+            </h2>
+            <p className="text-dark-gray text-lg font-light leading-relaxed">{t('home_serv_subtitle')}</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6 mb-12">
+            {HOME_SERVICIOS.map(s => {
+              const Icon = s.icon
+              return (
+                <Link
+                  key={s.key}
+                  to="/servicios"
+                  className="bg-white rounded-xl border border-border-soft p-6 lg:p-7 flex flex-col items-start gap-4 hover:border-blue-prime/30 hover:shadow-lg transition-all group"
+                >
+                  <div className="w-12 h-12 rounded-lg bg-blue-prime/10 flex items-center justify-center group-hover:bg-blue-prime transition-colors">
+                    <Icon className="w-5 h-5 text-blue-prime group-hover:text-white transition-colors" />
+                  </div>
+                  <h3 className="font-headline text-navy text-base lg:text-lg leading-tight">{t(s.key)}</h3>
+                </Link>
+              )
+            })}
+          </div>
+
+          <div className="text-center">
+            <Link
+              to="/servicios"
+              className="inline-flex items-center gap-3 bg-blue-prime text-white px-10 py-4 rounded-md font-label font-bold text-sm tracking-widest uppercase hover:bg-blue-deep transition-all shadow-lg shadow-blue-prime/20"
+            >
+              {t('home_serv_cta')}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </RevealSection>

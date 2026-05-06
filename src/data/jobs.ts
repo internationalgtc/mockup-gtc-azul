@@ -1880,6 +1880,19 @@ export const DEPARTMENTS = [
 // =============================================================================
 
 export const JOBS_EN: Record<string, { title: string; description: string }> = {
+  // Nexus jobs (UUIDs)
+  "5435aed3-a27c-440c-ac62-420a8daf0e56": { title: "Intelligent Administrative Assistant", description: "Administrative assistant focused on automation and intelligent management." },
+  "c6cf434c-88d3-44f1-bee7-11ca65e2b1fc": { title: "E-commerce Assistant", description: "Management of online stores, catalogs, orders and e-commerce customer service." },
+  "c6deeacd-3bc6-4f90-8131-3c4f7ab36e5b": { title: "Architecture Assistant", description: "Virtual assistant specialized in supporting architecture firms." },
+  "58a8c1ad-b848-42a2-9576-7b0beb0afe69": { title: "Technical Drafting Assistant", description: "Creation and review of technical drawings with AutoCAD, Revit or other drafting tools. Support on engineering or architecture projects." },
+  "afc1e496-42ea-447e-9e2c-cf92960128ed": { title: "Financial & Accounting Assistant", description: "Support in accounting, invoicing, reconciliations and financial reporting." },
+  "2a567966-37ce-430e-bfd0-6d52d6b914ce": { title: "Corporate Communications Assistant", description: "Management of internal and external communications, press and public relations." },
+  "dc9dab61-e378-4a3a-b664-d8404d3ea7de": { title: "Graphic Design Assistant", description: "Design of graphic assets, branding, presentations and visual materials." },
+  "34db9b7f-4562-4985-8d90-080184f2ddd1": { title: "Marketing Lead", description: "" },
+  "29625473-3bc8-4357-b879-8321ff5c6cd8": { title: "CTO Assistant / AI Product Architect", description: "Technology leader to take over the architecture, development and evolution of a disruptive B2B SaaS platform in the industrial sector." },
+  "f54c273b-ea66-47d3-99b1-5f61261d049e": { title: "AI Automation Assistant", description: "Implementation of automations with AI tools and workflows." },
+  "c1db07d5-4ea0-48c8-880a-8fe2b4025d42": { title: "Web Development Assistant", description: "Development and maintenance of websites, landing pages and platforms." },
+  "bd4d1a65-fbb1-4aaa-86d0-d6e2cd5efcd4": { title: "AI Automation / Real Estate", description: "We are looking for an automation, system integration and AI specialist to lead the digital transformation of a real estate agency." },
   "9":  { title: "AI & Automation Virtual Assistant", description: "We're looking for the driving force behind our company's operational innovation. Your mission will be to identify bottlenecks and transform them into autonomous workflows using No-Code/Low-Code tools and Artificial Intelligence. The goal is to maximize productivity and ensure seamless, error-free information flow across departments." },
   "65": { title: "Operations & Quality Management Lead Assistant", description: "We're looking for a retention strategist to ensure service excellence across our remote assistants, delivering exceptional value for clients in Australia, UK and the US." },
   "66": { title: "SDR / Outbound Sales Assistant", description: "We're looking for a results-driven professional with impeccable verbal communication skills to lead outbound prospecting and appointment setting in the Spanish market." },
@@ -1906,16 +1919,28 @@ export const DEPT_EN: Record<string, string> = {
   "Ecommerce": "E-commerce",
   "Arquitectura": "Architecture",
   "Administración": "Administration",
+  "Comercial": "Sales",
+  "Finanzas": "Finance",
+  "Calidad": "Quality",
+  "Construcción": "Construction",
+  "Operaciones": "Operations",
+  "RRHH": "HR",
+  "Otro": "Other",
 };
 
 export const TYPE_EN: Record<string, string> = {
   "Jornada Completa": "Full Time",
   "Tiempo Completo": "Full Time",
   "Jornada Completa (Horario España)": "Full Time (Spain hours)",
+  "Jornada Completa (Remoto)": "Full Time (Remote)",
+  "Jornada Completa (Híbrido)": "Full Time (Hybrid)",
+  "Jornada Completa (Presencial)": "Full Time (On-site)",
+  "Tiempo Parcial": "Part Time",
 };
 
 export const LOCATION_EN: Record<string, string> = {
   "Remoto": "Remote",
   "100% Remoto": "100% Remote",
   "100% Remoto (Exclusivo LATAM)": "100% Remote (LATAM only)",
+  "Remote": "Remote",
 };

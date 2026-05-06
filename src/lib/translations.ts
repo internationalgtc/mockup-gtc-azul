@@ -9,10 +9,10 @@ const T: Record<string, Record<string, string>> = {
   nav_calculadora: { es: 'Calculadora', en: 'Calculator' },
 
   // ── HERO ──
-  hero_badge: { es: 'Más de 111 profesionales activos', en: 'Over 111 active professionals' },
-  hero_title_1: { es: 'Ahorra hasta un 50%', en: 'Save up to 50%' },
-  hero_title_2: { es: 'en talento de alto rendimiento.', en: 'on high-performance talent.' },
-  hero_subtitle: { es: 'Conectamos empresas con profesionales remotos. Selección, gestión y supervisión integral.', en: 'We connect companies with remote professionals. Selection, management and comprehensive supervision.' },
+  hero_badge: { es: 'Más de 100 asistentes virtuales activos', en: 'Over 100 active virtual assistants' },
+  hero_title_1: { es: 'Contrata el talento que tu empresa necesita.', en: 'Hire the talent your company needs.' },
+  hero_title_2: { es: 'Ahorra hasta un 60% frente a la contratación local.', en: 'Save up to 60% compared to local hiring.' },
+  hero_subtitle: { es: 'Asistentes virtuales especializados en administración, marketing, finanzas, IA y desarrollo web. Seleccionados, gestionados y supervisados por nosotros. Tú solo diriges.', en: 'Virtual assistants specialized in administration, marketing, finance, AI and web development. Selected, managed and supervised by us. You just lead.' },
   hero_cta_empresa: { es: 'Para Empresas', en: 'For Companies' },
   hero_cta_calcular: { es: 'Calcular mi ahorro', en: 'Calculate my savings' },
   hero_cta_profesional: { es: 'Para Profesionales', en: 'For Professionals' },
@@ -27,7 +27,7 @@ const T: Record<string, Record<string, string>> = {
   stat_empresas: { es: 'empresas activas', en: 'active companies' },
   stat_profesionales: { es: 'profesionales', en: 'professionals' },
   stat_ahorro: { es: 'ahorro promedio', en: 'average savings' },
-  stat_micro: { es: 'Datos a Abril 2026', en: 'Data as of April 2026' },
+  stat_micro: { es: 'Datos a Mayo 2026', en: 'Data as of May 2026' },
   stat_retencion: { es: 'retención', en: 'retention' },
 
   // ── LOGOS ──
@@ -43,6 +43,12 @@ const T: Record<string, Record<string, string>> = {
   cultura_quote: { es: '"Seleccionamos y gestionamos talento de alto rendimiento para que tu empresa se enfoque en lo que importa."', en: '"We select and manage high-performance talent so your company can focus on what matters."' },
 
   // ── VENTAJAS ──
+  home_serv_label: { es: 'Nuestros Servicios', en: 'Our Services' },
+  home_serv_titulo_1: { es: 'Asistentes virtuales para', en: 'Virtual assistants for' },
+  home_serv_titulo_2: { es: 'cada área', en: 'every area' },
+  home_serv_subtitle: { es: 'Más de 11 perfiles especializados. Seleccionamos, capacitamos y gestionamos al asistente que tu empresa necesita.', en: 'Over 11 specialized profiles. We select, train and manage the assistant your company needs.' },
+  home_serv_cta: { es: 'Ver todos los servicios', en: 'See all services' },
+  serv_webdev: { es: 'Desarrollo Web', en: 'Web Development' },
   ventajas_label: { es: 'Lo que te garantizamos', en: 'What we guarantee' },
   ventajas_titulo: { es: 'Por qué funciona.', en: 'Why it works.' },
   ventajas_cta: { es: 'Conoce el proceso', en: 'See how it works' },
