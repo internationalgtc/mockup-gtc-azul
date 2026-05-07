@@ -8,6 +8,7 @@ import fotoAna from '@/assets/equipo/ana.png'
 import fotoReyna from '@/assets/equipo/reyna.png'
 import fotoFabiola from '@/assets/equipo/fabiola.png'
 import fotoSuany from '@/assets/equipo/suany.png'
+import fotoRocio from '@/assets/equipo/rocio.png'
 import fotoSebastian from '@/assets/equipo/sebastian.png'
 import fotoLarisa from '@/assets/equipo/larisa.png'
 import fotoDelfina from '@/assets/equipo/delfina.png'
@@ -48,6 +49,7 @@ export const equipo: TeamMember[] = [
   { id: 14, nombre: 'Andersson Figueroa', foto: fotoAndersson, rol: 'HR Recruiter', rolEn: 'HR Recruiter', email: 'afigueroa@internationalgtc.com', linkedin: '', nivel: 'operativo' },
   { id: 15, nombre: 'Delfina Palacio', foto: fotoDelfina, rol: 'Community Manager', rolEn: 'Community Manager', email: 'dpalacio@internationalgtc.com', linkedin: '', nivel: 'operativo' },
   { id: 16, nombre: 'Suany Artica', foto: fotoSuany, rol: 'Quality Assistant', rolEn: 'Quality Assistant', email: 'sartica@internationalgtc.com', linkedin: '', nivel: 'operativo' },
+  { id: 17, nombre: 'Rocío Rojas', foto: fotoRocio, rol: 'Quality Assistant', rolEn: 'Quality Assistant', email: 'rrojas@internationalgtc.com', linkedin: '', nivel: 'operativo' },
 ]
 
 export const direccion = equipo.filter(m => m.nivel === 'direccion' || m.nivel === 'lider')
