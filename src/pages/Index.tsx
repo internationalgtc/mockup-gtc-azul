@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Star, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones, Send, CheckCircle, AlertCircle } from 'lucide-react'
+import { ArrowRight, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
 import Testimonials from '@/components/Testimonials'
 import { useT } from '@/hooks/useT'
@@ -32,30 +32,6 @@ const STAT_KEYS = [
 
 const PROCESS_ICONS = [Search, Users, FileCheck, Headphones]
 const PROCESS_STEPS_META = ['01', '02', '03', '04']
-
-const TESTIMONIALS = [
-  {
-    name: 'Carlos Martínez',
-    role: 'CEO, Taktics Ingeniería',
-    quote: 'Contratamos dos asistentes y en 3 meses redujimos costos operativos un 60%. El seguimiento que hacen es impecable.',
-    rating: 5,
-    initials: 'CM',
-  },
-  {
-    name: 'Laura Pérez',
-    role: 'Directora, Paneles Acústicos Eco Cero',
-    quote: 'Tenemos 7 asistentes con GTC. La calidad del talento y la supervisión constante hacen la diferencia.',
-    rating: 5,
-    initials: 'LP',
-  },
-  {
-    name: 'Miguel Rodríguez',
-    role: 'Fundador, Nogomet Comunicación',
-    quote: 'Pasamos de buscar freelancers a tener un equipo estable y gestionado. Nos cambió la operación.',
-    rating: 5,
-    initials: 'MR',
-  },
-]
 
 const ADVANTAGE_ICONS = [Zap, Brain, Handshake]
 const ADVANTAGE_KEYS = [
@@ -119,7 +95,7 @@ export default function HomePage() {
       </section>
 
       {/* STATS BAR */}
-      <RevealSection className="relative z-20 -mt-12 max-w-5xl mx-auto px-6 lg:px-8">
+      <section className="relative z-20 -mt-12 max-w-5xl mx-auto px-6 lg:px-8">
         <div className="bg-white rounded-xl py-10 lg:py-12 px-8 lg:px-12 shadow-2xl border border-border-soft">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {STAT_KEYS.map((stat, i) => (
@@ -133,7 +109,7 @@ export default function HomePage() {
             <span className="text-navy/40 text-[9px] font-label uppercase tracking-widest">{t('stat_micro')}</span>
           </div>
         </div>
-      </RevealSection>
+      </section>
 
       {/* LOGO TICKER */}
       <section className="py-16 lg:py-20 bg-off-white overflow-hidden" aria-label="Clientes">
@@ -244,63 +220,6 @@ export default function HomePage() {
 
       {/* PROCESO */}
       <ProcessSection t={t} />
-
-      {/* TESTIMONIOS */}
-      <RevealSection className="py-24 lg:py-32 bg-cream relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16 lg:mb-20">
-            <span className="text-blue-prime text-xs font-label uppercase tracking-widest font-extrabold mb-6 block">{t('testimonios_label')}</span>
-            <h2 className="text-navy font-headline font-bold text-4xl lg:text-5xl leading-tight">
-              {t('testimonios_titulo')}
-            </h2>
-          </div>
-
-          <div className="flex md:grid md:grid-cols-3 gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0">
-            {TESTIMONIALS.map((tm) => (
-              <div key={tm.name} className="bg-white p-10 lg:p-12 rounded-2xl border border-border-soft hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative min-w-[300px] md:min-w-0 snap-center">
-                <div className="text-coral/20 font-headline text-8xl leading-none absolute top-6 right-8">"</div>
-                <div className="relative z-10">
-                  <div className="flex gap-1 mb-6">
-                    {[...Array(tm.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-gold fill-gold" />
-                    ))}
-                  </div>
-                  <p className="text-navy/80 text-lg leading-relaxed mb-8">
-                    {tm.quote}
-                  </p>
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-navy flex items-center justify-center text-white font-headline font-bold text-sm">
-                      {tm.initials}
-                    </div>
-                    <div>
-                      <div className="font-headline font-bold text-navy">{tm.name}</div>
-                      <div className="text-dark-gray text-sm">{tm.role}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Dots mobile */}
-          <div className="flex md:hidden justify-center gap-2 mt-4">
-            {TESTIMONIALS.map((_, i) => (
-              <div key={i} className="w-2 h-2 rounded-full bg-navy/20" />
-            ))}
-          </div>
-
-          <div className="mt-16 text-center">
-            <p className="text-navy/70 text-lg mb-6">{t('testimonios_cta')}</p>
-            <Link
-              to="/contacto"
-              className="inline-flex items-center gap-3 bg-coral text-white px-10 py-4 rounded-md font-label font-bold text-sm tracking-widest uppercase hover:bg-coral/90 transition-all shadow-lg shadow-coral/20"
-            >
-              {t('testimonios_cta_btn')}
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
-        </div>
-      </RevealSection>
 
       {/* CONTACTO INLINE */}
       <ContactSection />

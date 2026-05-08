@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, FC } from 'react'
-import { Maximize2, ArrowLeft, Quote } from 'lucide-react'
+import { Maximize2, ArrowLeft, Quote, Star, ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { RevealSection } from '@/components/shared/RevealSection'
+import { useT } from '@/hooks/useT'
 
 interface Testimonio {
   nombre: string
@@ -120,7 +122,29 @@ const TestimonioCard: FC<{ testimonio: Testimonio; abrirModal: (t: Testimonio) =
   )
 }
 
+const ESCRITOS = [
+  {
+    name: 'Carlos Martínez',
+    role: 'CEO, Taktics Ingeniería',
+    quote: 'Contratamos dos asistentes y en 3 meses redujimos costos operativos un 60%. El seguimiento que hacen es impecable.',
+    initials: 'CM',
+  },
+  {
+    name: 'Laura Pérez',
+    role: 'Directora, Paneles Acústicos Eco Cero',
+    quote: 'Tenemos 7 asistentes con GTC. La calidad del talento y la supervisión constante hacen la diferencia.',
+    initials: 'LP',
+  },
+  {
+    name: 'Miguel Rodríguez',
+    role: 'Fundador, Nogomet Comunicación',
+    quote: 'Pasamos de buscar freelancers a tener un equipo estable y gestionado. Nos cambió la operación.',
+    initials: 'MR',
+  },
+]
+
 const Testimonials: FC = () => {
+  const t = useT()
   const [testimonioAbierto, setTestimonioAbierto] = useState<Testimonio | null>(null)
 
   return (
@@ -135,10 +159,49 @@ const Testimonials: FC = () => {
             Lo que dicen <span className="serif-italic text-blue-deep">nuestros clientes</span>.
           </h2>
         </div>
+
+        {/* Testimonios en video */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {TESTIMONIOS.map((t, i) => (
-            <TestimonioCard key={i} testimonio={t} abrirModal={setTestimonioAbierto} />
+          {TESTIMONIOS.map((tm, i) => (
+            <TestimonioCard key={i} testimonio={tm} abrirModal={setTestimonioAbierto} />
           ))}
+        </div>
+
+        {/* Opiniones escritas */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {ESCRITOS.map((tm) => (
+            <div key={tm.name} className="bg-white p-10 lg:p-12 rounded-2xl border border-border-soft hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative">
+              <div className="text-coral/20 font-headline text-8xl leading-none absolute top-6 right-8">"</div>
+              <div className="relative z-10">
+                <div className="flex gap-1 mb-6">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-gold fill-gold" />
+                  ))}
+                </div>
+                <p className="text-navy/80 text-lg leading-relaxed mb-8">{tm.quote}</p>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-navy flex items-center justify-center text-white font-headline font-bold text-sm">
+                    {tm.initials}
+                  </div>
+                  <div>
+                    <div className="font-headline font-bold text-navy">{tm.name}</div>
+                    <div className="text-dark-gray text-sm">{tm.role}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <p className="text-navy/70 text-lg mb-6">{t('testimonios_cta')}</p>
+          <Link
+            to="/contacto"
+            className="inline-flex items-center gap-3 bg-coral text-white px-10 py-4 rounded-md font-label font-bold text-sm tracking-widest uppercase hover:bg-coral/90 transition-all shadow-lg shadow-coral/20"
+          >
+            {t('testimonios_cta_btn')}
+            <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
       </div>
       <VideoModal testimonio={testimonioAbierto} cerrar={() => setTestimonioAbierto(null)} />
