@@ -1879,7 +1879,7 @@ export const DEPARTMENTS = [
 // Traducciones EN — títulos, descripciones, departamentos, tipos
 // =============================================================================
 
-export const JOBS_EN: Record<string, { title: string; description: string; responsibilities?: { titulo: string; detalle?: string[] }[]; requirements?: string[] }> = {
+export const JOBS_EN: Record<string, { title: string; description: string; responsibilities?: { titulo: string; detalle?: string[] }[]; requirements?: string[]; experience?: string; education?: string; benefits?: string[] }> = {
   "9": {
     title: "AI & Automation Virtual Assistant",
     description: "We're looking for the driving force behind our company's operational innovation. Your mission will be to identify bottlenecks and transform them into autonomous workflows using No-Code/Low-Code tools and Artificial Intelligence. The goal is to maximize productivity and ensure seamless, error-free information flow across departments.",
@@ -1913,6 +1913,13 @@ export const JOBS_EN: Record<string, { title: string; description: string; respo
       "Bilingual English C1/C2 (Required for auditing contexts in Australia/UK).",
       "Advanced proficiency in Hubstaff, Zoho CRM and metrics dashboard creation.",
       "Experience leading quality specialist teams in remote environments.",
+    ],
+    experience: "Minimum 1 year",
+    education: "Not specified",
+    benefits: [
+      "Opportunity to work with growing international brands.",
+      "Dynamic environment combining technical marketing with real sales.",
+      "Full flexibility and results-oriented work.",
     ],
   },
   "66": {

@@ -27,6 +27,9 @@ export default function DetallesDeEmpleoPage() {
   const en = lang === 'en' && JOBS_EN[job.id] ? JOBS_EN[job.id] : null
   const responsibilities = en?.responsibilities || job.responsibilities
   const requirements = en?.requirements || job.requirements
+  const experience = en?.experience || job.experience
+  const education = en?.education || job.education
+  const benefits = en?.benefits || job.benefits
 
   return (
     <>
@@ -47,8 +50,8 @@ export default function DetallesDeEmpleoPage() {
           <div className="flex flex-wrap items-center gap-6 text-white/60 text-sm">
             <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> {lang === 'en' && LOCATION_EN[job.location] ? LOCATION_EN[job.location] : job.location}</span>
             <span className="flex items-center gap-2"><Briefcase className="w-4 h-4" /> {lang === 'en' && TYPE_EN[job.type] ? TYPE_EN[job.type] : job.type}</span>
-            {job.experience && <span className="flex items-center gap-2"><Clock className="w-4 h-4" /> {job.experience}</span>}
-            {job.education && <span className="flex items-center gap-2"><GraduationCap className="w-4 h-4" /> {job.education}</span>}
+            {experience && <span className="flex items-center gap-2"><Clock className="w-4 h-4" /> {experience}</span>}
+            {education && <span className="flex items-center gap-2"><GraduationCap className="w-4 h-4" /> {education}</span>}
           </div>
         </div>
       </section>
@@ -98,11 +101,11 @@ export default function DetallesDeEmpleoPage() {
                 </div>
               )}
 
-              {job.benefits && job.benefits.length > 0 && (
+              {benefits && benefits.length > 0 && (
                 <div>
                   <h2 className="font-headline text-2xl text-navy mb-4">{t('det_beneficios')}</h2>
                   <ul className="space-y-2">
-                    {job.benefits.map((b, i) => (
+                    {benefits.map((b, i) => (
                       <li key={i} className="text-dark-gray flex items-start gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-gold mt-2 flex-shrink-0" />
                         {b}
