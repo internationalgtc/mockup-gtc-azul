@@ -1,11 +1,10 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, MapPin, Briefcase } from 'lucide-react'
-import { DEPARTMENTS, JOBS_EN, DEPT_EN, TYPE_EN, LOCATION_EN } from '@/data/jobs'
+import { JOBS, DEPARTMENTS, JOBS_EN, DEPT_EN, TYPE_EN, LOCATION_EN } from '@/data/jobs'
 import { useLang } from '@/hooks/useT'
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
-import { useNexusJobs } from '@/hooks/useNexusJobs'
 import SEO from '@/components/shared/SEO'
 
 export default function EmpleosPage() {
@@ -13,9 +12,8 @@ export default function EmpleosPage() {
   const lang = useLang()
   const [search, setSearch] = useState('')
   const [dept, setDept] = useState('')
-  const { jobs, loading, error } = useNexusJobs()
 
-  const activeJobs = useMemo(() => jobs, [jobs])
+  const activeJobs = useMemo(() => JOBS.filter(j => j.active), [])
 
   const filtered = useMemo(() => {
     return activeJobs.filter(j => {
@@ -71,16 +69,7 @@ export default function EmpleosPage() {
 
       <RevealSection className="py-16 lg:py-24 bg-off-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          {loading ? (
-            <div className="text-center py-20">
-              <div className="inline-block animate-spin h-8 w-8 border-4 border-blue-prime border-t-transparent rounded-full" />
-              <p className="text-dark-gray text-lg mt-4">{lang === 'en' ? 'Loading jobs...' : 'Cargando vacantes...'}</p>
-            </div>
-          ) : error ? (
-            <div className="text-center py-20">
-              <p className="text-red-500 text-lg">{lang === 'en' ? 'Error loading jobs' : 'Error al cargar vacantes'}: {error}</p>
-            </div>
-          ) : filtered.length === 0 ? (
+          {filtered.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-dark-gray text-lg">{lang === 'en' ? 'No jobs found with those filters.' : 'No se encontraron vacantes con esos filtros.'}</p>
             </div>
