@@ -1,18 +1,21 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, MapPin, Briefcase } from 'lucide-react'
-import { JOBS, DEPARTMENTS, JOBS_EN, DEPT_EN, TYPE_EN, LOCATION_EN } from '@/data/jobs'
+import { DEPARTMENTS, JOBS_EN, DEPT_EN, TYPE_EN, LOCATION_EN } from '@/data/jobs'
 import { useLang } from '@/hooks/useT'
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
+import { useNexusJobs } from '@/hooks/useNexusJobs'
+import SEO from '@/components/shared/SEO'
 
 export default function EmpleosPage() {
   const t = useT()
   const lang = useLang()
   const [search, setSearch] = useState('')
   const [dept, setDept] = useState('')
+  const { jobs, loading, error } = useNexusJobs()
 
-  const activeJobs = useMemo(() => JOBS.filter(j => j.active), [])
+  const activeJobs = useMemo(() => jobs, [jobs])
 
   const filtered = useMemo(() => {
     return activeJobs.filter(j => {
@@ -24,6 +27,11 @@ export default function EmpleosPage() {
 
   return (
     <>
+      <SEO
+        title="Empleos remotos"
+        description="Postulate a vacantes remotas en marketing, ventas, RRHH, desarrollo, diseño y más. Empleos 100% remotos con empresas internacionales."
+        path="/empleos"
+      />
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-prime/[0.06] blur-[120px] rounded-full -mr-32" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
@@ -63,7 +71,16 @@ export default function EmpleosPage() {
 
       <RevealSection className="py-16 lg:py-24 bg-off-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          {filtered.length === 0 ? (
+          {loading ? (
+            <div className="text-center py-20">
+              <div className="inline-block animate-spin h-8 w-8 border-4 border-blue-prime border-t-transparent rounded-full" />
+              <p className="text-dark-gray text-lg mt-4">{lang === 'en' ? 'Loading jobs...' : 'Cargando vacantes...'}</p>
+            </div>
+          ) : error ? (
+            <div className="text-center py-20">
+              <p className="text-red-500 text-lg">{lang === 'en' ? 'Error loading jobs' : 'Error al cargar vacantes'}: {error}</p>
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-dark-gray text-lg">{lang === 'en' ? 'No jobs found with those filters.' : 'No se encontraron vacantes con esos filtros.'}</p>
             </div>

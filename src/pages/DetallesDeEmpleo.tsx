@@ -1,8 +1,9 @@
 import { useParams, Link } from 'react-router-dom'
-import type { Responsibility } from '@/data/jobs'
 import { ArrowLeft, MapPin, Briefcase, GraduationCap, Clock, ExternalLink } from 'lucide-react'
-import { JOBS, JOBS_EN, DEPT_EN, TYPE_EN, LOCATION_EN } from '@/data/jobs'
+import { JOBS_EN, DEPT_EN, TYPE_EN, LOCATION_EN } from '@/data/jobs'
 import { useT, useLang } from '@/hooks/useT'
+import { useNexusJobs } from '@/hooks/useNexusJobs'
+import SEO from '@/components/shared/SEO'
 
 const NEXUS_URL = 'https://www.globaltalentconnections.online'
 
@@ -10,7 +11,18 @@ export default function DetallesDeEmpleoPage() {
   const t = useT()
   const lang = useLang()
   const { id } = useParams()
-  const job = JOBS.find(j => j.id === id)
+  const { jobs, loading } = useNexusJobs()
+  const job = jobs.find(j => j.id === id)
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-off-white pt-20">
+        <div className="text-center">
+          <div className="inline-block animate-spin h-8 w-8 border-4 border-blue-prime border-t-transparent rounded-full" />
+        </div>
+      </div>
+    )
+  }
 
   if (!job) {
     return (
@@ -24,12 +36,17 @@ export default function DetallesDeEmpleoPage() {
   }
 
   const applyUrl = `${NEXUS_URL}/postular-express?puesto=${encodeURIComponent(job.title)}`
-  const en = lang === 'en' && JOBS_EN[job.id] ? JOBS_EN[job.id] : null
-  const responsibilities: Responsibility[] = en?.responsibilities || job.responsibilities
-  const requirements: string[] = en?.requirements || job.requirements
+  const responsibilities = job.responsibilities
+  const requirements = job.requirements
 
   return (
     <>
+      <SEO
+        title={job.title}
+        description={`Vacante: ${job.title}. Empleo remoto con Global Talent Connections. Postulate y formá parte del equipo.`}
+        path={`/empleos/${job.id}`}
+        type="article"
+      />
       {/* HERO */}
       <section className="bg-navy pt-32 pb-16 relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-6 lg:px-8 relative z-10">

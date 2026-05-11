@@ -7,12 +7,12 @@ import fotoAna from '@/assets/equipo/ana.png'
 import fotoReyna from '@/assets/equipo/reyna.png'
 import fotoFabiola from '@/assets/equipo/fabiola.png'
 import fotoSuany from '@/assets/equipo/suany.png'
-import fotoRocio from '@/assets/equipo/rocio.png'
 import fotoSebastian from '@/assets/equipo/sebastian.png'
 import fotoLarisa from '@/assets/equipo/larisa.png'
 import fotoDelfina from '@/assets/equipo/delfina.png'
 import fotoNelson from '@/assets/equipo/nelson.png'
 import fotoJavier from '@/assets/equipo/javier-2.png'
+import fotoRocio from '@/assets/equipo/rocio.png'
 
 export interface TeamMember {
   id: number
@@ -33,11 +33,11 @@ export const equipo: TeamMember[] = [
   { id: 3, nombre: 'Antonio Cabello', foto: fotoAntonio, rol: 'Head of Finance', rolEn: 'Head of Finance', email: 'acabello@internationalgtc.com', linkedin: 'https://www.linkedin.com/in/antonio-jesus-cabello-barea/', nivel: 'lider' },
   { id: 4, nombre: 'M. Pilar Marin', foto: fotoPilar, rol: 'HR & Commercial Lead', rolEn: 'HR & Commercial Lead', email: 'mmarin@internationalgtc.com', linkedin: 'https://www.linkedin.com/in/mariangel-pilar-marin-a786a8148/', nivel: 'lider' },
   { id: 5, nombre: 'Ariel Jimenez', foto: fotoAriel, rol: 'AI & Automation Lead', rolEn: 'AI & Automation Lead', email: 'ajimenez@internationalgtc.com', linkedin: '', nivel: 'lider' },
-  { id: 6, nombre: 'Gladymar Torres', foto: fotoGladymar, rol: 'HR Business Partner', rolEn: 'HR Business Partner', email: 'gtorres@internationalgtc.com', linkedin: 'https://www.linkedin.com/in/gladymar-torres-825827188/', nivel: 'lider' },
+  { id: 6, nombre: 'Gladymar Torres', foto: fotoGladymar, rol: 'HR Business Partner', rolEn: 'HR Business Partner', email: 'gtorres@internationalgtc.com', linkedin: 'https://www.linkedin.com/in/gladymar-torres-825827188/', nivel: 'operativo' },
   { id: 7, nombre: 'Ana Martinez', foto: fotoAna, rol: 'Marketing & Sales Lead', rolEn: 'Marketing & Sales Lead', email: 'amartinez@internationalgtc.com', linkedin: '', nivel: 'lider' },
-  { id: 8, nombre: 'Sebastián Acevedo', foto: fotoSebastian, rol: 'Quality & Ops Lead', rolEn: 'Quality & Ops Lead', email: 'sacevedo@internationalgtc.com', linkedin: '', nivel: 'lider' },
 
   // OPERATIVO
+  { id: 8, nombre: 'Sebastián Acevedo', foto: fotoSebastian, rol: 'Quality & Ops Lead', rolEn: 'Quality & Ops Lead', email: 'sacevedo@internationalgtc.com', linkedin: '', nivel: 'lider' },
   { id: 9, nombre: 'Reyna Contreras', foto: fotoReyna, rol: 'HR Analyst', rolEn: 'HR Analyst', email: 'rcontreras@internationalgtc.com', linkedin: '', nivel: 'operativo' },
   { id: 10, nombre: 'Larisa Spatafora', foto: fotoLarisa, rol: 'Data & AI Analyst', rolEn: 'Data & AI Analyst', email: 'lspatafora@internationalgtc.com', linkedin: '', nivel: 'operativo' },
   { id: 11, nombre: 'Nelson Alonso', foto: fotoNelson, rol: 'AI & Automation', rolEn: 'AI & Automation', email: 'nalonso@internationalgtc.com', linkedin: '', nivel: 'operativo' },

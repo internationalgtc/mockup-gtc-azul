@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useChatbot } from "@/hooks/useChatbot";
 import { ChatHeader } from "./ChatHeader";
 import { ChatBubble } from "./ChatBubble";
 import { ChatOptions } from "./ChatOptions";
 import { ChatTypingIndicator } from "./ChatTypingIndicator";
 import { ChatAvatar } from "./ChatAvatar";
+import { ChatLeadCapture } from "./ChatLeadCapture";
 import { WHATSAPP_LINK } from "@/data/chatbotData";
 
 interface ChatWindowProps {
@@ -13,6 +15,8 @@ interface ChatWindowProps {
 }
 
 export const ChatWindow = ({ isOpen, onClose }: ChatWindowProps) => {
+  const { i18n } = useTranslation();
+  const isEN = i18n.language === "en";
   const {
     messages,
     isTyping,
@@ -23,6 +27,9 @@ export const ChatWindow = ({ isOpen, onClose }: ChatWindowProps) => {
     resetChat,
   } = useChatbot();
 
+  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [leadCaptured, setLeadCaptured] = useState(false);
+
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       initializeChat();
@@ -31,6 +38,11 @@ export const ChatWindow = ({ isOpen, onClose }: ChatWindowProps) => {
 
   const handleWhatsApp = () => {
     window.open(WHATSAPP_LINK, "_blank");
+  };
+
+  const handleLeadCapture = () => {
+    setShowLeadForm(false);
+    setLeadCaptured(true);
   };
 
   if (!isOpen) return null;
@@ -53,7 +65,14 @@ export const ChatWindow = ({ isOpen, onClose }: ChatWindowProps) => {
           </div>
         )}
 
-        {!isTyping && currentOptions.length > 0 && (
+        {!isTyping && showLeadForm && (
+          <ChatLeadCapture
+            onCapture={handleLeadCapture}
+            onSkip={() => setShowLeadForm(false)}
+          />
+        )}
+
+        {!isTyping && !showLeadForm && currentOptions.length > 0 && (
           <ChatOptions options={currentOptions} onOptionClick={handleOptionClick} />
         )}
 
@@ -61,9 +80,18 @@ export const ChatWindow = ({ isOpen, onClose }: ChatWindowProps) => {
       </div>
 
       <div className="px-4 py-3 bg-navy-soft border-t border-white/10">
-        <div className="flex items-center justify-center gap-2 text-xs text-white/40">
-          <span>Talento sin fronteras</span>
-        </div>
+        {!leadCaptured && !showLeadForm ? (
+          <button
+            onClick={() => setShowLeadForm(true)}
+            className="w-full text-xs font-label uppercase tracking-widest text-blue-light hover:text-white transition-colors font-bold"
+          >
+            {isEN ? "→ Talk to an advisor" : "→ Hablar con un asesor"}
+          </button>
+        ) : (
+          <div className="flex items-center justify-center gap-2 text-xs text-white/40">
+            <span>{isEN ? "Talent without borders" : "Talento sin fronteras"}</span>
+          </div>
+        )}
       </div>
     </div>
   );

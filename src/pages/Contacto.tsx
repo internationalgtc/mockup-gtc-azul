@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
+import SEO from '@/components/shared/SEO'
 import { useT } from '@/hooks/useT'
 
 const API_URL = import.meta.env.VITE_PLATFORM_API_URL || 'https://www.globaltalentconnections.online/api/leads/public'
@@ -20,12 +21,12 @@ const ASSISTANT_TYPES = [
 ]
 
 const formSchema = z.object({
-  company_name: z.string().min(2, 'Nombre de empresa requerido'),
-  contact_name: z.string().min(2, 'Nombre de contacto requerido'),
-  email: z.string().email('Email inválido'),
+  company_name: z.string().min(2, 'Required'),
+  contact_name: z.string().min(2, 'Required'),
+  email: z.string().email('Invalid email'),
   phone: z.string().optional(),
   company_size: z.string().optional(),
-  assistant_type: z.string().min(1, 'Selecciona un tipo'),
+  assistant_type: z.string().min(1, 'Required'),
   description: z.string().optional(),
 })
 
@@ -42,13 +43,14 @@ export default function ContactoPage() {
   const onSubmit = async (data: FormData) => {
     setStatus('loading')
     try {
-      // Capturar UTMs de la URL
       const params = new URLSearchParams(window.location.search)
       const utmData = {
         utm_source: params.get('utm_source') || undefined,
         utm_medium: params.get('utm_medium') || undefined,
         utm_campaign: params.get('utm_campaign') || undefined,
         utm_content: params.get('utm_content') || undefined,
+        gclid: params.get('gclid') || undefined,
+        fbclid: params.get('fbclid') || undefined,
       }
 
       const res = await fetch(API_URL, {
@@ -62,7 +64,7 @@ export default function ContactoPage() {
         }),
       })
 
-      if (!res.ok) throw new Error('Error al enviar')
+      if (!res.ok) throw new Error('Error')
       setStatus('success')
       reset()
     } catch {
@@ -72,13 +74,18 @@ export default function ContactoPage() {
 
   return (
     <>
+      <SEO
+        title="Contacto"
+        description="Solicitá tu asesoría gratuita. Te contactamos en menos de 24h para ayudarte a contratar talento remoto de alto rendimiento."
+        path="/contacto"
+      />
       {/* HERO */}
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full -mr-48 -mt-24" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
           <span className="text-blue-light text-xs font-label uppercase tracking-widest font-bold mb-4 block">{t('contacto_page_label')}</span>
           <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl text-white mb-6">
-            {t('contacto_page_titulo_1')} <span className="text-gold">{t('contacto_page_titulo_2')}</span>.
+            {t('contacto_page_titulo_1')} <span className="serif-italic text-gold">{t('contacto_page_titulo_2')}</span>.
           </h1>
           <p className="text-white/60 text-lg max-w-2xl">
             {t('contacto_page_subtitle')}
@@ -126,20 +133,20 @@ export default function ContactoPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Email *
+                    {t('contacto_email')}
                   </label>
                   <input
                     {...register('email')}
                     type="email"
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
-                    placeholder="tu@email.com"
+                    placeholder="email@empresa.com"
                   />
                   {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                 </div>
 
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Teléfono
+                    {t('contacto_telefono')}
                   </label>
                   <input
                     {...register('phone')}
@@ -177,8 +184,8 @@ export default function ContactoPage() {
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
                   >
                     <option value="">{t('contacto_page_seleccionar')}</option>
-                    {ASSISTANT_TYPES.map(tp => (
-                      <option key={tp} value={tp}>{tp}</option>
+                    {ASSISTANT_TYPES.map(at => (
+                      <option key={at} value={at}>{at}</option>
                     ))}
                   </select>
                   {errors.assistant_type && <p className="text-red-500 text-xs mt-1">{errors.assistant_type.message}</p>}
@@ -207,7 +214,7 @@ export default function ContactoPage() {
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full md:w-auto bg-coral text-white px-10 py-4 rounded-md font-label font-bold text-sm tracking-widest uppercase hover:bg-coral/90 transition-all flex items-center justify-center gap-3 shadow-lg shadow-coral/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full md:w-auto bg-blue-prime text-white px-10 py-4 rounded-md font-label font-bold text-sm tracking-widest uppercase hover:bg-blue-deep transition-all flex items-center justify-center gap-3 shadow-lg shadow-blue-prime/20 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {status === 'loading' ? (
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
