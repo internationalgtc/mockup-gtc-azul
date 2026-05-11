@@ -347,6 +347,23 @@ const T: Record<string, Record<string, string>> = {
 
   // ── SERVICIOS EXTRA ──
   serv_popular: { es: 'Más solicitado', en: 'Most requested' },
+
+  // ── NAV EXTRA ──
+  nav_agendar: { es: 'Agendar call', en: 'Book a call' },
+  nav_skip: { es: 'Ir al contenido', en: 'Skip to content' },
+
+  // ── TESTIMONIOS ──
+  testi_casos: { es: 'Casos de éxito', en: 'Success stories' },
+  testi_titulo_1: { es: 'Lo que dicen', en: 'What our' },
+  testi_titulo_2: { es: 'nuestros clientes', en: 'clients say' },
+  testi_t1_texto: { es: 'Me brindaron acompañamiento continuo y se adaptaron a mis necesidades. Como empresarios, los asistentes virtuales nos proporcionan una gran ventaja.', en: 'They provided continuous support and adapted to my needs. As entrepreneurs, virtual assistants give us a huge advantage.' },
+  testi_t1_cargo: { es: 'CEO en Construcciones Ramírez', en: 'CEO at Construcciones Ramírez' },
+  testi_t2_texto: { es: 'Este modelo nos abrió la posibilidad de contar con más recursos humanos por un costo inferior. El personal es excepcional.', en: 'This model opened up the possibility of having more human resources at a lower cost. The staff is exceptional.' },
+  testi_t2_cargo: { es: 'CEO en Areacad Ingeniería Audiovisual', en: 'CEO at Areacad Ingeniería Audiovisual' },
+  testi_t3_texto: { es: 'Los asistentes virtuales se adaptaron desde el primer momento, mostrando gran compromiso y profesionalismo.', en: 'The virtual assistants adapted from day one, showing great commitment and professionalism.' },
+  testi_t3_cargo: { es: 'CEO en PMV Factory', en: 'CEO at PMV Factory' },
+  testi_t4_texto: { es: 'Estamos muy satisfechos con la calidad de los asistentes y la facilidad de contratación que ofrece Global Talent Connections.', en: 'We are very satisfied with the quality of the assistants and how easy hiring is with Global Talent Connections.' },
+  testi_t4_cargo: { es: 'CEO en Coseba, Seguros Paco Saban', en: 'CEO at Coseba, Seguros Paco Saban' },
 }
 
 export function t(key: string, lang: string): string {

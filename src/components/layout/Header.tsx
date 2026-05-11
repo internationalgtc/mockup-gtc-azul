@@ -3,17 +3,19 @@ import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, ArrowRight, Globe } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import logoWhite from '@/assets/logos/LogoLetrasBlancas.png'
+import { useT } from '@/hooks/useT'
 
 const NAV_LINKS = [
-  { label: 'Servicios', href: '/servicios' },
-  { label: 'Nosotros', href: '/nosotros' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Calculadora', href: '/calculadora' },
-  { label: 'Empleos', href: '/empleos' },
-  { label: 'Contacto', href: '/contacto' },
+  { key: 'nav_servicios', href: '/servicios' },
+  { key: 'nav_nosotros', href: '/nosotros' },
+  { key: 'nav_blog', href: '/blog' },
+  { key: 'nav_calculadora', href: '/calculadora' },
+  { key: 'nav_empleos', href: '/empleos' },
+  { key: 'nav_contacto', href: '/contacto' },
 ]
 
 export function Header() {
+  const t = useT()
   const [menuOpen, setMenuOpen] = useState(false)
   const { pathname } = useLocation()
   const { i18n } = useTranslation()
@@ -27,17 +29,15 @@ export function Header() {
 
   return (
     <header className="bg-navy/95 backdrop-blur-xl fixed top-0 w-full z-50 border-b border-blue-prime/10">
-      {/* Skip to content */}
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-blue-prime text-white px-4 py-2 rounded-md z-[60]">
-        Ir al contenido
+        {t('nav_skip')}
       </a>
 
       <nav className="flex justify-between items-center px-6 lg:px-8 py-4 w-full max-w-7xl mx-auto">
-        <Link to="/" className="flex items-center gap-3" aria-label="Global Talent Connections - Inicio">
+        <Link to="/" className="flex items-center gap-3" aria-label="Global Talent Connections">
           <img src={logoWhite} alt="Global Talent Connections" className="h-8 lg:h-10 w-auto object-contain" />
         </Link>
 
-        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-10">
           {NAV_LINKS.map(link => (
             <Link
@@ -49,7 +49,7 @@ export function Header() {
                   : 'text-white/80 hover:text-blue-light'
               }`}
             >
-              {link.label}
+              {t(link.key)}
             </Link>
           ))}
         </div>
@@ -58,7 +58,7 @@ export function Header() {
           <button
             onClick={toggleLang}
             className="flex items-center gap-1.5 text-white/70 hover:text-white transition-colors font-label text-xs tracking-widest uppercase"
-            aria-label={`Cambiar idioma a ${currentLang === 'ES' ? 'inglés' : 'español'}`}
+            aria-label={`Switch language to ${currentLang === 'ES' ? 'English' : 'Spanish'}`}
           >
             <Globe className="w-4 h-4" />
             <span className="font-bold">{currentLang}</span>
@@ -67,15 +67,14 @@ export function Header() {
             to="/contacto"
             className="hidden lg:flex items-center gap-2 bg-coral text-white px-6 py-3 rounded-md font-label text-xs tracking-widest uppercase font-bold hover:bg-coral/90 hover:scale-95 transition-all shadow-lg shadow-coral/20"
           >
-            Agendar call
+            {t('nav_agendar')}
             <ArrowRight className="w-4 h-4" />
           </Link>
 
-          {/* Mobile hamburger */}
           <button
             className="md:hidden text-white/80 hover:text-white p-2"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label={menuOpen ? 'Cerrar menu' : 'Abrir menu'}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
           >
             {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -83,7 +82,6 @@ export function Header() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden bg-navy border-t border-white/5 px-6 pb-6">
           <div className="flex flex-col gap-4 pt-4">
@@ -96,7 +94,7 @@ export function Header() {
                   pathname === link.href ? 'text-gold font-bold' : 'text-white/80'
                 }`}
               >
-                {link.label}
+                {t(link.key)}
               </Link>
             ))}
             <Link
@@ -104,7 +102,7 @@ export function Header() {
               onClick={() => setMenuOpen(false)}
               className="bg-blue-prime text-white px-6 py-3 rounded-md font-label text-xs tracking-widest uppercase font-bold text-center mt-2"
             >
-              Agendar call
+              {t('nav_agendar')}
             </Link>
           </div>
         </div>
