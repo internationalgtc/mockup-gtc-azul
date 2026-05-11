@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
 import SEO from '@/components/shared/SEO'
+import { useT } from '@/hooks/useT'
 
 const API_URL = import.meta.env.VITE_PLATFORM_API_URL || 'https://www.globaltalentconnections.online/api/leads/public'
 
@@ -20,18 +21,19 @@ const ASSISTANT_TYPES = [
 ]
 
 const formSchema = z.object({
-  company_name: z.string().min(2, 'Nombre de empresa requerido'),
-  contact_name: z.string().min(2, 'Nombre de contacto requerido'),
-  email: z.string().email('Email inválido'),
+  company_name: z.string().min(2, 'Required'),
+  contact_name: z.string().min(2, 'Required'),
+  email: z.string().email('Invalid email'),
   phone: z.string().optional(),
   company_size: z.string().optional(),
-  assistant_type: z.string().min(1, 'Selecciona un tipo'),
+  assistant_type: z.string().min(1, 'Required'),
   description: z.string().optional(),
 })
 
 type FormData = z.infer<typeof formSchema>
 
 export default function ContactoPage() {
+  const t = useT()
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
@@ -41,7 +43,6 @@ export default function ContactoPage() {
   const onSubmit = async (data: FormData) => {
     setStatus('loading')
     try {
-      // Capturar UTMs + click IDs de la URL
       const params = new URLSearchParams(window.location.search)
       const utmData = {
         utm_source: params.get('utm_source') || undefined,
@@ -63,7 +64,7 @@ export default function ContactoPage() {
         }),
       })
 
-      if (!res.ok) throw new Error('Error al enviar')
+      if (!res.ok) throw new Error('Error')
       setStatus('success')
       reset()
     } catch {
@@ -82,12 +83,12 @@ export default function ContactoPage() {
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full -mr-48 -mt-24" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <span className="text-blue-light text-xs font-label uppercase tracking-widest font-bold mb-4 block">Contacto</span>
+          <span className="text-blue-light text-xs font-label uppercase tracking-widest font-bold mb-4 block">{t('contacto_page_label')}</span>
           <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl text-white mb-6">
-            Hablemos de lo que <span className="serif-italic text-gold">necesitas</span>.
+            {t('contacto_page_titulo_1')} <span className="serif-italic text-gold">{t('contacto_page_titulo_2')}</span>.
           </h1>
           <p className="text-white/60 text-lg max-w-2xl">
-            Cuéntanos sobre tu empresa y el perfil que buscas. En menos de 48 horas te presentamos candidatos pre-seleccionados.
+            {t('contacto_page_subtitle')}
           </p>
         </div>
       </section>
@@ -98,32 +99,32 @@ export default function ContactoPage() {
           {status === 'success' ? (
             <div className="text-center py-20">
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-6" />
-              <h2 className="font-headline text-3xl text-navy mb-4">Mensaje enviado</h2>
-              <p className="text-dark-gray text-lg">Nos pondremos en contacto contigo en menos de 48 horas.</p>
+              <h2 className="font-headline text-3xl text-navy mb-4">{t('contacto_page_enviado')}</h2>
+              <p className="text-dark-gray text-lg">{t('contacto_page_enviado_desc')}</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Empresa *
+                    {t('contacto_page_empresa')}
                   </label>
                   <input
                     {...register('company_name')}
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
-                    placeholder="Nombre de tu empresa"
+                    placeholder={t('ct_ph_empresa')}
                   />
                   {errors.company_name && <p className="text-red-500 text-xs mt-1">{errors.company_name.message}</p>}
                 </div>
 
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Nombre de contacto *
+                    {t('contacto_page_nombre')}
                   </label>
                   <input
                     {...register('contact_name')}
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
-                    placeholder="Tu nombre"
+                    placeholder={t('ct_ph_nombre')}
                   />
                   {errors.contact_name && <p className="text-red-500 text-xs mt-1">{errors.contact_name.message}</p>}
                 </div>
@@ -132,7 +133,7 @@ export default function ContactoPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Email *
+                    {t('contacto_email')}
                   </label>
                   <input
                     {...register('email')}
@@ -145,13 +146,13 @@ export default function ContactoPage() {
 
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Teléfono
+                    {t('contacto_telefono')}
                   </label>
                   <input
                     {...register('phone')}
                     type="tel"
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
-                    placeholder="+34 600 000 000"
+                    placeholder={t('ct_ph_telefono')}
                   />
                 </div>
               </div>
@@ -159,32 +160,32 @@ export default function ContactoPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Tamaño de empresa
+                    {t('contacto_page_tamano')}
                   </label>
                   <select
                     {...register('company_size')}
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
                   >
-                    <option value="">Seleccionar</option>
-                    <option value="1-10">1-10 empleados</option>
-                    <option value="11-50">11-50 empleados</option>
-                    <option value="51-200">51-200 empleados</option>
-                    <option value="201-500">201-500 empleados</option>
-                    <option value="500+">500+ empleados</option>
+                    <option value="">{t('contacto_page_seleccionar')}</option>
+                    <option value="1-10">{t('ct_emp_1')}</option>
+                    <option value="11-50">{t('ct_emp_2')}</option>
+                    <option value="51-200">{t('ct_emp_3')}</option>
+                    <option value="201-500">{t('ct_emp_4')}</option>
+                    <option value="500+">{t('ct_emp_5')}</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Tipo de asistente *
+                    {t('contacto_page_tipo')}
                   </label>
                   <select
                     {...register('assistant_type')}
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
                   >
-                    <option value="">Seleccionar</option>
-                    {ASSISTANT_TYPES.map(t => (
-                      <option key={t} value={t}>{t}</option>
+                    <option value="">{t('contacto_page_seleccionar')}</option>
+                    {ASSISTANT_TYPES.map(at => (
+                      <option key={at} value={at}>{at}</option>
                     ))}
                   </select>
                   {errors.assistant_type && <p className="text-red-500 text-xs mt-1">{errors.assistant_type.message}</p>}
@@ -193,20 +194,20 @@ export default function ContactoPage() {
 
               <div>
                 <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                  Cuéntanos más sobre lo que necesitas
+                  {t('contacto_page_mas')}
                 </label>
                 <textarea
                   {...register('description')}
                   rows={4}
                   className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all resize-none"
-                  placeholder="Describe las tareas, horario preferido, herramientas que usa tu equipo..."
+                  placeholder={t('ct_ph_desc')}
                 />
               </div>
 
               {status === 'error' && (
                 <div className="flex items-center gap-3 text-red-500 bg-red-50 p-4 rounded-lg">
                   <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                  <p className="text-sm">Hubo un error al enviar. Intenta nuevamente o escribenos a info@internationalgtc.com</p>
+                  <p className="text-sm">{t('ct_error')}</p>
                 </div>
               )}
 
@@ -219,7 +220,7 @@ export default function ContactoPage() {
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
-                    Enviar solicitud
+                    {t('contacto_page_enviar')}
                     <Send className="w-4 h-4" />
                   </>
                 )}

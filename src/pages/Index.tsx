@@ -345,14 +345,14 @@ function ContactSection() {
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all duration-300"
               >
                 <option value="" disabled className="text-navy">{t('contacto_perfil')}</option>
-                <option value="Administrativo" className="text-navy">Administrativo</option>
-                <option value="Marketing Digital" className="text-navy">Marketing Digital</option>
-                <option value="Financiero / Contable" className="text-navy">Financiero / Contable</option>
-                <option value="Desarrollo Web" className="text-navy">Desarrollo Web</option>
-                <option value="Diseno Grafico" className="text-navy">Diseno Grafico</option>
-                <option value="Atencion al Cliente" className="text-navy">Atencion al Cliente</option>
-                <option value="RRHH / Reclutamiento" className="text-navy">RRHH / Reclutamiento</option>
-                <option value="Otro" className="text-navy">Otro</option>
+                <option value="Administrativo" className="text-navy">{t('serv_admin')}</option>
+                <option value="Marketing Digital" className="text-navy">{t('serv_marketing')}</option>
+                <option value="Financiero / Contable" className="text-navy">{t('serv_finanzas')}</option>
+                <option value="Desarrollo Web" className="text-navy">{t('serv_dev')}</option>
+                <option value="Diseno Grafico" className="text-navy">{t('serv_diseno')}</option>
+                <option value="Atencion al Cliente" className="text-navy">{t('serv_atencion')}</option>
+                <option value="RRHH / Reclutamiento" className="text-navy">{t('contacto_perfil_admin')}</option>
+                <option value="Otro" className="text-navy">{t('contacto_perfil_otro')}</option>
               </select>
               {status === 'error' && (
                 <div className="flex items-center gap-3 text-red-400 bg-red-500/10 p-3 rounded-lg text-sm">
