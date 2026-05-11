@@ -4,6 +4,7 @@ import { ArrowRight, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
 import Testimonials from '@/components/Testimonials'
+import SEO from '@/components/shared/SEO'
 
 import l1 from '@/assets/logos/l1.png'
 import l2 from '@/assets/logos/l2.jpg'
@@ -46,6 +47,11 @@ export default function HomePage() {
 
   return (
     <>
+      <SEO
+        title="Talento remoto de alto rendimiento"
+        description="Conectamos empresas con profesionales remotos de alto rendimiento. Selección, gestión y supervisión integral. +53 clientes activos."
+        path="/"
+      />
       {/* HERO */}
       <section className="relative bg-navy min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-prime/[0.08] blur-[120px] rounded-full -mr-48 -mt-48" />
@@ -250,6 +256,8 @@ function ContactSection() {
           utm_source: params.get('utm_source') || undefined,
           utm_medium: params.get('utm_medium') || undefined,
           utm_campaign: params.get('utm_campaign') || undefined,
+          gclid: params.get('gclid') || undefined,
+          fbclid: params.get('fbclid') || undefined,
           landing_url: window.location.href,
         }),
       })

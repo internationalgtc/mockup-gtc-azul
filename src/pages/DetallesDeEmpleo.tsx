@@ -3,6 +3,7 @@ import { ArrowLeft, MapPin, Briefcase, GraduationCap, Clock, ExternalLink } from
 import { JOBS_EN, DEPT_EN, TYPE_EN, LOCATION_EN } from '@/data/jobs'
 import { useT, useLang } from '@/hooks/useT'
 import { useNexusJobs } from '@/hooks/useNexusJobs'
+import SEO from '@/components/shared/SEO'
 
 const NEXUS_URL = 'https://www.globaltalentconnections.online'
 
@@ -40,6 +41,12 @@ export default function DetallesDeEmpleoPage() {
 
   return (
     <>
+      <SEO
+        title={job.title}
+        description={`Vacante: ${job.title}. Empleo remoto con Global Talent Connections. Postulate y formá parte del equipo.`}
+        path={`/empleos/${job.id}`}
+        type="article"
+      />
       {/* HERO */}
       <section className="bg-navy pt-32 pb-16 relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-6 lg:px-8 relative z-10">

@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom'
+import SEO from '@/components/shared/SEO'
+
 function LinkedinIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -54,6 +56,11 @@ function TeamCard({ member, size = 'lg' }: { member: TeamMember; size?: 'lg' | '
 export default function NosotrosPage() {
   return (
     <>
+      <SEO
+        title="Sobre nosotros"
+        description="Conocé a Global Talent Connections: equipo, misión y por qué +53 empresas confían en nuestros profesionales remotos."
+        path="/nosotros"
+      />
       {/* HERO */}
       <section className="bg-[#0c1a2e] min-h-[600px] lg:min-h-[700px] flex items-center relative overflow-hidden">
         <div className="absolute top-0 right-1/3 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full" />

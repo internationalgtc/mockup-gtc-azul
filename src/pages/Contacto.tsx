@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
+import SEO from '@/components/shared/SEO'
 
 const API_URL = import.meta.env.VITE_PLATFORM_API_URL || 'https://www.globaltalentconnections.online/api/leads/public'
 
@@ -40,13 +41,15 @@ export default function ContactoPage() {
   const onSubmit = async (data: FormData) => {
     setStatus('loading')
     try {
-      // Capturar UTMs de la URL
+      // Capturar UTMs + click IDs de la URL
       const params = new URLSearchParams(window.location.search)
       const utmData = {
         utm_source: params.get('utm_source') || undefined,
         utm_medium: params.get('utm_medium') || undefined,
         utm_campaign: params.get('utm_campaign') || undefined,
         utm_content: params.get('utm_content') || undefined,
+        gclid: params.get('gclid') || undefined,
+        fbclid: params.get('fbclid') || undefined,
       }
 
       const res = await fetch(API_URL, {
@@ -70,6 +73,11 @@ export default function ContactoPage() {
 
   return (
     <>
+      <SEO
+        title="Contacto"
+        description="Solicitá tu asesoría gratuita. Te contactamos en menos de 24h para ayudarte a contratar talento remoto de alto rendimiento."
+        path="/contacto"
+      />
       {/* HERO */}
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full -mr-48 -mt-24" />

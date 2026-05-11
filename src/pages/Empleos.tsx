@@ -6,6 +6,7 @@ import { useLang } from '@/hooks/useT'
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
 import { useNexusJobs } from '@/hooks/useNexusJobs'
+import SEO from '@/components/shared/SEO'
 
 export default function EmpleosPage() {
   const t = useT()
@@ -26,6 +27,11 @@ export default function EmpleosPage() {
 
   return (
     <>
+      <SEO
+        title="Empleos remotos"
+        description="Postulate a vacantes remotas en marketing, ventas, RRHH, desarrollo, diseño y más. Empleos 100% remotos con empresas internacionales."
+        path="/empleos"
+      />
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-prime/[0.06] blur-[120px] rounded-full -mr-32" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
