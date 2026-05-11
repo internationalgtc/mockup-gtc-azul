@@ -12,7 +12,7 @@ import fotoLarisa from '@/assets/equipo/larisa.png'
 import fotoDelfina from '@/assets/equipo/delfina.png'
 import fotoNelson from '@/assets/equipo/nelson.png'
 import fotoJavier from '@/assets/equipo/javier-2.png'
-import fotoRocio from '@/assets/equipo/rocio.jpeg'
+import fotoRocio from '@/assets/equipo/rocio.png'
 
 export interface TeamMember {
   id: number

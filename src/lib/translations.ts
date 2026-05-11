@@ -27,7 +27,7 @@ const T: Record<string, Record<string, string>> = {
   stat_empresas: { es: 'empresas activas', en: 'active companies' },
   stat_profesionales: { es: 'profesionales', en: 'professionals' },
   stat_ahorro: { es: 'ahorro promedio', en: 'average savings' },
-  stat_micro: { es: 'Datos a Abril 2026', en: 'Data as of April 2026' },
+  stat_micro: { es: 'Datos a Mayo 2026', en: 'Data as of May 2026' },
   stat_retencion: { es: 'retención', en: 'retention' },
 
   // ── LOGOS ──
@@ -217,7 +217,7 @@ const T: Record<string, Record<string, string>> = {
   footer_calculadora: { es: 'Calculadora de ahorro', en: 'Savings calculator' },
   footer_contacto: { es: 'Contacto', en: 'Contact' },
   footer_agendar: { es: 'Agendar llamada', en: 'Book a call' },
-  footer_derechos: { es: '2026 Global Talent Connections. Todos los derechos reservados.', en: '2026 Global Talent Connections. All rights reserved.' },
+  footer_derechos: { es: '2025 Global Talent Connections. Todos los derechos reservados.', en: '2025 Global Talent Connections. All rights reserved.' },
   footer_privacidad: { es: 'Política de Privacidad', en: 'Privacy Policy' },
 
   // ── PRIVACIDAD ──
