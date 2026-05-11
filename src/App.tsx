@@ -11,9 +11,11 @@ const Contacto = lazy(() => import('@/pages/Contacto'))
 const Servicios = lazy(() => import('@/pages/Servicios'))
 const Empleos = lazy(() => import('@/pages/Empleos'))
 const DetallesDeEmpleo = lazy(() => import('@/pages/DetallesDeEmpleo'))
+const CalculadoraAhorro = lazy(() => import('@/pages/CalculadoraAhorro'))
 const Blog = lazy(() => import('@/pages/Blog'))
 const BlogPost = lazy(() => import('@/pages/BlogPost'))
-const CalculadoraAhorro = lazy(() => import('@/pages/CalculadoraAhorro'))
+const PoliticaPrivacidad = lazy(() => import('@/pages/PoliticaPrivacidad'))
+const Beneficios = lazy(() => import('@/pages/Beneficios'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 
 function PageLoader() {
@@ -37,9 +39,11 @@ export default function App() {
             <Route path="/servicios" element={<Servicios />} />
             <Route path="/empleos" element={<Empleos />} />
             <Route path="/empleos/:id" element={<DetallesDeEmpleo />} />
+            <Route path="/calculadora-ahorro" element={<CalculadoraAhorro />} />
             <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/calculadora" element={<CalculadoraAhorro />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/politica-de-privacidad" element={<PoliticaPrivacidad />} />
+            <Route path="/beneficios" element={<Beneficios />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

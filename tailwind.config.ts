@@ -7,20 +7,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Brand palette — Global Talent Connections (ver guia-diseno-globaltalent.md)
+        // Brand palette — Manual de Marca GTC (Abr 2026)
         navy: {
           DEFAULT: '#062E55',
-          soft: '#0A2444',
+          soft: '#0a2444',
         },
-        coral: '#FF6B47',
         gold: '#F59E0B',
+        coral: '#FF6B47',
         'blue-prime': '#2280AD',
-        'blue-deep': '#1A6590',
+        'blue-deep': '#1a6590',
         'blue-light': '#4AADDB',
         cream: '#F0EDE8',
         'off-white': '#F7F7F7',
-        'dark-gray': '#37516B',
-        'border-soft': '#D9E2EC',
+        'dark-gray': '#37516b',
+        'border-soft': '#d9e2ec',
         // shadcn/ui semantic tokens
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -58,6 +58,7 @@ export default {
       },
       fontFamily: {
         headline: ['Montserrat', 'sans-serif'],
+        subtitle: ['Poppins', 'sans-serif'],
         body: ['Lato', 'sans-serif'],
         label: ['Inter', 'sans-serif'],
       },
