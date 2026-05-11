@@ -127,7 +127,9 @@ export default function DetallesDeEmpleoPage() {
             {/* Sidebar CTA */}
             <div className="lg:col-span-1">
               <div className="sticky top-28 bg-white p-8 rounded-xl border border-border-soft shadow-lg">
-                <img src={job.imageUrl} alt={job.title} className="w-full aspect-video object-cover rounded-lg mb-6" loading="lazy" />
+                {job.imageUrl && (
+                  <img src={job.imageUrl} alt={job.title} className="w-full aspect-video object-cover rounded-lg mb-6" loading="lazy" />
+                )}
                 <h3 className="font-headline text-xl text-navy mb-2">{job.title}</h3>
                 <p className="text-dark-gray text-sm mb-6">{lang === 'en' && DEPT_EN[job.department] ? DEPT_EN[job.department] : job.department} · {lang === 'en' && LOCATION_EN[job.location] ? LOCATION_EN[job.location] : job.location}</p>
                 <a

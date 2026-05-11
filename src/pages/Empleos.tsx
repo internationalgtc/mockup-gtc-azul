@@ -92,14 +92,16 @@ export default function EmpleosPage() {
                   to={`/empleos/${job.id}`}
                   className="bg-white rounded-xl border border-border-soft overflow-hidden hover:shadow-xl hover:border-blue-prime/20 transition-all group"
                 >
-                  <div className="aspect-[16/9] overflow-hidden">
-                    <img
-                      src={job.imageUrl}
-                      alt={job.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                  </div>
+                  {job.imageUrl && (
+                    <div className="aspect-[16/9] overflow-hidden">
+                      <img
+                        src={job.imageUrl}
+                        alt={job.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
                   <div className="p-6">
                     <span className="text-blue-prime text-[10px] font-label uppercase tracking-widest font-bold">{lang === 'en' && DEPT_EN[job.department] ? DEPT_EN[job.department] : job.department}</span>
                     <h3 className="font-headline text-xl text-navy mt-2 mb-3 group-hover:text-blue-prime transition-colors">{lang === 'en' && JOBS_EN[job.id] ? JOBS_EN[job.id].title : job.title}</h3>
