@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '🔄 Sincronizando con el repo...' && git pull --ff-only 2>&1 | tail -3"
+          }
+        ]
+      }
+    ]
+  }
+}
