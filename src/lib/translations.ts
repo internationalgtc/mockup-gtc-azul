@@ -223,7 +223,7 @@ const T: Record<string, Record<string, string>> = {
   // ── PRIVACIDAD ──
   privacidad_label: { es: 'Legal', en: 'Legal' },
   privacidad_titulo: { es: 'Política de Privacidad', en: 'Privacy Policy' },
-  privacidad_actualizacion: { es: 'Última actualización: Abril 2026', en: 'Last updated: April 2026' },
+  privacidad_actualizacion: { es: 'Última actualización: Abril 2025', en: 'Last updated: April 2025' },
 
   // ── 404 ──
   not_found_titulo: { es: 'Página no encontrada', en: 'Page not found' },
