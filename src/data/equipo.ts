@@ -45,7 +45,7 @@ export const equipo: TeamMember[] = [
   { id: 13, nombre: 'Fabiola Lozano', foto: fotoFabiola, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'flozano@internationalgtc.com', linkedin: 'https://www.linkedin.com/in/fabiolalozano/', nivel: 'operativo' },
   { id: 15, nombre: 'Delfina Palacio', foto: fotoDelfina, rol: 'Community Manager', rolEn: 'Community Manager', email: 'dpalacio@internationalgtc.com', linkedin: '', nivel: 'operativo' },
   { id: 16, nombre: 'Suany Artica', foto: fotoSuany, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'sartica@internationalgtc.com', linkedin: '', nivel: 'operativo' },
-  { id: 17, nombre: 'Rocío', foto: fotoRocio, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'rrojas@internationalgtc.com', linkedin: '', nivel: 'operativo' },
+  { id: 17, nombre: 'Rocío Rojas', foto: fotoRocio, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'rrojas@internationalgtc.com', linkedin: '', nivel: 'operativo' },
 ]
 
 export const direccion = equipo.filter(m => m.nivel === 'direccion' || m.nivel === 'lider')
