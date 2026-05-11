@@ -24,8 +24,9 @@ export default function DetallesDeEmpleoPage() {
   }
 
   const applyUrl = `${NEXUS_URL}/postular-express?puesto=${encodeURIComponent(job.title)}`
-  const responsibilities = job.responsibilities
-  const requirements = job.requirements
+  const en = lang === 'en' && JOBS_EN[job.id] ? JOBS_EN[job.id] : null
+  const responsibilities = en?.responsibilities || job.responsibilities
+  const requirements = en?.requirements || job.requirements
 
   return (
     <>
