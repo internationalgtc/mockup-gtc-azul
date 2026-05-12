@@ -21,7 +21,7 @@
 | Testimonios (video) | ✅ Unificado | MatheoTe |
 | Equipo (nosotros) | ✅ Completo | Larisa |
 | Calculadora de ahorro | ✅ Funcional | - |
-| Blog | ✅ Estructura lista | - |
+| Blog | ✅ 5 artículos completos con contenido real | MatheoTe |
 | Empleos | ✅ Sincronizado con sitio viejo | MatheoTe |
 | Footer | ✅ Completo | - |
 | i18n ES/EN | ✅ Completo en translations.ts | Larisa + Mateo |
@@ -86,6 +86,7 @@
 
 | Fecha | Quién | Qué cambió |
 |-------|-------|------------|
+| 2026-05-12 | MatheoTe | Blog: 5 artículos con contenido completo sincronizados con página vieja |
 | 2026-05-12 | MatheoTe | Fix empleos: agregar job 81 Marketing Lead, desactivar 77/78 |
 | 2026-05-12 | Ariel | Setup inicial: .claude/settings.json + /website-nueva + COORDINACION.md |
 | 2026-05-12 | MatheoTe | Fix: unificó sección testimonios + visibilidad stats bar |
@@ -98,6 +99,7 @@
 ## Tareas pendientes
 
 - [ ] Mergear PR #7 (quitar Victor/Andersson, agregar Rocio) — Larisa tiene acceso
+- [x] Blog: 5 artículos con contenido completo (sincronizado con página vieja)
 - [ ] Contenido real de las tarjetas de Servicios (textos finales)
 - [ ] Revisar SEO: meta tags, Open Graph
 - [ ] Revisar performance mobile (imágenes pesadas)
