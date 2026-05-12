@@ -6,9 +6,28 @@
 
 ---
 
+## ⚠️ PROTOCOLO OBLIGATORIO — Cerrar sesión sin hacer esto = cambios perdidos
+
+### Al terminar cualquier sesión de trabajo, estos pasos son NO NEGOCIABLES:
+
+```
+1. git add -A
+2. git commit -m "content/feat/fix: descripción breve"
+3. git push
+4. Verificar en https://github.com/internationalgtc/mockup-gtc-azul que el commit aparece
+5. Deployar manualmente: vercel --prod --yes --scope gtc2
+6. Verificar en https://mockup-gtc-azul.vercel.app que los cambios están visibles
+```
+
+> **¿Por qué el deploy manual?** El webhook automático de Vercel está roto — el push a main NO dispara deploy automático. Si no se corre `vercel --prod`, los cambios quedan en GitHub pero NO se ven en producción.
+
+> **Historial:** El 11 mayo 2026 Larisa dejó el sitio en "perfecto estado" pero no hizo deploy manual. Al día siguiente los cambios no estaban y había errores en Empleos. Todo el trabajo de la sesión se perdió.
+
+---
+
 ## Estado actual del sitio (12 mayo 2026)
 
-**Deploy:** Vercel (producción automática en push a main)
+**Deploy:** Vercel — **⚠️ MANUAL solamente** (`vercel --prod --yes --scope gtc2`)
 **Repo:** https://github.com/internationalgtc/mockup-gtc-azul
 **Branch principal:** `main`
 
@@ -86,6 +105,7 @@
 
 | Fecha | Quién | Qué cambió |
 |-------|-------|------------|
+| 2026-05-12 | MatheoTe | SEO: OG tags en index.html, imágenes blog a public/images/, fix DEFAULT_IMAGE en SEO.tsx |
 | 2026-05-12 | MatheoTe | Blog: 5 artículos con contenido completo sincronizados con página vieja |
 | 2026-05-12 | MatheoTe | Fix empleos: agregar job 81 Marketing Lead, desactivar 77/78 |
 | 2026-05-12 | Ariel | Setup inicial: .claude/settings.json + /website-nueva + COORDINACION.md |
@@ -101,7 +121,7 @@
 - [ ] Mergear PR #7 (quitar Victor/Andersson, agregar Rocio) — Larisa tiene acceso
 - [x] Blog: 5 artículos con contenido completo (sincronizado con página vieja)
 - [ ] Contenido real de las tarjetas de Servicios (textos finales)
-- [ ] Revisar SEO: meta tags, Open Graph
+- [x] SEO: OG tags estáticos en index.html + meta tags por página via Helmet + imágenes blog descargadas a public/images/
 - [ ] Revisar performance mobile (imágenes pesadas)
 - [ ] Larisa + Mateo: aceptar invitación GitHub y clonar repo
 
