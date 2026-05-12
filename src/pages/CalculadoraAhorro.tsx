@@ -5,6 +5,7 @@ import * as z from 'zod'
 import { Link } from 'react-router-dom'
 import { Download, CheckCircle, ArrowDown, ArrowRight } from 'lucide-react'
 import { useT } from '@/hooks/useT'
+import SEO from '@/components/shared/SEO'
 
 const API_URL =
   import.meta.env.VITE_PLATFORM_API_URL ||
@@ -53,6 +54,8 @@ export default function CalculadoraAhorro() {
           utm_medium: params.get('utm_medium') || 'calculadora',
           utm_campaign: params.get('utm_campaign') || '',
           utm_content: params.get('utm_content') || '',
+          gclid: params.get('gclid') || undefined,
+          fbclid: params.get('fbclid') || undefined,
         }),
       })
     } catch {
@@ -62,14 +65,14 @@ export default function CalculadoraAhorro() {
       setSubmitted(true)
       triggerDownload()
 
-      if ((window as Window & { gtag?: (...args: unknown[]) => void }).gtag) {
-        (window as Window & { gtag: (...args: unknown[]) => void }).gtag('event', 'generate_lead', {
+      if (window.gtag) {
+        window.gtag('event', 'generate_lead', {
           event_category: 'calculadora_ahorro',
           event_label: 'landing_calculadora',
         })
       }
-      if ((window as Window & { fbq?: (...args: unknown[]) => void }).fbq) {
-        (window as Window & { fbq: (...args: unknown[]) => void }).fbq('track', 'Lead', {
+      if (window.fbq) {
+        window.fbq('track', 'Lead', {
           content_name: 'calculadora_ahorro',
           content_category: 'lead_magnet',
         })
@@ -79,6 +82,11 @@ export default function CalculadoraAhorro() {
 
   return (
     <>
+      <SEO
+        title="Calculadora de ahorro"
+        description="Calculá cuánto podés ahorrar contratando talento remoto con GTC vs talento local. Hasta un 50% menos en costos."
+        path="/calculadora"
+      />
       {/* HERO */}
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full -mr-48 -mt-24" />

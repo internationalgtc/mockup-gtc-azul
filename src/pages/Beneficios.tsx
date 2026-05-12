@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Rocket, Users, Award, Lightbulb, Briefcase, Globe } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
+import SEO from '@/components/shared/SEO'
 
 const BENEFITS = [
   { icon: Rocket, tk: 'ben_1_t', dk: 'ben_1_d' },
@@ -23,6 +24,11 @@ export default function BeneficiosPage() {
 
   return (
     <>
+      <SEO
+        title="Beneficios"
+        description="Las ventajas de trabajar con Global Talent Connections: profesionales seleccionados, gestión integral, ahorro de hasta 50%."
+        path="/beneficios"
+      />
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full -mr-48 -mt-24" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">

@@ -1,57 +1,84 @@
 # COORDINACION.md — GTC Azul Mockup
 
-Estado del sitio, convenciones y log de cambios. **Actualizar al cerrar cada sesión con /website-nueva.**
+> Fuente de verdad del estado actual del sitio.
+> Actualizar al cerrar cada sesión con `/website-nueva`.
+> Git pull lo sincroniza automáticamente al abrir Claude Code.
 
 ---
 
-## Estado actual del sitio (2026-05-12)
+## Estado actual del sitio (12 mayo 2026)
+
+**Deploy:** Vercel (producción automática en push a main)
+**Repo:** https://github.com/internationalgtc/mockup-gtc-azul
+**Branch principal:** `main`
 
 | Sección | Estado | Responsable |
 |---------|--------|-------------|
 | Nav / Header | ✅ Completo | - |
 | Hero | ✅ Completo | - |
-| Stats bar | ✅ Visible (fix aplicado) | MatheoTe |
+| Stats bar | ✅ Visible | MatheoTe |
 | Servicios | ✅ Completo | - |
-| Testimonios (video) | ✅ Unificado (fix aplicado) | MatheoTe |
+| Testimonios (video) | ✅ Unificado | MatheoTe |
 | Equipo (nosotros) | ✅ Completo | Larisa |
 | Calculadora de ahorro | ✅ Funcional | - |
 | Blog | ✅ Estructura lista | - |
-| Empleos | ✅ Estructura lista | - |
+| Empleos | ✅ Sincronizado con sitio viejo | MatheoTe |
 | Footer | ✅ Completo | - |
 | i18n ES/EN | ✅ Completo en translations.ts | Larisa + Mateo |
 
-**Rama activa:** `main`  
-**Deploy:** Vercel (producción automática en cada push a main)  
-**Repo:** https://github.com/internationalgtc/mockup-gtc-azul
+---
+
+## Equipo visible en el sitio
+
+- Daniel Crespo (CEO)
+- Ariel Jimenez (AI & Automation Lead)
+- Gladymar Torres (HR Business Partner)
+- Ana Martinez (Marketing & Sales Lead)
+- Pilar Marin (HR & Commercial Lead)
+- Reyna Contreras (HR & Commercial Lead)
+- Sebastian Acevedo (Quality & Operations Lead)
+- Fabiola Lozano (Quality Analyst)
+- Suany Artica (Quality Analyst)
+- Rocio (Quality Analyst — agregada en PR #7)
+- Antonio Cabello (Head of Finance)
+- Larisa Spatafora (Dev)
+- Nelson Alonso (Dev)
+- Javier Martinez (Dev)
+- Delfina Palacio (Community Manager)
+
+**Eliminados:** Victor Dominguez, Andersson Figueroa (PR #7, 9 mayo 2026)
+
+---
+
+## PRs recientes
+
+- PR #6 MERGED — i18n contenido rebased
+- PR #7 OPEN — quitar Victor + Andersson, agregar Rocio
 
 ---
 
 ## Convenciones del proyecto
 
-### Fotos e imágenes
-- Reemplazar el PNG con el **mismo nombre exacto** → el import no cambia
-- Carpeta de equipo: `assets/equipo/`
-- Logos de clientes: `assets/logos/`
-- Fotos de empleos/blog: `public/img-empleos/`
-- **NO renombrar archivos** ni cambiar rutas → rompe imports en toda la app
+### Fotos del equipo
+- Archivo: `assets/equipo/nombre.png` (minúsculas, sin espacios)
+- Fuente de datos: `src/data/equipo.ts`
+- Cambiar foto = reemplazar el PNG con el **mismo nombre exacto**. No tocar imports.
 
-### i18n (traducciones)
-- **Regla de oro:** ES y EN siempre en el mismo commit, en `src/lib/translations.ts`
-- Formato: `clave: { es: '...', en: '...' }`
+### Textos / i18n
+- **Regla de oro:** ES y EN siempre en el mismo commit
+- Archivo: `src/lib/translations.ts` — formato `clave: { es: '...', en: '...' }`
 - Agrupar por sección con comentarios `// ── NOMBRE ──`
-- Si agregas texto nuevo, agregar la clave a `translations.ts` antes de usarla en el componente
+
+### Vacantes
+- Fuente única: `src/data/jobs.ts`
+- Próximo ID disponible: **82**
+- Activar/desactivar: campo `active: true/false`
 
 ### Git
-- Trabajar en ramas con nombre `feat/<tu-nombre>/<descripcion>` o `fix/<descripcion>`
+- Ramas: `feat/<nombre>/<descripcion>` o `fix/<descripcion>`
 - Pull Request → revisión → merge a main
-- **Nunca pushear directo a main** salvo hotfixes urgentes
-- Mensaje de commit: `feat:`, `fix:`, `content:`, `style:` como prefijo
-- El git pull automático corre al abrir Claude Code en la carpeta del repo
-
-### Componentes
-- Un componente = un archivo en `src/components/`
-- Subcarpetas: `layout/` (Header, Footer, Layout), `shared/` (elementos reutilizables)
-- Los componentes de sección van directo en `src/components/`
+- Nunca pushear directo a main salvo hotfixes urgentes
+- Prefijos de commit: `feat:` `fix:` `content:` `style:` `i18n:`
 
 ---
 
@@ -59,25 +86,26 @@ Estado del sitio, convenciones y log de cambios. **Actualizar al cerrar cada ses
 
 | Fecha | Quién | Qué cambió |
 |-------|-------|------------|
+| 2026-05-12 | MatheoTe | Fix empleos: agregar job 81 Marketing Lead, desactivar 77/78 |
+| 2026-05-12 | Ariel | Setup inicial: .claude/settings.json + /website-nueva + COORDINACION.md |
 | 2026-05-12 | MatheoTe | Fix: unificó sección testimonios + visibilidad stats bar |
 | 2026-05-12 | MatheoTe | Merge PR #6: i18n + contenido (rama Larisa) rebased |
 | 2026-05-06 | MatheoTe | Backup snapshot producción Vercel |
 | 2026-05-06 | Larisa | PR #3: sección testimonios en video |
-| 2026-05-06 | Larisa | Fotos equipo (portrait, Larisa incluida) |
 
 ---
 
 ## Tareas pendientes
 
+- [ ] Mergear PR #7 (quitar Victor/Andersson, agregar Rocio) — Larisa tiene acceso
 - [ ] Contenido real de las tarjetas de Servicios (textos finales)
-- [ ] Fotos reales de testimonios/clientes si los hay
 - [ ] Revisar SEO: meta tags, Open Graph
 - [ ] Revisar performance mobile (imágenes pesadas)
 - [ ] Larisa + Mateo: aceptar invitación GitHub y clonar repo
 
 ---
 
-## Contacto del equipo
+## Equipo dev
 
 | Persona | GitHub | Rol |
 |---------|--------|-----|

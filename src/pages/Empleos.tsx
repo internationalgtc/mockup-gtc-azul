@@ -5,6 +5,7 @@ import { JOBS, DEPARTMENTS, JOBS_EN, DEPT_EN, TYPE_EN, LOCATION_EN } from '@/dat
 import { useLang } from '@/hooks/useT'
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
+import SEO from '@/components/shared/SEO'
 
 export default function EmpleosPage() {
   const t = useT()
@@ -24,6 +25,11 @@ export default function EmpleosPage() {
 
   return (
     <>
+      <SEO
+        title="Empleos remotos"
+        description="Postulate a vacantes remotas en marketing, ventas, RRHH, desarrollo, diseño y más. Empleos 100% remotos con empresas internacionales."
+        path="/empleos"
+      />
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-prime/[0.06] blur-[120px] rounded-full -mr-32" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
@@ -75,14 +81,16 @@ export default function EmpleosPage() {
                   to={`/empleos/${job.id}`}
                   className="bg-white rounded-xl border border-border-soft overflow-hidden hover:shadow-xl hover:border-blue-prime/20 transition-all group"
                 >
-                  <div className="aspect-[16/9] overflow-hidden">
-                    <img
-                      src={job.imageUrl}
-                      alt={job.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                  </div>
+                  {job.imageUrl && (
+                    <div className="aspect-[16/9] overflow-hidden">
+                      <img
+                        src={job.imageUrl}
+                        alt={job.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
                   <div className="p-6">
                     <span className="text-blue-prime text-[10px] font-label uppercase tracking-widest font-bold">{lang === 'en' && DEPT_EN[job.department] ? DEPT_EN[job.department] : job.department}</span>
                     <h3 className="font-headline text-xl text-navy mt-2 mb-3 group-hover:text-blue-prime transition-colors">{lang === 'en' && JOBS_EN[job.id] ? JOBS_EN[job.id].title : job.title}</h3>

@@ -1,8 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
-import type { Responsibility } from '@/data/jobs'
 import { ArrowLeft, MapPin, Briefcase, GraduationCap, Clock, ExternalLink } from 'lucide-react'
 import { JOBS, JOBS_EN, DEPT_EN, TYPE_EN, LOCATION_EN } from '@/data/jobs'
 import { useT, useLang } from '@/hooks/useT'
+import SEO from '@/components/shared/SEO'
 
 const NEXUS_URL = 'https://www.globaltalentconnections.online'
 
@@ -25,11 +25,20 @@ export default function DetallesDeEmpleoPage() {
 
   const applyUrl = `${NEXUS_URL}/postular-express?puesto=${encodeURIComponent(job.title)}`
   const en = lang === 'en' && JOBS_EN[job.id] ? JOBS_EN[job.id] : null
-  const responsibilities: Responsibility[] = en?.responsibilities || job.responsibilities
-  const requirements: string[] = en?.requirements || job.requirements
+  const responsibilities = en?.responsibilities || job.responsibilities
+  const requirements = en?.requirements || job.requirements
+  const experience = en?.experience || job.experience
+  const education = en?.education || job.education
+  const benefits = en?.benefits || job.benefits
 
   return (
     <>
+      <SEO
+        title={job.title}
+        description={`Vacante: ${job.title}. Empleo remoto con Global Talent Connections. Postulate y formá parte del equipo.`}
+        path={`/empleos/${job.id}`}
+        type="article"
+      />
       {/* HERO */}
       <section className="bg-navy pt-32 pb-16 relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-6 lg:px-8 relative z-10">
@@ -41,8 +50,8 @@ export default function DetallesDeEmpleoPage() {
           <div className="flex flex-wrap items-center gap-6 text-white/60 text-sm">
             <span className="flex items-center gap-2"><MapPin className="w-4 h-4" /> {lang === 'en' && LOCATION_EN[job.location] ? LOCATION_EN[job.location] : job.location}</span>
             <span className="flex items-center gap-2"><Briefcase className="w-4 h-4" /> {lang === 'en' && TYPE_EN[job.type] ? TYPE_EN[job.type] : job.type}</span>
-            {job.experience && <span className="flex items-center gap-2"><Clock className="w-4 h-4" /> {job.experience}</span>}
-            {job.education && <span className="flex items-center gap-2"><GraduationCap className="w-4 h-4" /> {job.education}</span>}
+            {experience && <span className="flex items-center gap-2"><Clock className="w-4 h-4" /> {experience}</span>}
+            {education && <span className="flex items-center gap-2"><GraduationCap className="w-4 h-4" /> {education}</span>}
           </div>
         </div>
       </section>
@@ -92,11 +101,11 @@ export default function DetallesDeEmpleoPage() {
                 </div>
               )}
 
-              {job.benefits && job.benefits.length > 0 && (
+              {benefits && benefits.length > 0 && (
                 <div>
                   <h2 className="font-headline text-2xl text-navy mb-4">{t('det_beneficios')}</h2>
                   <ul className="space-y-2">
-                    {job.benefits.map((b, i) => (
+                    {benefits.map((b, i) => (
                       <li key={i} className="text-dark-gray flex items-start gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-gold mt-2 flex-shrink-0" />
                         {b}
@@ -110,8 +119,10 @@ export default function DetallesDeEmpleoPage() {
             {/* Sidebar CTA */}
             <div className="lg:col-span-1">
               <div className="sticky top-28 bg-white p-8 rounded-xl border border-border-soft shadow-lg">
-                <img src={job.imageUrl} alt={job.title} className="w-full aspect-video object-cover rounded-lg mb-6" loading="lazy" />
-                <h3 className="font-headline text-xl text-navy mb-2">{job.title}</h3>
+                {job.imageUrl && (
+                  <img src={job.imageUrl} alt={job.title} className="w-full aspect-video object-cover rounded-lg mb-6" loading="lazy" />
+                )}
+                <h3 className="font-headline text-xl text-navy mb-2">{lang === 'en' && JOBS_EN[job.id] ? JOBS_EN[job.id].title : job.title}</h3>
                 <p className="text-dark-gray text-sm mb-6">{lang === 'en' && DEPT_EN[job.department] ? DEPT_EN[job.department] : job.department} · {lang === 'en' && LOCATION_EN[job.location] ? LOCATION_EN[job.location] : job.location}</p>
                 <a
                   href={applyUrl}

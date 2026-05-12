@@ -9,8 +9,8 @@ const T: Record<string, Record<string, string>> = {
   nav_calculadora: { es: 'Calculadora', en: 'Calculator' },
 
   // ── HERO ──
-  hero_badge: { es: 'Más de 103 profesionales activos', en: 'Over 103 active professionals' },
-  hero_title_1: { es: 'Ahorra hasta un 52%', en: 'Save up to 52%' },
+  hero_badge: { es: 'Más de 111 profesionales activos', en: 'Over 111 active professionals' },
+  hero_title_1: { es: 'Ahorra hasta un 50%', en: 'Save up to 50%' },
   hero_title_2: { es: 'en talento de alto rendimiento.', en: 'on high-performance talent.' },
   hero_subtitle: { es: 'Conectamos empresas con profesionales remotos. Selección, gestión y supervisión integral.', en: 'We connect companies with remote professionals. Selection, management and comprehensive supervision.' },
   hero_cta_empresa: { es: 'Para Empresas', en: 'For Companies' },
@@ -26,11 +26,8 @@ const T: Record<string, Record<string, string>> = {
   // ── STATS ──
   stat_empresas: { es: 'empresas activas', en: 'active companies' },
   stat_profesionales: { es: 'profesionales', en: 'professionals' },
-  stat_ahorro: { es: 'ahorro comprobado', en: 'proven savings' },
-  stat_micro: {
-    es: `Datos a ${new Date().toLocaleString('es-ES', { month: 'long', year: 'numeric' })}`,
-    en: `Data as of ${new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' })}`,
-  },
+  stat_ahorro: { es: 'ahorro promedio', en: 'average savings' },
+  stat_micro: { es: 'Datos a Mayo 2026', en: 'Data as of May 2026' },
   stat_retencion: { es: 'retención', en: 'retention' },
 
   // ── LOGOS ──
@@ -220,13 +217,13 @@ const T: Record<string, Record<string, string>> = {
   footer_calculadora: { es: 'Calculadora de ahorro', en: 'Savings calculator' },
   footer_contacto: { es: 'Contacto', en: 'Contact' },
   footer_agendar: { es: 'Agendar llamada', en: 'Book a call' },
-  footer_derechos: { es: '2026 Global Talent Connections. Todos los derechos reservados.', en: '2026 Global Talent Connections. All rights reserved.' },
+  footer_derechos: { es: '2025 Global Talent Connections. Todos los derechos reservados.', en: '2025 Global Talent Connections. All rights reserved.' },
   footer_privacidad: { es: 'Política de Privacidad', en: 'Privacy Policy' },
 
   // ── PRIVACIDAD ──
   privacidad_label: { es: 'Legal', en: 'Legal' },
   privacidad_titulo: { es: 'Política de Privacidad', en: 'Privacy Policy' },
-  privacidad_actualizacion: { es: 'Última actualización: Abril 2026', en: 'Last updated: April 2026' },
+  privacidad_actualizacion: { es: 'Última actualización: Abril 2025', en: 'Last updated: April 2025' },
 
   // ── 404 ──
   not_found_titulo: { es: 'Página no encontrada', en: 'Page not found' },
@@ -287,8 +284,6 @@ const T: Record<string, Record<string, string>> = {
   ct_emp_1: { es: '1-10 empleados', en: '1-10 employees' },
   ct_emp_2: { es: '11-50 empleados', en: '11-50 employees' },
   ct_emp_3: { es: '51-200 empleados', en: '51-200 employees' },
-  ct_emp_4: { es: '201-500 empleados', en: '201-500 employees' },
-  ct_emp_5: { es: '500+ empleados', en: '500+ employees' },
   ct_error: { es: 'Hubo un error al enviar. Intenta nuevamente o escribenos a info@internationalgtc.com', en: 'There was an error sending. Try again or email us at info@internationalgtc.com' },
 
   // ── EMPLEOS EXTRA ──
@@ -350,6 +345,23 @@ const T: Record<string, Record<string, string>> = {
 
   // ── SERVICIOS EXTRA ──
   serv_popular: { es: 'Más solicitado', en: 'Most requested' },
+
+  // ── NAV EXTRA ──
+  nav_agendar: { es: 'Agendar call', en: 'Book a call' },
+  nav_skip: { es: 'Ir al contenido', en: 'Skip to content' },
+
+  // ── TESTIMONIOS ──
+  testi_casos: { es: 'Casos de éxito', en: 'Success stories' },
+  testi_titulo_1: { es: 'Lo que dicen', en: 'What our' },
+  testi_titulo_2: { es: 'nuestros clientes', en: 'clients say' },
+  testi_t1_texto: { es: 'Me brindaron acompañamiento continuo y se adaptaron a mis necesidades. Como empresarios, los asistentes virtuales nos proporcionan una gran ventaja.', en: 'They provided continuous support and adapted to my needs. As entrepreneurs, virtual assistants give us a huge advantage.' },
+  testi_t1_cargo: { es: 'CEO en Construcciones Ramírez', en: 'CEO at Construcciones Ramírez' },
+  testi_t2_texto: { es: 'Este modelo nos abrió la posibilidad de contar con más recursos humanos por un costo inferior. El personal es excepcional.', en: 'This model opened up the possibility of having more human resources at a lower cost. The staff is exceptional.' },
+  testi_t2_cargo: { es: 'CEO en Areacad Ingeniería Audiovisual', en: 'CEO at Areacad Ingeniería Audiovisual' },
+  testi_t3_texto: { es: 'Los asistentes virtuales se adaptaron desde el primer momento, mostrando gran compromiso y profesionalismo.', en: 'The virtual assistants adapted from day one, showing great commitment and professionalism.' },
+  testi_t3_cargo: { es: 'CEO en PMV Factory', en: 'CEO at PMV Factory' },
+  testi_t4_texto: { es: 'Estamos muy satisfechos con la calidad de los asistentes y la facilidad de contratación que ofrece Global Talent Connections.', en: 'We are very satisfied with the quality of the assistants and how easy hiring is with Global Talent Connections.' },
+  testi_t4_cargo: { es: 'CEO en Coseba, Seguros Paco Saban', en: 'CEO at Coseba, Seguros Paco Saban' },
 }
 
 export function t(key: string, lang: string): string {

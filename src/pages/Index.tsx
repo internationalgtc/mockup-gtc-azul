@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
-import Testimonials from '@/components/Testimonials'
 import { useT } from '@/hooks/useT'
+import Testimonials from '@/components/Testimonials'
+import SEO from '@/components/shared/SEO'
 
 import l1 from '@/assets/logos/l1.png'
 import l2 from '@/assets/logos/l2.jpg'
@@ -24,9 +25,9 @@ const CLIENT_LOGOS = [
 ]
 
 const STAT_KEYS = [
-  { value: '49', key: 'stat_empresas', color: 'text-blue-prime' },
-  { value: '103', key: 'stat_profesionales', color: 'text-blue-prime' },
-  { value: '52%', key: 'stat_ahorro', color: 'text-gold' },
+  { value: '51', key: 'stat_empresas', color: 'text-blue-prime' },
+  { value: '112', key: 'stat_profesionales', color: 'text-blue-prime' },
+  { value: '50%', key: 'stat_ahorro', color: 'text-gold' },
   { value: '95%', key: 'stat_retencion', color: 'text-gold' },
 ]
 
@@ -45,6 +46,11 @@ export default function HomePage() {
 
   return (
     <>
+      <SEO
+        title="Talento remoto de alto rendimiento"
+        description="Conectamos empresas con profesionales remotos de alto rendimiento. Selección, gestión y supervisión integral. +51 clientes activos."
+        path="/"
+      />
       {/* HERO */}
       <section className="relative bg-navy min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-prime/[0.08] blur-[120px] rounded-full -mr-48 -mt-48" />
@@ -175,9 +181,6 @@ export default function HomePage() {
         </div>
       </RevealSection>
 
-      {/* TESTIMONIOS */}
-      <Testimonials />
-
       {/* VENTAJAS */}
       <RevealSection className="py-24 lg:py-32 bg-off-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-prime/5 blur-[150px] rounded-full" />
@@ -221,6 +224,9 @@ export default function HomePage() {
       {/* PROCESO */}
       <ProcessSection t={t} />
 
+      {/* TESTIMONIOS */}
+      <Testimonials />
+
       {/* CONTACTO INLINE */}
       <ContactSection />
     </>
@@ -249,6 +255,8 @@ function ContactSection() {
           utm_source: params.get('utm_source') || undefined,
           utm_medium: params.get('utm_medium') || undefined,
           utm_campaign: params.get('utm_campaign') || undefined,
+          gclid: params.get('gclid') || undefined,
+          fbclid: params.get('fbclid') || undefined,
           landing_url: window.location.href,
         }),
       })
@@ -336,14 +344,14 @@ function ContactSection() {
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all duration-300"
               >
                 <option value="" disabled className="text-navy">{t('contacto_perfil')}</option>
-                <option value="Administrativo" className="text-navy">Administrativo</option>
-                <option value="Marketing Digital" className="text-navy">Marketing Digital</option>
-                <option value="Financiero / Contable" className="text-navy">Financiero / Contable</option>
-                <option value="Desarrollo Web" className="text-navy">Desarrollo Web</option>
-                <option value="Diseno Grafico" className="text-navy">Diseno Grafico</option>
-                <option value="Atencion al Cliente" className="text-navy">Atencion al Cliente</option>
-                <option value="RRHH / Reclutamiento" className="text-navy">RRHH / Reclutamiento</option>
-                <option value="Otro" className="text-navy">Otro</option>
+                <option value="Administrativo" className="text-navy">{t('serv_admin')}</option>
+                <option value="Marketing Digital" className="text-navy">{t('serv_marketing')}</option>
+                <option value="Financiero / Contable" className="text-navy">{t('serv_finanzas')}</option>
+                <option value="Desarrollo Web" className="text-navy">{t('serv_dev')}</option>
+                <option value="Diseno Grafico" className="text-navy">{t('serv_diseno')}</option>
+                <option value="Atencion al Cliente" className="text-navy">{t('serv_atencion')}</option>
+                <option value="RRHH / Reclutamiento" className="text-navy">{t('contacto_perfil_admin')}</option>
+                <option value="Otro" className="text-navy">{t('contacto_perfil_otro')}</option>
               </select>
               {status === 'error' && (
                 <div className="flex items-center gap-3 text-red-400 bg-red-500/10 p-3 rounded-lg text-sm">

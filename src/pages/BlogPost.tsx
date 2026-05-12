@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Clock, User } from 'lucide-react'
 import { blogPosts } from '@/data/blogPosts'
 import { useT, useLang, l } from '@/hooks/useT'
+import SEO from '@/components/shared/SEO'
 
 export default function BlogPostPage() {
   const { id } = useParams()
@@ -22,6 +23,12 @@ export default function BlogPostPage() {
 
   return (
     <>
+      <SEO
+        title={l(post.title, lang)}
+        description={l(post.excerpt, lang) || l(post.title, lang)}
+        path={`/blog/${post.id}`}
+        type="article"
+      />
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full -mr-48" />
         <div className="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
