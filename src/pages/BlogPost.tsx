@@ -55,7 +55,7 @@ export default function BlogPostPage() {
             <img src={post.image} alt={l(post.title, lang)} className="w-full h-[300px] lg:h-[450px] object-cover" />
           </div>
           <div className="bg-white rounded-2xl p-8 lg:p-14 border border-border-soft">
-            <p className="text-navy/80 text-lg leading-relaxed mb-8">{l(post.excerpt, lang)}</p>
+            {!post.content && <p className="text-navy/80 text-lg leading-relaxed mb-8">{l(post.excerpt, lang)}</p>}
             {post.content ? (
               <div
                 className="prose prose-lg max-w-none text-dark-gray blog-content"
