@@ -27,7 +27,10 @@ const T: Record<string, Record<string, string>> = {
   stat_empresas: { es: 'empresas activas', en: 'active companies' },
   stat_profesionales: { es: 'profesionales', en: 'professionals' },
   stat_ahorro: { es: 'ahorro comprobado', en: 'proven savings' },
-  stat_micro: { es: 'Datos a Abril 2026', en: 'Data as of April 2026' },
+  stat_micro: {
+    es: `Datos a ${new Date().toLocaleString('es-ES', { month: 'long', year: 'numeric' })}`,
+    en: `Data as of ${new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' })}`,
+  },
   stat_retencion: { es: 'retención', en: 'retention' },
 
   // ── LOGOS ──

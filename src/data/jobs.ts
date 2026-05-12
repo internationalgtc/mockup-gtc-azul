@@ -1735,7 +1735,7 @@ export const JOBS: Job[] = [
 
 {
   id: "77",
-  active: true,
+  active: false,
   title: "Marketing Operations Specialist",
   department: "Marketing",
   location: "Remoto",
@@ -1761,7 +1761,7 @@ export const JOBS: Job[] = [
 },
 {
   id: "78",
-  active: true,
+  active: false,
   title: "Especialista SEO & Content Marketing",
   department: "Marketing",
   location: "Remoto",
@@ -1838,6 +1838,40 @@ export const JOBS: Job[] = [
     { titulo: "Configurar automatizaciones básicas en CRM y herramientas de email marketing." },
     { titulo: "Generar reportes mensuales de rendimiento con métricas clave y recomendaciones accionables." },
     { titulo: "Apoyar en la creación de contenido gráfico y copywriting para distintos canales." },
+  ],
+},
+
+{
+  id: "81",
+  active: true,
+  title: "Marketing Lead",
+  department: "Marketing",
+  location: "Remoto",
+  type: "Jornada Completa",
+  imageUrl: "/img-empleos/negocio.jpg",
+  description:
+    "Líder estratégico de la operación de marketing automatizado para PYMEs en España. No ejecuta contenido: analiza, diseña estrategia por cliente, y dirige al equipo que ejecuta. Es el DT del área.",
+  responsibilities: [
+    { titulo: "Analizar cada cliente nuevo: industria, puntos de dolor, competencia, oportunidades." },
+    { titulo: "Definir estrategia de contenido y automatización por cliente (canales, frecuencia, mensaje)." },
+    { titulo: "Bajar la estrategia al equipo de ejecución (mid + junior)." },
+    { titulo: "Monitorear KPIs y resultados por cliente, ajustar estrategia en base a datos." },
+    { titulo: "Gestionar encuestas de satisfacción y feedback loops con clientes." },
+    { titulo: "Reportar resultados mensuales y proponer mejoras." },
+  ],
+  requirements: [
+    "3+ años gestionando estrategia de marketing digital para múltiples clientes o marcas (portfolio obligatorio).",
+    "Experiencia liderando equipos o freelancers de contenido/diseño.",
+    "Capacidad analítica: sabe leer métricas, sacar conclusiones y cambiar rumbo.",
+    "Experiencia con herramientas de analytics (Google Analytics o similares).",
+    "Conocimiento de email marketing y automatización (Brevo, Mailchimp, ActiveCampaign).",
+    "Español nativo + inglés intermedio-avanzado.",
+  ],
+  softSkills: [
+    "Familiaridad con herramientas de IA generativa (ChatGPT, Claude).",
+    "Visión de automatización.",
+    "Proactivo.",
+    "Versatilidad entre industrias.",
   ],
 },
 
@@ -2134,6 +2168,26 @@ export const JOBS_EN: Record<string, { title: string; description: string; respo
       "Basic knowledge of SEO, email marketing and workflow automation.",
       "Proactivity, organization and ability to manage multiple accounts simultaneously.",
       "Native Spanish. Basic-intermediate English.",
+    ],
+  },
+  "81": {
+    title: "Marketing Lead",
+    description: "Strategic lead for automated marketing operations for SMBs in Spain. Doesn't execute content — analyzes, designs strategy per client, and directs the execution team. The team's strategic director.",
+    responsibilities: [
+      { titulo: "Analyze each new client: industry, pain points, competition, opportunities." },
+      { titulo: "Define content and automation strategy per client (channels, frequency, messaging)." },
+      { titulo: "Brief the execution team (mid + junior) on the strategy." },
+      { titulo: "Monitor KPIs and results per client, adjust strategy based on data." },
+      { titulo: "Manage satisfaction surveys and client feedback loops." },
+      { titulo: "Report monthly results and propose improvements." },
+    ],
+    requirements: [
+      "3+ years managing digital marketing strategy for multiple clients or brands (portfolio required).",
+      "Experience leading content/design teams or freelancers.",
+      "Analytical ability: reads metrics, draws conclusions and changes course.",
+      "Experience with analytics tools (Google Analytics or similar).",
+      "Knowledge of email marketing and automation (Brevo, Mailchimp, ActiveCampaign).",
+      "Native Spanish + intermediate-advanced English.",
     ],
   },
 };
