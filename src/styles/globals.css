@@ -72,4 +72,141 @@
   .serif-italic {
     font-style: italic;
   }
+
+  /* Blog article content */
+  .blog-content {
+    color: #37516b;
+    line-height: 1.8;
+    font-family: 'Lato', sans-serif;
+  }
+  .blog-content p {
+    margin-bottom: 1.25rem;
+    font-size: 1.0625rem;
+  }
+  .blog-content h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.375rem;
+    color: #062E55;
+    margin-top: 2.25rem;
+    margin-bottom: 0.875rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e8f0f7;
+  }
+  .blog-content h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: #062E55;
+    margin-top: 1.75rem;
+    margin-bottom: 0.625rem;
+  }
+  .blog-content ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1.25rem;
+  }
+  .blog-content ul li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .blog-content ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6rem;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background-color: #2280AD;
+    flex-shrink: 0;
+  }
+  .blog-content ol {
+    list-style: decimal;
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .blog-content ol li {
+    margin-bottom: 0.5rem;
+    padding-left: 0.25rem;
+  }
+  .blog-content strong {
+    font-weight: 700;
+    color: #062E55;
+  }
+  .blog-content blockquote {
+    border-left: 4px solid #2280AD;
+    background: #f0f6fb;
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    color: #1a6590;
+    font-style: italic;
+    font-size: 0.9375rem;
+  }
+  .blog-content blockquote strong {
+    color: #062E55;
+    font-style: normal;
+  }
+  .blog-content a {
+    color: #2280AD;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .blog-content a:hover {
+    color: #1a6590;
+  }
+
+  /* Stat highlight boxes (artículo "Futuro del Talento") */
+  .blog-content .stat-highlight {
+    display: flex;
+    flex-direction: column;
+    background: #f0f6fb;
+    border-left: 4px solid #2280AD;
+    border-radius: 0 0.75rem 0.75rem 0;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    gap: 0.25rem;
+  }
+  .blog-content .stat-number {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 2rem;
+    color: #2280AD;
+    line-height: 1;
+  }
+  .blog-content .stat-label {
+    font-size: 0.9375rem;
+    color: #062E55;
+    font-weight: 500;
+  }
+  .blog-content .stat-source {
+    font-size: 0.75rem;
+    color: #37516b;
+    font-style: italic;
+    margin-top: 0.25rem;
+  }
+
+  /* Sources section */
+  .blog-content .sources {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #d9e2ec;
+  }
+  .blog-content .sources h3 {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #37516b;
+    margin-top: 0;
+    border-bottom: none;
+  }
+  .blog-content .sources ul li::before {
+    background-color: #37516b;
+  }
+  .blog-content .sources ul li {
+    font-size: 0.8125rem;
+    color: #37516b;
+  }
 }
