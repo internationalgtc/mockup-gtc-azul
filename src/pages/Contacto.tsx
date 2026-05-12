@@ -170,8 +170,6 @@ export default function ContactoPage() {
                     <option value="1-10">{t('ct_emp_1')}</option>
                     <option value="11-50">{t('ct_emp_2')}</option>
                     <option value="51-200">{t('ct_emp_3')}</option>
-                    <option value="201-500">{t('ct_emp_4')}</option>
-                    <option value="500+">{t('ct_emp_5')}</option>
                   </select>
                 </div>
 

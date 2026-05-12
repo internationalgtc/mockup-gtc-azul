@@ -284,8 +284,6 @@ const T: Record<string, Record<string, string>> = {
   ct_emp_1: { es: '1-10 empleados', en: '1-10 employees' },
   ct_emp_2: { es: '11-50 empleados', en: '11-50 employees' },
   ct_emp_3: { es: '51-200 empleados', en: '51-200 employees' },
-  ct_emp_4: { es: '201-500 empleados', en: '201-500 employees' },
-  ct_emp_5: { es: '500+ empleados', en: '500+ employees' },
   ct_error: { es: 'Hubo un error al enviar. Intenta nuevamente o escribenos a info@internationalgtc.com', en: 'There was an error sending. Try again or email us at info@internationalgtc.com' },
 
   // ── EMPLEOS EXTRA ──
