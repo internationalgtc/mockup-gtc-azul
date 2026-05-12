@@ -122,7 +122,7 @@ export default function DetallesDeEmpleoPage() {
                 {job.imageUrl && (
                   <img src={job.imageUrl} alt={job.title} className="w-full aspect-video object-cover rounded-lg mb-6" loading="lazy" />
                 )}
-                <h3 className="font-headline text-xl text-navy mb-2">{job.title}</h3>
+                <h3 className="font-headline text-xl text-navy mb-2">{lang === 'en' && JOBS_EN[job.id] ? JOBS_EN[job.id].title : job.title}</h3>
                 <p className="text-dark-gray text-sm mb-6">{lang === 'en' && DEPT_EN[job.department] ? DEPT_EN[job.department] : job.department} · {lang === 'en' && LOCATION_EN[job.location] ? LOCATION_EN[job.location] : job.location}</p>
                 <a
                   href={applyUrl}

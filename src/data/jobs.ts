@@ -1898,6 +1898,12 @@ export const JOBS_EN: Record<string, { title: string; description: string; respo
       "Knowledge of data analysis (advanced Excel and Power BI).",
       "Desirable: Basic programming skills (Python or JavaScript) for custom scripts.",
     ],
+    benefits: [
+      "100% remote work with flexible hours.",
+      "Access to cutting-edge AI and automation tools.",
+      "Tech-first environment focused on results and continuous innovation.",
+      "Professional growth opportunities in projects with global reach.",
+    ],
   },
   "65": {
     title: "Operations & Quality Management Lead Assistant",
@@ -1936,6 +1942,13 @@ export const JOBS_EN: Record<string, { title: string; description: string; respo
       "Excellent diction and command of Spain-specific expressions (Essential for building trust).",
       "CRM proficiency for activity reporting and rigorous lead follow-up.",
     ],
+    experience: "Minimum 2 years in active prospecting, telesales or SDR roles.",
+    education: "Background in Communication, Marketing or related fields.",
+    benefits: [
+      "Opportunity for growth in a high-performance commercial environment.",
+      "100% remote work with clear and measurable objectives.",
+      "Professional stability in a team focused on international expansion.",
+    ],
   },
   "68": {
     title: "Odoo ERP Specialist Assistant",
@@ -1953,6 +1966,13 @@ export const JOBS_EN: Record<string, { title: string; description: string; respo
       "Infrastructure: Experience managing Odoo.sh or self-hosted servers and API connections.",
       "External Integrations: Ability to oversee connections with Shopify, Amazon and logistics operators.",
     ],
+    experience: "Advanced experience in customization, development and maintenance of Odoo ecosystems.",
+    education: "Systems Engineering, Computer Science or specialized Odoo certifications.",
+    benefits: [
+      "Strategic role leading the digital transformation of a global brand.",
+      "High-impact technical remote work environment.",
+      "Opportunity to manage complex integrations with major sales channels.",
+    ],
   },
   "69": {
     title: "Sales Assistant – Toy Industry (European Market)",
@@ -1969,6 +1989,13 @@ export const JOBS_EN: Record<string, { title: string; description: string; respo
       "Deep knowledge of the European market and its consumer dynamics.",
       "Advanced ability to negotiate margins, logistics terms and annual agreements.",
       "Ability to represent the brand at international industry trade shows.",
+    ],
+    experience: "Solid experience in international B2B sales and opening of European markets.",
+    education: "International Business, Trade, Marketing or equivalent experience in the sector.",
+    benefits: [
+      "Lead the expansion of a Premium/Vintage brand with great projection.",
+      "High-level role focused on strategy and expansion, not operational tasks.",
+      "Development opportunity in top-tier international markets.",
     ],
   },
   "71": {
