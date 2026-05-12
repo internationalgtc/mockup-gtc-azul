@@ -143,140 +143,123 @@ export const blogPosts: BlogPost[] = [
     content: {
       es: `
 <p>El trabajo remoto dejó de ser un beneficio excepcional para convertirse en la nueva arquitectura del empleo global. Los datos de 2026 son contundentes: el mercado de talento ya no entiende de fronteras geográficas, y las empresas que no adapten sus estrategias corren el riesgo de quedarse sin los mejores profesionales del mundo.</p>
-
 <p>Desde Global Talent Connections, trabajamos cada día en la intersección de este cambio: conectando organizaciones con talento remoto de alto rendimiento. Este artículo reúne la evidencia más actualizada de fuentes de primer nivel para darte una visión clara de dónde estamos —y qué puedes hacer hoy.</p>
-
-<h2>Diagnóstico rápido: ¿dónde está tu empresa hoy?</h2>
-<p>Antes de que sigas leyendo, responde estas 5 preguntas con honestidad:</p>
-<ul>
-  <li>¿Tienes una política de trabajo remoto o híbrido clara y documentada?</li>
-  <li>¿Tu proceso de contratación está optimizado para evaluar talento a distancia?</li>
-  <li>¿Puedes acceder a candidatos fuera de tu ciudad o país cuando los necesitas?</li>
-  <li>¿Tus líderes están entrenados para gestionar equipos distribuidos?</li>
-  <li>¿Mides el rendimiento de tu equipo por resultados, no por horas en pantalla?</li>
-</ul>
-<p>Si respondiste "no" a 2 o más, tu empresa ya está perdiendo terreno frente a competidores que sí se han adaptado.</p>
 
 <h2>1. El trabajo remoto ya alcanza la mitad de la fuerza laboral mundial</h2>
 <p>La transformación no es gradual: es una ruptura estructural. En 2020, menos del 6% de la fuerza laboral global trabajaba de forma remota. Para 2026, esa cifra se ha multiplicado por nueve.</p>
-<div class="stat-highlight">
-  <span class="stat-number">52%</span>
-  <span class="stat-label">de la fuerza laboral global trabaja de forma remota o en modelo híbrido en 2026, casi el doble del nivel prepandemia.</span>
-  <span class="stat-source">Fuente: Yomly / Fuentes públicas consolidadas, febrero 2026</span>
-</div>
-<p>Solo en Estados Unidos, aproximadamente 34.6 millones de personas teletrabajaron en agosto de 2025, representando el 22.8% de la fuerza laboral nacional. El economista Nicholas Bloom de Stanford confirma este nivel con tres fuentes independientes.</p>
+<p>Solo en Estados Unidos, aproximadamente <strong>34.6 millones de personas</strong> teletrabajaron en agosto de 2025, representando el 22.8% de la fuerza laboral nacional (Bureau of Labor Statistics, marzo 2025). El economista Nicholas Bloom de Stanford confirma este nivel con tres fuentes independientes: encuestas, registros de acceso a edificios y rastreo de dispositivos.</p>
+<p>A nivel global, <strong>Gartner y McKinsey</strong> estiman que más del 30% de los empleos profesionales se ejecutan completamente en remoto o en modelo híbrido. En los países de altos ingresos, este ya es el estándar por defecto, no la excepción.</p>
 
 <h2>2. La flexibilidad es el nuevo salario</h2>
-<p>Las empresas que ofrecen trabajo remoto no solo compiten mejor por el talento: retienen a quienes ya tienen. Los datos revelan hasta qué punto la flexibilidad se ha convertido en una condición no negociable.</p>
-<div class="stat-highlight">
-  <span class="stat-number">76%</span>
-  <span class="stat-label">de los trabajadores renunciaría si se les eliminara la opción de trabajar remotamente.</span>
-  <span class="stat-source">Fuente: Vena Solutions / RemoteCoWorker, 2025-2026</span>
-</div>
-<p>El 85% de los profesionales que buscan empleo señalan el trabajo remoto como el factor principal que motiva su búsqueda. El 84% rechazaría directamente una oferta sin opciones de flexibilidad.</p>
+<p>Las empresas que ofrecen trabajo remoto no solo compiten mejor por el talento: retienen a quienes ya tienen. Los datos revelan hasta qué punto la flexibilidad se ha convertido en una condición no negociable para los profesionales.</p>
+<ul>
+  <li>El <strong>85% de los profesionales</strong> que buscan empleo señalan el trabajo remoto como el factor principal que motiva su búsqueda.</li>
+  <li>El <strong>84% rechazaría directamente</strong> una oferta sin opciones de flexibilidad (Second Talent, 2026).</li>
+  <li>Lo que prefieren los candidatos activos en 2026: el <strong>55% prefiere esquema híbrido</strong>; solo el 16% elegiría trabajo completamente presencial (Robert Half, Q4 2025).</li>
+</ul>
+<p>Para los equipos de RRHH esto significa algo claro: ofrecer flexibilidad ya no es una ventaja diferencial —es el piso mínimo para atraer talento competitivo.</p>
 
 <h2>3. Contratar talento remoto amplía exponencialmente tu pool de candidatos</h2>
 <p>Abrir posiciones a candidatos remotos no es solo una cuestión de cultura —es una decisión estratégica con impacto directo en la calidad del talento contratado y en la velocidad para hacerlo.</p>
-<div class="stat-highlight">
-  <span class="stat-number">340%</span>
-  <span class="stat-label">más grande es el pool de candidatos disponibles cuando una empresa abre posiciones en modalidad remota.</span>
-  <span class="stat-source">Fuente: McKinsey / Second Talent, 2025</span>
-</div>
-<p>FlexJobs reporta que las ofertas de trabajo remoto aumentaron un 20% en el Q1 de 2026, con ventas, marketing y gestión de cuentas creciendo más del 30%.</p>
-
-<h2>4. Productividad y costos: los números que importan</h2>
-<p>Uno de los argumentos más repetidos contra el trabajo remoto es el supuesto impacto negativo en productividad. La investigación independiente desmiente sistemáticamente esa premisa.</p>
-<div class="stat-highlight">
-  <span class="stat-number">13–20%</span>
-  <span class="stat-label">más productivos son los trabajadores remotos en tareas individuales. Stanford documentó además una caída del 33% en rotación voluntaria en equipos híbridos.</span>
-  <span class="stat-source">Fuente: Stanford WFH Research (publicado en Nature)</span>
-</div>
 <ul>
-  <li>Ahorro por empleado remoto/año: ~$11,000 USD (Global Workplace Analytics)</li>
-  <li>Reducción en rotación con híbrido: 33% (Stanford, Nature)</li>
-  <li>Reducción en costos de reclutamiento: 20% (Gartner)</li>
-  <li>ROI de inversión en tecnología remota: 280–420% (Second Talent)</li>
+  <li>FlexJobs reporta que las ofertas de trabajo remoto <strong>aumentaron un 20% en el Q1 de 2026</strong>, con ventas, marketing y gestión de cuentas creciendo más del 30%.</li>
+  <li>El <strong>68% de los empleadores</strong> ya contrata fuera de su región local (LinkedIn).</li>
+  <li>Las publicaciones de empleo remoto atraen <strong>2.5 veces más postulantes</strong> que las posiciones presenciales equivalentes.</li>
+</ul>
+<p>Esto indica que las empresas están apostando activamente por contratar talento remoto para funciones vinculadas al crecimiento del negocio.</p>
+
+<h2>4. Productividad y costos: los números que importan en la sala de juntas</h2>
+<p>Uno de los argumentos más repetidos contra el trabajo remoto es el supuesto impacto negativo en productividad. La investigación independiente desmiente sistemáticamente esa premisa.</p>
+<ul>
+  <li><strong>Stanford (Nicholas Bloom, 2024):</strong> Los empleados híbridos son igual de productivos que los presenciales, con tasas de promoción equivalentes y mayor satisfacción laboral.</li>
+  <li><strong>Ahorro promedio por empleado remoto:</strong> entre $6,000 y $12,000 USD anuales en costos de oficina, transporte y rotación.</li>
+  <li><strong>ROI de infraestructura digital:</strong> las organizaciones que invierten en herramientas para equipos distribuidos reportan un retorno de 280–420% a través de mayor productividad y menor rotación.</li>
 </ul>
 
 <h2>5. La tensión real: RTO vs. retención del talento clave</h2>
-<p>El 83% de los CEOs globales anticipa un regreso al trabajo presencial completo para 2027. Sin embargo, los datos operativos cuentan una historia diferente: 8 de cada 10 empresas admitieron haber perdido talento clave como consecuencia directa de los mandatos de retorno a la oficina.</p>
-<div class="stat-highlight">
-  <span class="stat-number">73%</span>
-  <span class="stat-label">de los equipos tendrán trabajadores remotos para 2028. El talento distribuido no es una opción: es la trayectoria del mercado.</span>
-  <span class="stat-source">Fuente: Gini Talent / Investigación consolidada, diciembre 2025</span>
-</div>
+<p>No todo es consenso. Existe una tensión documentada entre lo que quieren los ejecutivos y lo que exigen los empleados.</p>
+<ul>
+  <li>El <strong>83% de los CEOs globales</strong> anticipa un regreso al trabajo presencial completo para 2027.</li>
+  <li>Sin embargo, el trabajo remoto en 2025 (23.7%) fue <strong>mayor que en 2022</strong> (17.9%).</li>
+  <li>El <strong>61% de las empresas</strong> en EE.UU. ya implementó políticas formales de regreso a la oficina.</li>
+  <li>Las consecuencias de forzar el RTO son concretas: <strong>8 de cada 10 empresas</strong> admitieron haber perdido talento clave como consecuencia directa de estos mandatos (Gartner, 2024).</li>
+</ul>
 
 <h2>6. Lo que deben hacer los líderes empresariales hoy</h2>
+<p>Los datos apuntan a una conclusión clara: las empresas que traten el talento remoto como una ventaja estratégica ganarán la guerra por el talento. Estas son las áreas de acción prioritarias:</p>
 <ul>
-  <li><strong>Definir una política de trabajo flexible clara y comunicada.</strong> Más del 60% de los candidatos priorizan la flexibilidad al mismo nivel que el salario.</li>
-  <li><strong>Invertir en infraestructura digital para equipos distribuidos.</strong> Las organizaciones que lo hacen reportan un ROI de 280–420%.</li>
-  <li><strong>Ampliar la búsqueda de talento geográficamente.</strong> El 68% de los empleadores ya contrata fuera de su región.</li>
-  <li><strong>Diseñar esquemas híbridos estructurados por objetivos, no por presencia física.</strong></li>
-  <li><strong>Medir por resultados, no por horas conectado.</strong></li>
+  <li><strong>Definir una política de trabajo flexible clara y comunicada.</strong> Las políticas ambiguas desincentivan postulantes: más del 60% de los candidatos priorizan la flexibilidad al mismo nivel que el salario.</li>
+  <li><strong>Invertir en infraestructura digital para equipos distribuidos.</strong> Las organizaciones que lo hacen reportan un ROI de 280–420% a través de mayor productividad y menor rotación.</li>
+  <li><strong>Ampliar la búsqueda de talento geográficamente.</strong> Limitar la búsqueda a tu ciudad es limitar la calidad del talento disponible —el 68% de los empleadores ya contrata fuera de su región.</li>
+  <li><strong>Diseñar esquemas híbridos estructurados por objetivos</strong>, no por presencia física. Los modelos con metas claras superan a los modelos puramente presenciales en innovación y colaboración.</li>
+  <li><strong>Medir por resultados, no por horas conectado.</strong> El cambio de métrica es la palanca más importante para liberar el potencial de un equipo remoto.</li>
 </ul>
 
 <h2>Conclusión</h2>
 <p>El mercado laboral global ya tomó su decisión. La pregunta no es si el trabajo remoto llegó para quedarse —los datos de 2026 lo confirman sin ambigüedad—, sino qué tan rápido puede adaptarse tu organización antes de que el costo de quedarse rezagada sea demasiado alto.</p>
-<p>En Global Talent Connections lo vemos todos los días: las organizaciones que se mueven primero, ganan primero.</p>
-
-<div class="sources">
-  <h3>Fuentes</h3>
-  <ul>
-    <li>FlexJobs – Remote Work Economy Index Q1 2026</li>
-    <li>Bureau of Labor Statistics – American Time Use Survey, marzo 2025</li>
-    <li>Stanford WFH Research – Nicholas Bloom, publicado en Nature 2024-2026</li>
-    <li>Gartner – Talent Management Trends 2026</li>
-    <li>McKinsey – Workforce Research &amp; HR Monitor 2025</li>
-    <li>Global Workplace Analytics – Telecommuting Statistics 2024-2025</li>
-  </ul>
-</div>
+<p>Las empresas que ofrezcan flexibilidad real, inviertan en tecnología adecuada y midan el rendimiento por resultados tendrán acceso a un <strong>pool de talento 340% más amplio</strong>, ahorros operativos significativos y tasas de retención superiores. Eso no es una promesa: es lo que ya muestran los números.</p>
+<p><strong>En Global Talent Connections lo vemos todos los días: las organizaciones que se mueven primero, ganan primero.</strong></p>
+<p><em>Fuentes: FlexJobs, Bureau of Labor Statistics, Stanford WFH Research, Gartner, McKinsey, Robert Half, Owl Labs, Global Workplace Analytics.</em></p>
       `,
       en: `
-<p>Remote work has stopped being an exceptional benefit and has become the new architecture of global employment. The 2026 data is clear: the talent market no longer understands geographic borders, and companies that don't adapt their strategies risk losing the world's best professionals.</p>
+<p>Remote work has gone from being an exceptional benefit to becoming the new architecture of global employment. The 2026 data is conclusive: the talent market no longer recognizes geographic borders, and companies that fail to adapt their strategies risk losing the best professionals in the world.</p>
+<p>At Global Talent Connections, we work every day at the intersection of this shift: connecting organizations with high-performance remote talent. This article brings together the most up-to-date evidence from top-tier sources to give you a clear picture of where we stand — and what you can do today.</p>
 
-<p>At Global Talent Connections, we work every day at the intersection of this change: connecting organizations with high-performance remote talent.</p>
+<h2>1. Remote Work Now Reaches Half of the Global Workforce</h2>
+<p>The transformation is not gradual: it is a structural break. In 2020, less than 6% of the global workforce worked remotely. By 2026, that figure has multiplied ninefold.</p>
+<p>In the United States alone, approximately <strong>34.6 million people</strong> teleworked in August 2025, representing 22.8% of the national workforce (Bureau of Labor Statistics, March 2025). Stanford economist Nicholas Bloom confirms this level with three independent sources: surveys, building access records, and device tracking.</p>
+<p>Globally, <strong>Gartner and McKinsey</strong> estimate that more than 30% of professional jobs are performed entirely remotely or in a hybrid model. In high-income countries, this is already the default standard, not the exception.</p>
 
-<h2>Quick diagnosis: where is your company today?</h2>
+<h2>2. Flexibility Is the New Salary</h2>
+<p>Companies that offer remote work do not just compete better for talent: they retain the people they already have. The data reveals just how much flexibility has become a non-negotiable condition for professionals.</p>
 <ul>
-  <li>Do you have a clear and documented remote or hybrid work policy?</li>
-  <li>Is your hiring process optimized to evaluate remote talent?</li>
-  <li>Can you access candidates outside your city or country when you need them?</li>
-  <li>Are your leaders trained to manage distributed teams?</li>
-  <li>Do you measure team performance by results, not screen time?</li>
+  <li><strong>85% of professionals</strong> seeking employment cite remote work as the primary factor driving their search.</li>
+  <li><strong>84% would outright reject</strong> an offer without flexibility options (Second Talent, 2026).</li>
+  <li>What active candidates prefer in 2026: <strong>55% prefer a hybrid model</strong>; only 16% would choose fully in-person work (Robert Half, Q4 2025).</li>
 </ul>
-<p>If you answered "no" to 2 or more, your company is already losing ground to competitors who have adapted.</p>
+<p>For HR teams this means something clear: offering flexibility is no longer a competitive advantage — it is the bare minimum to attract competitive talent.</p>
 
-<h2>1. Remote work now reaches half the global workforce</h2>
-<div class="stat-highlight">
-  <span class="stat-number">52%</span>
-  <span class="stat-label">of the global workforce works remotely or in hybrid mode in 2026, nearly double the pre-pandemic level.</span>
-  <span class="stat-source">Source: Yomly / Consolidated public sources, February 2026</span>
-</div>
+<h2>3. Hiring Remote Talent Exponentially Expands Your Candidate Pool</h2>
+<p>Opening positions to remote candidates is not just a cultural matter — it is a strategic decision with a direct impact on the quality of hired talent and the speed to do so.</p>
+<ul>
+  <li>FlexJobs reports that remote job listings <strong>increased by 20% in Q1 2026</strong>, with sales, marketing, and account management growing by more than 30%.</li>
+  <li><strong>68% of employers</strong> already hire outside their local region (LinkedIn).</li>
+  <li>Remote job postings attract <strong>2.5 times more applicants</strong> than equivalent in-person positions.</li>
+</ul>
+<p>This indicates that companies are actively betting on hiring remote talent for roles tied to business growth.</p>
 
-<h2>2. Flexibility is the new salary</h2>
-<div class="stat-highlight">
-  <span class="stat-number">76%</span>
-  <span class="stat-label">of workers would quit if remote work options were removed.</span>
-  <span class="stat-source">Source: Vena Solutions / RemoteCoWorker, 2025-2026</span>
-</div>
+<h2>4. Productivity and Costs: The Numbers That Matter in the Boardroom</h2>
+<p>One of the most repeated arguments against remote work is the supposed negative impact on productivity. Independent research systematically disproves that premise.</p>
+<ul>
+  <li><strong>Stanford (Nicholas Bloom, 2024):</strong> Hybrid employees are just as productive as in-person workers, with equivalent promotion rates and higher job satisfaction.</li>
+  <li><strong>Average savings per remote employee:</strong> between $6,000 and $12,000 USD annually in office costs, transportation, and turnover.</li>
+  <li><strong>Digital infrastructure ROI:</strong> organizations that invest in tools for distributed teams report a return of 280–420% through higher productivity and lower turnover.</li>
+</ul>
 
-<h2>3. Remote hiring expands your candidate pool exponentially</h2>
-<div class="stat-highlight">
-  <span class="stat-number">340%</span>
-  <span class="stat-label">larger is the available candidate pool when a company opens remote positions.</span>
-  <span class="stat-source">Source: McKinsey / Second Talent, 2025</span>
-</div>
+<h2>5. The Real Tension: RTO vs. Retaining Key Talent</h2>
+<p>Not everything is consensus. There is a documented tension between what executives want and what employees demand.</p>
+<ul>
+  <li><strong>83% of global CEOs</strong> anticipate a full return to in-person work by 2027.</li>
+  <li>However, remote work in 2025 (23.7%) was <strong>higher than in 2022</strong> (17.9%).</li>
+  <li><strong>61% of companies</strong> in the U.S. have already implemented formal return-to-office policies.</li>
+  <li>The consequences of forcing RTO are concrete: <strong>8 out of 10 companies</strong> admitted to losing key talent as a direct consequence of these mandates (Gartner, 2024).</li>
+</ul>
 
-<h2>4. Productivity and costs: the numbers that matter</h2>
-<div class="stat-highlight">
-  <span class="stat-number">13–20%</span>
-  <span class="stat-label">more productive are remote workers on individual tasks. Stanford also documented a 33% drop in voluntary turnover in hybrid teams.</span>
-  <span class="stat-source">Source: Stanford WFH Research (published in Nature)</span>
-</div>
+<h2>6. What Business Leaders Should Do Today</h2>
+<p>The data points to a clear conclusion: companies that treat remote talent as a strategic advantage will win the war for talent. These are the priority areas for action:</p>
+<ul>
+  <li><strong>Define a clear and communicated flexible work policy.</strong> Ambiguous policies discourage applicants: more than 60% of candidates prioritize flexibility at the same level as salary.</li>
+  <li><strong>Invest in digital infrastructure for distributed teams.</strong> Organizations that do so report an ROI of 280–420% through higher productivity and lower turnover.</li>
+  <li><strong>Expand the talent search geographically.</strong> Limiting your search to your city means limiting the quality of available talent — 68% of employers already hire outside their region.</li>
+  <li><strong>Design structured hybrid models based on objectives</strong>, not physical presence. Models with clear goals outperform purely in-person models in innovation and collaboration.</li>
+  <li><strong>Measure by results, not by hours logged in.</strong> The shift in metrics is the most important lever to unlock the potential of a remote team.</li>
+</ul>
 
 <h2>Conclusion</h2>
-<p>The global labor market has made its decision. The question is not whether remote work is here to stay — 2026 data confirms it without ambiguity — but how quickly your organization can adapt before the cost of falling behind is too high.</p>
-<p>At Global Talent Connections we see it every day: organizations that move first, win first.</p>
+<p>The global labor market has already made its decision. The question is not whether remote work is here to stay — the 2026 data confirms it unambiguously — but how quickly your organization can adapt before the cost of falling behind becomes too high.</p>
+<p>Companies that offer real flexibility, invest in the right technology, and measure performance by results will have access to a <strong>340% larger talent pool</strong>, significant operational savings, and superior retention rates. That is not a promise: it is what the numbers already show.</p>
+<p><strong>At Global Talent Connections we see it every day: the organizations that move first, win first.</strong></p>
+<p><em>Sources: FlexJobs, Bureau of Labor Statistics, Stanford WFH Research, Gartner, McKinsey, Robert Half, Owl Labs, Global Workplace Analytics.</em></p>
       `
     }
   },
