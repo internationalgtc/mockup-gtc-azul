@@ -25,7 +25,7 @@ export const blogPosts: BlogPost[] = [
     date: { es: '17 Abril 2026', en: 'April 17, 2026' },
     readTime: '9 min',
     category: { es: 'Trabajo Remoto', en: 'Remote Work' },
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80',
+    image: '/images/blog-roi-talento-remoto.jpg',
     content: {
       es: `
 <p>La mayoría de las conversaciones sobre trabajo remoto se quedan en el ahorro de oficina. Eso es el 20% del valor real. Este artículo es sobre el otro 80%.</p>
@@ -277,7 +277,7 @@ export const blogPosts: BlogPost[] = [
     date: { es: '17 Septiembre 2025', en: 'September 17, 2025' },
     readTime: '8 min',
     category: { es: 'Trabajo Remoto', en: 'Remote Work' },
-    image: 'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?q=80&w=870&auto=format&fit=crop',
+    image: '/images/blog-como-conseguir-euros.jpg',
     content: {
       es: `
 <p>¿Te imaginas trabajar desde tu casa en Latinoamérica, en español, y recibir tu salario en euros? Para muchos parece un sueño, pero hoy es una realidad gracias al crecimiento del trabajo remoto y a la alta demanda de talento en Europa, especialmente en España.</p>
@@ -405,7 +405,7 @@ export const blogPosts: BlogPost[] = [
     date: { es: '17 Septiembre 2025', en: 'September 17, 2025' },
     readTime: '6 min',
     category: { es: 'Recursos', en: 'Resources' },
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
+    image: '/images/blog-herramientas-internacionales.jpg',
     content: {
       es: `
 <p>Cada vez más empresas en Europa, especialmente en España, están contratando talento latinoamericano para roles remotos. Pero, para destacar frente a cientos de candidatos, no basta con enviar tu CV: necesitas las herramientas adecuadas que te ayuden a postular de manera profesional y confiable.</p>
@@ -519,7 +519,7 @@ export const blogPosts: BlogPost[] = [
     date: { es: '17 Septiembre 2025', en: 'September 17, 2025' },
     readTime: '7 min',
     category: { es: 'Seguridad', en: 'Security' },
-    image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&q=80',
+    image: '/images/blog-oferta-estafa.jpg',
     content: {
       es: `
 <p>El trabajo remoto abre oportunidades increíbles: ganar en euros, trabajar desde casa y colaborar con empresas internacionales. Pero con tantas ofertas circulando en internet, también aparecen las estafas. Y aquí viene la gran pregunta: ¿cómo diferenciar una vacante confiable de una trampa?</p>
