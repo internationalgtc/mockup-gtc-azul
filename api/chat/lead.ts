@@ -140,10 +140,55 @@ function qualificationFlow(messages: Message[]): string {
   return `¡Perfecto, ${name}! Su consulta ha quedado registrada ✅ Un asesor de GTC se pondrá en contacto a la brevedad.\nGTC_LEAD:{"name":"${name}","company":"${company}","email":"${email}","role":"${role}","need":"${needRaw}","budget":"${budget.value}","budget_label":"${budget.label}","urgency":"${urgency}"}`
 }
 
+type LeadTemperature = { label: string; emoji: string; score: number }
+
+function qualifyLead(role: string, budget: string, need: string, urgency: string): LeadTemperature {
+  // Authority — can this person say yes without approval?
+  const roleLower = role.toLowerCase()
+  let authorityScore = 15
+  if (/ceo|founder|co-?founder|dueñ|owner|propietari|president|director general|socio|dueno/.test(roleLower)) {
+    authorityScore = 35
+  } else if (/director|vp |vice|cto|cmo|coo|cfo|c[a-z]o\b|gerente general/.test(roleLower)) {
+    authorityScore = 28
+  } else if (/gerente|manager|jefe|head of|head /.test(roleLower)) {
+    authorityScore = 20
+  } else if (/coordinador|supervisor/.test(roleLower)) {
+    authorityScore = 12
+  } else if (/analista|asistente|especialista|ejecutiv/.test(roleLower)) {
+    authorityScore = 6
+  }
+
+  // Budget — financial capacity
+  const budgetScore = budget === '1500' ? 35 : budget === '1300' ? 25 : 15
+
+  // Clarity of need — specific profile + defined timeline
+  const isSpecificProfile = need.toLowerCase() !== 'otro'
+  const isDefinedTimeline = urgency.toLowerCase() !== 'estoy explorando opciones'
+  const clarityScore =
+    isSpecificProfile && isDefinedTimeline  ? 30 :
+    isSpecificProfile && !isDefinedTimeline ? 20 :
+    !isSpecificProfile && isDefinedTimeline ? 15 : 5
+
+  const score = authorityScore + budgetScore + clarityScore
+
+  const label =
+    score >= 80 ? 'Caliente' :
+    score >= 55 ? 'Tibio'    :
+    score >= 30 ? 'Templado' : 'Frío'
+
+  const emoji =
+    score >= 80 ? '🔥' :
+    score >= 55 ? '♨️'  :
+    score >= 30 ? '🌡️' : '❄️'
+
+  return { label, emoji, score }
+}
+
 async function forwardLead(leadData: {
   name: string; company: string; email: string
   role: string; need: string; budget: string; budget_label: string; urgency: string
 }) {
+  const temp = qualifyLead(leadData.role, leadData.budget, leadData.need, leadData.urgency)
   try {
     await fetch('https://www.globaltalentconnections.online/api/leads/public', {
       method: 'POST',
@@ -153,7 +198,7 @@ async function forwardLead(leadData: {
         contact_email:  leadData.email,
         company_name:   leadData.company,
         assistant_type: leadData.need,
-        description:    `Cargo: ${leadData.role} | Incorporación: ${leadData.urgency}`,
+        description:    `Cargo: ${leadData.role} | Incorporación: ${leadData.urgency} | Temperatura: ${temp.emoji} ${temp.label} (${temp.score}pts)`,
         budget_option:  leadData.budget,
         source:         'chatbot_web',
       }),
