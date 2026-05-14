@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { trackLead } from '@/lib/tracking'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Link } from 'react-router-dom'
@@ -46,7 +47,7 @@ export default function CalculadoraAhorro() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contact_name: data.contact_name,
-          email: data.contact_email,
+          contact_email: data.contact_email,
           company_name: data.company_name || undefined,
           source: 'web_formulario',
           description: 'Descargó la Calculadora de Ahorro Estratégico',
@@ -64,19 +65,7 @@ export default function CalculadoraAhorro() {
       setLoading(false)
       setSubmitted(true)
       triggerDownload()
-
-      if (window.gtag) {
-        window.gtag('event', 'generate_lead', {
-          event_category: 'calculadora_ahorro',
-          event_label: 'landing_calculadora',
-        })
-      }
-      if (window.fbq) {
-        window.fbq('track', 'Lead', {
-          content_name: 'calculadora_ahorro',
-          content_category: 'lead_magnet',
-        })
-      }
+      trackLead('calculadora_ahorro')
     }
   }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { trackLead } from '@/lib/tracking'
 import { ArrowRight, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
@@ -236,13 +237,13 @@ export default function HomePage() {
 function ContactSection() {
   const t = useT()
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [form, setForm] = useState({ company_name: '', contact_name: '', email: '', phone: '', description: '' })
+  const [form, setForm] = useState({ company_name: '', contact_name: '', contact_email: '', contact_phone: '', description: '' })
 
   const API_URL = 'https://www.globaltalentconnections.online/api/leads/public'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!form.company_name || !form.contact_name || !form.email) return
+    if (!form.company_name || !form.contact_name || !form.contact_email) return
     setStatus('loading')
     try {
       const params = new URLSearchParams(window.location.search)
@@ -262,7 +263,8 @@ function ContactSection() {
       })
       if (!res.ok) throw new Error()
       setStatus('success')
-      setForm({ company_name: '', contact_name: '', email: '', phone: '', description: '' })
+      trackLead('home_form')
+      setForm({ company_name: '', contact_name: '', contact_email: '', contact_phone: '', description: '' })
     } catch {
       setStatus('error')
     }
@@ -323,16 +325,16 @@ function ContactSection() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <input
-                  value={form.email}
-                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                  value={form.contact_email}
+                  onChange={e => setForm(f => ({ ...f, contact_email: e.target.value }))}
                   type="email"
                   placeholder={t('contacto_email')}
                   required
                   className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
                 />
                 <input
-                  value={form.phone}
-                  onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                  value={form.contact_phone}
+                  onChange={e => setForm(f => ({ ...f, contact_phone: e.target.value }))}
                   type="tel"
                   placeholder={t('contacto_telefono')}
                   className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"

@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { Layout } from '@/components/layout/Layout'
 import { ScrollToTop } from '@/components/shared/ScrollToTop'
+import ChatWidget from '@/components/ChatWidget'
 import HomePage from '@/pages/Index'
 
 const Nosotros = lazy(() => import('@/pages/Nosotros'))
@@ -48,6 +49,7 @@ export default function App() {
           </Route>
         </Routes>
       </Suspense>
+      <ChatWidget />
       <Analytics />
       <SpeedInsights />
     </>

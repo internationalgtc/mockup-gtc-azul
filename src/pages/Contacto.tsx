@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { trackLead } from '@/lib/tracking'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Send, CheckCircle, AlertCircle } from 'lucide-react'
@@ -23,8 +24,8 @@ const ASSISTANT_TYPES = [
 const formSchema = z.object({
   company_name: z.string().min(2, 'Required'),
   contact_name: z.string().min(2, 'Required'),
-  email: z.string().email('Invalid email'),
-  phone: z.string().optional(),
+  contact_email: z.string().email('Invalid email'),
+  contact_phone: z.string().optional(),
   company_size: z.string().optional(),
   assistant_type: z.string().min(1, 'Required'),
   description: z.string().optional(),
@@ -66,6 +67,7 @@ export default function ContactoPage() {
 
       if (!res.ok) throw new Error('Error')
       setStatus('success')
+      trackLead('contacto_form')
       reset()
     } catch {
       setStatus('error')
@@ -136,12 +138,12 @@ export default function ContactoPage() {
                     {t('contacto_email')}
                   </label>
                   <input
-                    {...register('email')}
+                    {...register('contact_email')}
                     type="email"
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
                     placeholder="email@empresa.com"
                   />
-                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                  {errors.contact_email && <p className="text-red-500 text-xs mt-1">{errors.contact_email.message}</p>}
                 </div>
 
                 <div>
@@ -149,7 +151,7 @@ export default function ContactoPage() {
                     {t('contacto_telefono')}
                   </label>
                   <input
-                    {...register('phone')}
+                    {...register('contact_phone')}
                     type="tel"
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
                     placeholder={t('ct_ph_telefono')}

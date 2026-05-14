@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { trackLead } from '@/lib/tracking'
 
 const LEADS_URL =
   import.meta.env.VITE_PLATFORM_API_URL ?? 'https://www.globaltalentconnections.online/api/leads/public'
@@ -48,6 +49,7 @@ export const ChatLeadCapture = ({ onCapture, onSkip }: ChatLeadCaptureProps) => 
       }),
     }).catch(() => {})
 
+    trackLead('chatbot_widget')
     onCapture(name.trim(), email.trim())
   }
 
