@@ -161,13 +161,16 @@ function qualifyLead(role: string, budget: string, need: string, urgency: string
   // Budget — financial capacity
   const budgetScore = budget === '1500' ? 35 : budget === '1300' ? 25 : 15
 
-  // Clarity of need — specific profile + defined timeline
-  const isSpecificProfile = need.toLowerCase() !== 'otro'
-  const isDefinedTimeline = urgency.toLowerCase() !== 'estoy explorando opciones'
-  const clarityScore =
-    isSpecificProfile && isDefinedTimeline  ? 30 :
-    isSpecificProfile && !isDefinedTimeline ? 20 :
-    !isSpecificProfile && isDefinedTimeline ? 15 : 5
+  // Clarity of need — specific profile (0-15) + timeline commitment (0-15)
+  const profileScore = need.toLowerCase() !== 'otro' ? 15 : 5
+
+  const urgencyLower = urgency.toLowerCase()
+  const timelineScore =
+    urgencyLower.includes('esta semana')       ? 15 :
+    urgencyLower.includes('este mes')          ? 12 :
+    urgencyLower.includes('2-3 meses')         ? 8  : 2
+
+  const clarityScore = profileScore + timelineScore
 
   const score = authorityScore + budgetScore + clarityScore
 
