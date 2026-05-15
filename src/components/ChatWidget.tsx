@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 
 type Message = { role: 'user' | 'assistant'; content: string }
 
@@ -55,6 +56,9 @@ function ChatBubble({ msg }: { msg: Message }) {
 }
 
 export default function ChatWidget() {
+  const { i18n } = useTranslation()
+  const lang = i18n.language === 'en' ? 'en' : 'es'
+
   const [isOpen, setIsOpen]           = useState(false)
   const [messages, setMessages]       = useState<Message[]>([])
   const [input, setInput]             = useState('')
@@ -70,13 +74,13 @@ export default function ChatWidget() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isTyping])
 
-  const sendToAPI = useCallback(async (history: Message[]) => {
+  const sendToAPI = useCallback(async (history: Message[], currentLang: string) => {
     setIsTyping(true)
     try {
       const res = await fetch(CHAT_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history }),
+        body: JSON.stringify({ messages: history, lang: currentLang }),
       })
       const data = await res.json()
       setMessages(prev => [...prev, { role: 'assistant', content: data.message }])
@@ -85,22 +89,24 @@ export default function ChatWidget() {
     } catch {
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: 'Lo siento, ocurrió un error. Por favor intentá de nuevo.',
+        content: lang === 'en'
+          ? 'Sorry, an error occurred. Please try again.'
+          : 'Lo siento, ocurrió un error. Por favor intentá de nuevo.',
       }])
     } finally {
       setIsTyping(false)
     }
-  }, [])
+  }, [lang])
 
   const openChat = useCallback(async () => {
     setIsOpen(true)
     setShowBadge(false)
     if (!hasStarted) {
       setHasStarted(true)
-      await sendToAPI([])
+      await sendToAPI([], lang)
     }
     setTimeout(() => inputRef.current?.focus(), 100)
-  }, [hasStarted, sendToAPI])
+  }, [hasStarted, sendToAPI, lang])
 
   const handleSend = async (text?: string) => {
     const content = (text ?? input).trim()
@@ -110,7 +116,7 @@ export default function ChatWidget() {
     const userMsg: Message = { role: 'user', content }
     const newHistory = [...messages, userMsg]
     setMessages(newHistory)
-    await sendToAPI(newHistory)
+    await sendToAPI(newHistory, lang)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -142,7 +148,9 @@ export default function ChatWidget() {
             G
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-label font-semibold text-white">Asistente GTC</p>
+            <p className="text-sm font-label font-semibold text-white">
+              {lang === 'en' ? 'GTC Assistant' : 'Asistente GTC'}
+            </p>
             <p className="text-xs font-body text-blue-light flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" />
               Online
@@ -164,7 +172,7 @@ export default function ChatWidget() {
           {messages.length === 0 && !isTyping && (
             <div className="flex items-center justify-center h-full">
               <p className="text-sm font-body text-dark-gray text-center px-6">
-                Iniciando conversación...
+                {lang === 'en' ? 'Starting conversation...' : 'Iniciando conversación...'}
               </p>
             </div>
           )}
@@ -197,7 +205,10 @@ export default function ChatWidget() {
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 disabled={isTyping || finished}
-                placeholder={finished ? '¡Consulta registrada! Hasta pronto 👋' : 'Escribí tu mensaje…'}
+                placeholder={finished
+                  ? (lang === 'en' ? 'Inquiry registered! Goodbye 👋' : '¡Consulta registrada! Hasta pronto 👋')
+                  : (lang === 'en' ? 'Type your message…' : 'Escribí tu mensaje…')
+                }
                 className="flex-1 bg-off-white border border-gray-200 rounded-full px-4 py-2 text-sm font-body text-navy placeholder:text-dark-gray/60 focus:outline-none focus:border-blue-prime transition-colors disabled:opacity-50"
               />
               <button
