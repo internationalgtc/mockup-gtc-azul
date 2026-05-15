@@ -123,6 +123,20 @@ export default function ChatWidget() {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() }
   }
 
+  const prevLangRef = useRef(lang)
+  useEffect(() => {
+    if (prevLangRef.current === lang) return
+    prevLangRef.current = lang
+    setMessages([])
+    setQuickReplies([])
+    setFinished(false)
+    setHasStarted(false)
+    if (isOpen) {
+      setHasStarted(true)
+      sendToAPI([], lang)
+    }
+  }, [lang, isOpen, sendToAPI])
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setIsOpen(false) }
     window.addEventListener('keydown', onKey)
