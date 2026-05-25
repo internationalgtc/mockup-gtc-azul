@@ -5,7 +5,7 @@ import { ArrowRight, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
 import Testimonials from '@/components/Testimonials'
-import SEO from '@/components/shared/SEO'
+import SEO, { HOME_FAQ_SCHEMA } from '@/components/shared/SEO'
 
 import l1 from '@/assets/logos/l1.png'
 import l2 from '@/assets/logos/l2.jpg'
@@ -51,6 +51,7 @@ export default function HomePage() {
         title="Talento remoto de alto rendimiento"
         description="Conectamos empresas con profesionales remotos de alto rendimiento. Selección, gestión y supervisión integral. +51 clientes activos."
         path="/"
+        faqSchema={HOME_FAQ_SCHEMA}
       />
       {/* HERO */}
       <section className="relative bg-navy min-h-screen flex items-center pt-32 pb-20 overflow-hidden">

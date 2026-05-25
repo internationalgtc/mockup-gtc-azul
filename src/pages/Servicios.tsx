@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, BarChart3, Code, Palette, Users, FileSpreadsheet, Headphones, Megaphone, BrainCircuit, Building2, Cog, ShoppingCart, type LucideIcon } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
-import SEO from '@/components/shared/SEO'
+import SEO, { SERVICIOS_FAQ_SCHEMA } from '@/components/shared/SEO'
 import { useT } from '@/hooks/useT'
 
 interface Servicio {
@@ -77,6 +77,7 @@ export default function ServiciosPage() {
         title="Servicios"
         description="Asistentes virtuales y profesionales remotos para marketing, administración, diseño, desarrollo, ventas, RRHH y más. Un perfil para cada necesidad."
         path="/servicios"
+        faqSchema={SERVICIOS_FAQ_SCHEMA}
       />
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full" />
