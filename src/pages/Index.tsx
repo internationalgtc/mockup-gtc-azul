@@ -119,6 +119,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* TESTIMONIOS */}
+      <Testimonials />
+
       {/* LOGO TICKER */}
       <section className="py-16 lg:py-20 bg-off-white overflow-hidden" aria-label="Clientes">
         <div className="text-center mb-10">
@@ -225,9 +228,6 @@ export default function HomePage() {
 
       {/* PROCESO */}
       <ProcessSection t={t} />
-
-      {/* TESTIMONIOS */}
-      <Testimonials />
 
       {/* CONTACTO INLINE */}
       <ContactSection />
