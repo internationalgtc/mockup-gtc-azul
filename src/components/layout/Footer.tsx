@@ -35,7 +35,7 @@ export function Footer() {
         <div>
           <h5 className="text-white/60 font-label text-[10px] uppercase tracking-[0.2em] font-extrabold mb-6">{t('footer_contacto')}</h5>
           <ul className="space-y-3">
-            <li><a className="text-white/80 hover:text-white transition-colors text-sm font-light" href="mailto:info@internationalgtc.com">info@internationalgtc.com</a></li>
+            <li><a className="text-white/80 hover:text-white transition-colors text-sm font-light" href="mailto:info@globaltalent-connections.com">info@globaltalent-connections.com</a></li>
             <li><a className="text-white/80 hover:text-white transition-colors text-sm font-light" href="https://linkedin.com/company/global-talent-connections-limited" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
             <li>
               <Link className="text-blue-light font-extrabold text-sm tracking-widest uppercase flex items-center gap-2 group" to="/contacto">
