@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { trackLead } from '@/lib/tracking'
+import { getUTMs } from '@/lib/utm'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Link } from 'react-router-dom'
@@ -41,7 +42,7 @@ export default function CalculadoraAhorro() {
   const onSubmit = async (data: FormData) => {
     setLoading(true)
     try {
-      const params = new URLSearchParams(window.location.search)
+      const utms = getUTMs()
       await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -51,12 +52,12 @@ export default function CalculadoraAhorro() {
           company_name: data.company_name || undefined,
           source: 'web_formulario',
           description: 'Descargó la Calculadora de Ahorro Estratégico',
-          utm_source: params.get('utm_source') || 'landing',
-          utm_medium: params.get('utm_medium') || 'calculadora',
-          utm_campaign: params.get('utm_campaign') || '',
-          utm_content: params.get('utm_content') || '',
-          gclid: params.get('gclid') || undefined,
-          fbclid: params.get('fbclid') || undefined,
+          utm_source: utms.utm_source || 'landing',
+          utm_medium: utms.utm_medium || 'calculadora',
+          utm_campaign: utms.utm_campaign || '',
+          utm_content: utms.utm_content || '',
+          gclid: utms.gclid,
+          fbclid: utms.fbclid,
         }),
       })
     } catch {
