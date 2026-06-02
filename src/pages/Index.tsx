@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { trackLead } from '@/lib/tracking'
+import { getUTMs, getLandingUrl } from '@/lib/utm'
 import { ArrowRight, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
@@ -247,19 +248,14 @@ function ContactSection() {
     if (!form.company_name || !form.contact_name || !form.contact_email) return
     setStatus('loading')
     try {
-      const params = new URLSearchParams(window.location.search)
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
           source: 'mockup_web',
-          utm_source: params.get('utm_source') || undefined,
-          utm_medium: params.get('utm_medium') || undefined,
-          utm_campaign: params.get('utm_campaign') || undefined,
-          gclid: params.get('gclid') || undefined,
-          fbclid: params.get('fbclid') || undefined,
-          landing_url: window.location.href,
+          ...getUTMs(),
+          landing_url: getLandingUrl(),
         }),
       })
       if (!res.ok) throw new Error()

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { trackLead } from '@/lib/tracking'
+import { getUTMs, getLandingUrl } from '@/lib/utm'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Send, CheckCircle, AlertCircle } from 'lucide-react'
@@ -44,24 +45,14 @@ export default function ContactoPage() {
   const onSubmit = async (data: FormData) => {
     setStatus('loading')
     try {
-      const params = new URLSearchParams(window.location.search)
-      const utmData = {
-        utm_source: params.get('utm_source') || undefined,
-        utm_medium: params.get('utm_medium') || undefined,
-        utm_campaign: params.get('utm_campaign') || undefined,
-        utm_content: params.get('utm_content') || undefined,
-        gclid: params.get('gclid') || undefined,
-        fbclid: params.get('fbclid') || undefined,
-      }
-
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
-          ...utmData,
+          ...getUTMs(),
           source: 'web_form',
-          landing_url: window.location.href,
+          landing_url: getLandingUrl(),
         }),
       })
 
