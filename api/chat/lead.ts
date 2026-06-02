@@ -297,6 +297,8 @@ function qualifyLead(role: string, budget: string, need: string, urgency: string
 async function forwardLead(leadData: {
   name: string; company: string; email: string
   role: string; need: string; budget: string; budget_label: string; urgency: string
+  utm_source?: string; utm_medium?: string; utm_campaign?: string
+  utm_content?: string; gclid?: string; fbclid?: string; landing_url?: string
 }) {
   const temp = qualifyLead(leadData.role, leadData.budget, leadData.need, leadData.urgency)
   try {
@@ -311,6 +313,13 @@ async function forwardLead(leadData: {
         description:    `Cargo: ${leadData.role} | Incorporación: ${leadData.urgency} | Temperatura: ${temp.emoji} ${temp.label} (${temp.score}pts)`,
         budget_option:  leadData.budget,
         source:         'chatbot_web',
+        utm_source:     leadData.utm_source,
+        utm_medium:     leadData.utm_medium,
+        utm_campaign:   leadData.utm_campaign,
+        utm_content:    leadData.utm_content,
+        gclid:          leadData.gclid,
+        fbclid:         leadData.fbclid,
+        landing_url:    leadData.landing_url,
       }),
     })
   } catch (err) {
@@ -327,7 +336,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
   try {
-    const { messages, lang: rawLang } = req.body as { messages: Message[]; lang?: string }
+    const { messages, lang: rawLang, utm_source, utm_medium, utm_campaign, utm_content, gclid, fbclid, landing_url } = req.body as {
+      messages: Message[]; lang?: string
+      utm_source?: string; utm_medium?: string; utm_campaign?: string
+      utm_content?: string; gclid?: string; fbclid?: string; landing_url?: string
+    }
     const lang: Lang = rawLang === 'en' ? 'en' : 'es'
     const s = STRINGS[lang]
     const g = s.gate
@@ -420,7 +433,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           })
         }
         if (leadData.email && EMAIL_REGEX.test(leadData.email)) {
-          forwardLead(leadData)
+          forwardLead({ ...leadData, utm_source, utm_medium, utm_campaign, utm_content, gclid, fbclid, landing_url })
           leadCreated = true
         }
       } catch {

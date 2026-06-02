@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { trackLead } from '@/lib/tracking'
+import { getUTMs, getLandingUrl } from '@/lib/utm'
 
 type Message = { role: 'user' | 'assistant'; content: string }
 
@@ -85,7 +86,12 @@ export default function ChatWidget() {
       const res = await fetch(CHAT_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: history, lang: currentLang }),
+        body: JSON.stringify({
+          messages: history,
+          lang: currentLang,
+          ...getUTMs(),
+          landing_url: getLandingUrl(),
+        }),
       })
       const data = await res.json()
       setMessages(prev => [...prev, { role: 'assistant', content: data.message }])
