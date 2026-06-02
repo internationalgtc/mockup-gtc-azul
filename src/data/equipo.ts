@@ -1,3 +1,4 @@
+import fotoInma from '@/assets/equipo/inma.jpeg'
 import fotoDaniel from '@/assets/equipo/daniel.png'
 import fotoAntonio from '@/assets/equipo/antonio.png'
 import fotoPilar from '@/assets/equipo/mariangel.png'
@@ -27,6 +28,7 @@ export interface TeamMember {
 
 export const equipo: TeamMember[] = [
   // DIRECCION EJECUTIVA
+  { id: 18, nombre: 'Inma', foto: fotoInma, rol: 'Founder', rolEn: 'Founder', email: '', linkedin: '', nivel: 'direccion' },
   { id: 1, nombre: 'Daniel Crespo', foto: fotoDaniel, rol: 'CEO', rolEn: 'CEO', email: 'dcrespo@globaltalent-connections.com', linkedin: 'https://www.linkedin.com/in/daniel-crespo-garc%C3%ADa/', nivel: 'direccion' },
 
   // LIDERES
