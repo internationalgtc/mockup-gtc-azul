@@ -1,4 +1,4 @@
-import fotoInma from '@/assets/equipo/inma.jpeg'
+import fotoInma from '@/assets/equipo/inma.png'
 import fotoDaniel from '@/assets/equipo/daniel.png'
 import fotoAntonio from '@/assets/equipo/antonio.png'
 import fotoPilar from '@/assets/equipo/mariangel.png'
