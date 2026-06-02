@@ -9,7 +9,7 @@ const T: Record<string, Record<string, string>> = {
   nav_calculadora: { es: 'Calculadora', en: 'Calculator' },
 
   // ── HERO ──
-  hero_badge: { es: 'Más de 112 profesionales activos', en: 'Over 112 active professionals' },
+  hero_badge: { es: 'Más de 90 profesionales activos', en: 'Over 90 active professionals' },
   hero_title_1: { es: 'Ahorra hasta un 50%', en: 'Save up to 50%' },
   hero_title_2: { es: 'en talento de alto rendimiento.', en: 'on high-performance talent.' },
   hero_subtitle: { es: 'Conectamos empresas con profesionales remotos. Selección, gestión y supervisión integral.', en: 'We connect companies with remote professionals. Selection, management and comprehensive supervision.' },
@@ -271,8 +271,8 @@ const T: Record<string, Record<string, string>> = {
   calc_de_ahorro: { es: 'de ahorro', en: 'savings' },
   calc_prefiero: { es: 'Prefiero que me calculen el ahorro', en: "I'd rather have my savings calculated" },
   calc_quieres: { es: '¿Quieres que calculemos tu ahorro juntos?', en: 'Want us to calculate your savings together?' },
-  calc_pill_1: { es: '51 empresas activas', en: '51 active companies' },
-  calc_pill_2: { es: '112 profesionales', en: '112 professionals' },
+  calc_pill_1: { es: '49 empresas activas', en: '49 active companies' },
+  calc_pill_2: { es: '94 profesionales', en: '94 professionals' },
   calc_pill_3: { es: 'Sin permanencia', en: 'No lock-in' },
   calc_pill_4: { es: 'Reemplazo garantizado', en: 'Guaranteed replacement' },
 
