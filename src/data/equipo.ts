@@ -28,7 +28,7 @@ export interface TeamMember {
 
 export const equipo: TeamMember[] = [
   // DIRECCION EJECUTIVA
-  { id: 18, nombre: 'Inma Romero', foto: fotoInma, rol: 'Managing Partner', rolEn: 'Managing Partner', email: '', linkedin: '', nivel: 'direccion' },
+  { id: 18, nombre: 'Inma Romero', foto: fotoInma, rol: 'Managing Partner', rolEn: 'Managing Partner', email: 'iromero@globaltalent-connections.com', linkedin: '', nivel: 'direccion' },
   { id: 1, nombre: 'Daniel Crespo', foto: fotoDaniel, rol: 'CEO', rolEn: 'CEO', email: 'dcrespo@globaltalent-connections.com', linkedin: 'https://www.linkedin.com/in/daniel-crespo-garc%C3%ADa/', nivel: 'direccion' },
 
   // LIDERES
