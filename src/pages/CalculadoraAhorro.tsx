@@ -75,7 +75,7 @@ export default function CalculadoraAhorro() {
       <SEO
         title="Calculadora de ahorro"
         description="Calculá cuánto podés ahorrar contratando talento remoto con GTC vs talento local. Hasta un 50% menos en costos."
-        path="/calculadora"
+        path="/calculadora-ahorro"
       />
       {/* HERO */}
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
