@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { trackLead } from '@/lib/tracking'
 import { getUTMs } from '@/lib/utm'
+import { getCountry } from '@/lib/geo'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Link } from 'react-router-dom'
@@ -51,6 +52,7 @@ export default function CalculadoraAhorro() {
           contact_email: data.contact_email,
           company_name: data.company_name || undefined,
           source: 'web_formulario',
+          country: getCountry(),
           description: 'Descargó la Calculadora de Ahorro Estratégico',
           // No pisar el origen real: si el visitante no trajo UTM, queda vacío
           // (honesto) en vez de un falso "landing/calculadora" que tapaba de

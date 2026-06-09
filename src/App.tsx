@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { captureUTMs } from '@/lib/utm'
+import { captureCountry } from '@/lib/geo'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { Layout } from '@/components/layout/Layout'
@@ -29,7 +30,7 @@ function PageLoader() {
 }
 
 export default function App() {
-  useEffect(() => { captureUTMs() }, [])
+  useEffect(() => { captureUTMs(); captureCountry() }, [])
 
   return (
     <>
