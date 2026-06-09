@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { trackLead } from '@/lib/tracking'
 
 type Message = { role: 'user' | 'assistant'; content: string }
 
@@ -85,7 +86,13 @@ export default function ChatWidget() {
       const data = await res.json()
       setMessages(prev => [...prev, { role: 'assistant', content: data.message }])
       setQuickReplies(data.quickReplies ?? [])
-      if (data.leadCreated) setFinished(true)
+      if (data.leadCreated) {
+        setFinished(true)
+        // Avisar a GA4 / Google Ads / Meta Pixel que el chatbot capturó un lead
+        // (antes el chatbot creaba el lead en el backend pero no disparaba el
+        // evento, así que esos leads eran invisibles para analytics/ads).
+        trackLead('chatbot')
+      }
     } catch {
       setMessages(prev => [...prev, {
         role: 'assistant',

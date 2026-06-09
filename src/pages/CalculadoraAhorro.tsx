@@ -52,10 +52,13 @@ export default function CalculadoraAhorro() {
           company_name: data.company_name || undefined,
           source: 'web_formulario',
           description: 'Descargó la Calculadora de Ahorro Estratégico',
-          utm_source: utms.utm_source || 'landing',
-          utm_medium: utms.utm_medium || 'calculadora',
+          // No pisar el origen real: si el visitante no trajo UTM, queda vacío
+          // (honesto) en vez de un falso "landing/calculadora" que tapaba de
+          // dónde vino (agencia, orgánico, etc.). El imán se marca en utm_content.
+          utm_source: utms.utm_source,
+          utm_medium: utms.utm_medium,
           utm_campaign: utms.utm_campaign || '',
-          utm_content: utms.utm_content || '',
+          utm_content: utms.utm_content || 'calculadora',
           gclid: utms.gclid,
           fbclid: utms.fbclid,
         }),
