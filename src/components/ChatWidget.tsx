@@ -6,7 +6,10 @@ type Message = { role: 'user' | 'assistant'; content: string }
 
 const CHAT_API = import.meta.env.VITE_GTC_CHAT_URL
   ? `${import.meta.env.VITE_GTC_CHAT_URL}/api/chat/lead`
-  : 'http://localhost:3000/api/chat/lead'
+  : import.meta.env.DEV
+    ? 'http://localhost:3000/api/chat/lead'
+    // Sin var (preview de Vercel): mismo origen, pega contra el backend del propio deploy.
+    : '/api/chat/lead'
 
 function TypingDots() {
   return (
