@@ -68,6 +68,7 @@ export default function ChatWidget() {
   const [finished, setFinished]       = useState(false)
   const [showBadge, setShowBadge]     = useState(true)
   const [quickReplies, setQuickReplies] = useState<string[]>([])
+  const [redirect, setRedirect]       = useState<{ url: string; label: string } | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef       = useRef<HTMLInputElement>(null)
 
@@ -86,6 +87,11 @@ export default function ChatWidget() {
       const data = await res.json()
       setMessages(prev => [...prev, { role: 'assistant', content: data.message }])
       setQuickReplies(data.quickReplies ?? [])
+      if (data.redirect) {
+        // El visitante es candidato: lo mandamos a vacantes, no se crea lead.
+        setRedirect({ url: data.redirect, label: data.redirectLabel ?? 'Ver vacantes' })
+        setFinished(true)
+      }
       if (data.leadCreated) {
         setFinished(true)
         // Avisar a GA4 / Google Ads / Meta Pixel que el chatbot capturó un lead
@@ -136,6 +142,7 @@ export default function ChatWidget() {
     prevLangRef.current = lang
     setMessages([])
     setQuickReplies([])
+    setRedirect(null)
     setFinished(false)
     setHasStarted(false)
     if (isOpen) {
@@ -204,7 +211,17 @@ export default function ChatWidget() {
 
         {/* Input */}
         <div className="px-4 py-3 border-t border-gray-200 flex-shrink-0 md:rounded-b-2xl">
-          {quickReplies.length > 0 ? (
+          {redirect ? (
+            <a
+              href={redirect.url}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-coral text-white text-sm font-label font-bold tracking-widest uppercase hover:opacity-90 transition-opacity mb-2"
+            >
+              {redirect.label}
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+          ) : quickReplies.length > 0 ? (
             <div className="flex flex-col gap-2 mb-2">
               {quickReplies.map(option => (
                 <button
