@@ -370,6 +370,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const lastBotMsg  = [...flowMessages].reverse().find(m => m.role === 'assistant')?.content ?? ''
     const lastUserMsg = [...flowMessages].reverse().find(m => m.role === 'user')?.content ?? ''
+
+    // Detector temprano: si en CUALQUIER paso el visitante se delata como candidato
+    // (ej. "estoy buscando trabajo" en el campo de empresa), redirigir en el acto
+    // en vez de seguir pidiéndole datos hasta el final.
+    if (looksLikeCandidate(lastUserMsg)) {
+      return res.json({
+        message: g.candidateMsg,
+        leadCreated: false,
+        redirect: CANDIDATE_URL,
+        redirectLabel: g.seeJobsLabel,
+      })
+    }
+
     if (/correo|e-?mail/i.test(lastBotMsg) && !EMAIL_REGEX.test(lastUserMsg.trim())) {
       return res.json({ message: s.invalidEmail(lastUserMsg.trim()), leadCreated: false })
     }
