@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 type Message = { role: 'user' | 'assistant'; content: string }
