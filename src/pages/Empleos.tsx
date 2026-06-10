@@ -26,8 +26,8 @@ export default function EmpleosPage() {
   return (
     <>
       <SEO
-        title="Empleos remotos"
-        description="Postulate a vacantes remotas en marketing, ventas, RRHH, desarrollo, diseño y más. Empleos 100% remotos con empresas internacionales."
+        title="Trabajo remoto — Empleos abiertos en Latinoamérica"
+        description="Trabajo remoto desde casa: vacantes abiertas en marketing, ventas, administración, desarrollo, diseño, finanzas y más. Empleos 100% remotos para Argentina, Chile, Colombia, México, Perú y toda Latinoamérica. Postulate hoy."
         path="/empleos"
       />
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">

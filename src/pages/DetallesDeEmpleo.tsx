@@ -35,8 +35,8 @@ export default function DetallesDeEmpleoPage() {
   return (
     <>
       <SEO
-        title={job.title}
-        description={`Vacante: ${job.title}. Empleo remoto con Global Talent Connections. Postulate y formá parte del equipo.`}
+        title={`${job.title} — Trabajo remoto`}
+        description={`Trabajo remoto de ${job.title} en Global Talent Connections. Empleo 100% remoto desde Latinoamérica (Argentina, Chile, Colombia, México y más). Postulate hoy.`}
         path={`/empleos/${job.id}`}
         type="article"
         jobPostingSchema={
