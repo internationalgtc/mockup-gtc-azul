@@ -7,6 +7,7 @@ interface SEOProps {
   image?: string
   type?: string
   faqSchema?: object
+  jobPostingSchema?: object
 }
 
 const BASE_URL = 'https://www.globaltalent-connections.com'
@@ -129,6 +130,7 @@ export default function SEO({
   image = DEFAULT_IMAGE,
   type = 'website',
   faqSchema,
+  jobPostingSchema,
 }: SEOProps) {
   const fullTitle = `${title} | Global Talent Connections`
   const url = `${BASE_URL}${path}`
@@ -169,6 +171,11 @@ export default function SEO({
       {faqSchema && (
         <script type="application/ld+json">
           {JSON.stringify(faqSchema)}
+        </script>
+      )}
+      {jobPostingSchema && (
+        <script type="application/ld+json">
+          {JSON.stringify(jobPostingSchema)}
         </script>
       )}
     </Helmet>

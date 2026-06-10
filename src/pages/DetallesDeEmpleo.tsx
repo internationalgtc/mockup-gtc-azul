@@ -3,6 +3,7 @@ import { ArrowLeft, MapPin, Briefcase, GraduationCap, Clock, ExternalLink } from
 import { JOBS, JOBS_EN, DEPT_EN, TYPE_EN, LOCATION_EN } from '@/data/jobs'
 import { useT, useLang } from '@/hooks/useT'
 import SEO from '@/components/shared/SEO'
+import { buildJobPostingSchema } from '@/lib/jobPosting'
 
 const NEXUS_URL = 'https://www.globaltalentconnections.online'
 
@@ -38,6 +39,18 @@ export default function DetallesDeEmpleoPage() {
         description={`Vacante: ${job.title}. Empleo remoto con Global Talent Connections. Postulate y formá parte del equipo.`}
         path={`/empleos/${job.id}`}
         type="article"
+        jobPostingSchema={
+          job.active === false
+            ? undefined
+            : buildJobPostingSchema({
+                id: job.id,
+                title: job.title,
+                description: job.description,
+                type: job.type,
+                requirements: job.requirements,
+                imageUrl: job.imageUrl,
+              })
+        }
       />
       {/* HERO */}
       <section className="bg-navy pt-32 pb-16 relative overflow-hidden">
