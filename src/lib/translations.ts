@@ -9,7 +9,7 @@ const T: Record<string, Record<string, string>> = {
   nav_calculadora: { es: 'Calculadora', en: 'Calculator' },
 
   // ── HERO ──
-  hero_badge: { es: 'Más de 111 profesionales activos', en: 'Over 111 active professionals' },
+  hero_badge: { es: 'Más de 90 profesionales activos', en: 'Over 90 active professionals' },
   hero_title_1: { es: 'Ahorra hasta un 50%', en: 'Save up to 50%' },
   hero_title_2: { es: 'en talento de alto rendimiento.', en: 'on high-performance talent.' },
   hero_subtitle: { es: 'Conectamos empresas con profesionales remotos. Selección, gestión y supervisión integral.', en: 'We connect companies with remote professionals. Selection, management and comprehensive supervision.' },

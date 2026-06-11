@@ -61,7 +61,7 @@ export default function NosotrosPage() {
     <>
       <SEO
         title="Sobre nosotros"
-        description="Conocé a Global Talent Connections: equipo, misión y por qué +51 empresas confían en nuestros profesionales remotos."
+        description="Conocé a Global Talent Connections: equipo, misión y por qué +52 empresas confían en nuestros profesionales remotos."
         path="/nosotros"
       />
       {/* HERO */}
@@ -180,7 +180,7 @@ export default function NosotrosPage() {
             <div className="relative h-[350px] flex items-center justify-center">
               <div className="absolute w-80 h-80 bg-blue-prime/[0.08] blur-[100px] rounded-full" />
               <div className="relative z-10 p-10 lg:p-12 bg-white/60 backdrop-blur-md rounded-2xl border border-white/60 text-center shadow-xl">
-                <div className="text-5xl font-headline text-blue-prime mb-2">51</div>
+                <div className="text-5xl font-headline text-blue-prime mb-2">52</div>
                 <div className="font-label text-xs uppercase tracking-widest text-navy/70 mb-8 font-bold">{t('nosotros_empresas_activas')}</div>
                 <div className="h-[1px] w-full bg-navy/10 mb-8" />
                 <div className="text-5xl font-headline text-gold mb-2">2</div>

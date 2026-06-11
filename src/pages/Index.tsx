@@ -28,8 +28,8 @@ const CLIENT_LOGOS = [
 ]
 
 const STAT_KEYS = [
-  { value: '51', key: 'stat_empresas', color: 'text-blue-prime' },
-  { value: '112', key: 'stat_profesionales', color: 'text-blue-prime' },
+  { value: '52', key: 'stat_empresas', color: 'text-blue-prime' },
+  { value: '93', key: 'stat_profesionales', color: 'text-blue-prime' },
   { value: '50%', key: 'stat_ahorro', color: 'text-gold' },
   { value: '95%', key: 'stat_retencion', color: 'text-gold' },
 ]
@@ -51,7 +51,7 @@ export default function HomePage() {
     <>
       <SEO
         title="Talento remoto de alto rendimiento"
-        description="Conectamos empresas con profesionales remotos de alto rendimiento. Selección, gestión y supervisión integral. +51 clientes activos."
+        description="Conectamos empresas con profesionales remotos de alto rendimiento. Selección, gestión y supervisión integral. +52 clientes activos."
         path="/"
         faqSchema={HOME_FAQ_SCHEMA}
       />
