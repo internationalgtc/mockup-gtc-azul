@@ -157,7 +157,6 @@ async function callGemini(messages: Message[], lang: Lang): Promise<string> {
   if (!apiKey) throw new Error('No Gemini key')
 
   const genAI = new GoogleGenerativeAI(apiKey)
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
 
   const s = STRINGS[lang]
   const systemPrompt = lang === 'en'
@@ -200,12 +199,18 @@ Reglas estrictas:
 Cuando tengas los 7 datos válidos, confirmá el registro con un mensaje corto y amigable. Después, en la MISMA respuesta en una línea separada al final, escribí exactamente (sin markdown):
 GTC_LEAD:{"name":"[nombre]","company":"[empresa]","email":"[email]","role":"[cargo]","need":"[tipo de perfil]","budget":"[1100|1300|1500]","budget_label":"[opción elegida]","urgency":"[opción elegida]"}`
 
+  // systemInstruction va en el modelo (no en startChat, ahí Google lo rechaza con 400)
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash', systemInstruction: systemPrompt })
+
   const history = messages.slice(0, -1).map(m => ({
     role: m.role === 'user' ? 'user' as const : 'model' as const,
     parts: [{ text: m.content }],
   }))
+  // Gemini exige que el historial arranque con un turno 'user'; la charla empieza
+  // con el saludo del bot ('model'), así que descartamos los model iniciales.
+  while (history.length && history[0]!.role === 'model') history.shift()
 
-  const chat = model.startChat({ systemInstruction: systemPrompt, history })
+  const chat = model.startChat({ history })
   const result = await chat.sendMessage(messages[messages.length - 1]!.content)
   return result.response.text()
 }
