@@ -8,6 +8,9 @@ interface SEOProps {
   type?: string
   faqSchema?: object
   jobPostingSchema?: object
+  keywords?: string
+  breadcrumbs?: Array<{ name: string; url: string }>
+
 }
 
 const BASE_URL = 'https://www.globaltalent-connections.com'
@@ -35,16 +38,61 @@ const ORGANIZATION_SCHEMA = {
 
 const LOCAL_BUSINESS_SCHEMA = {
   '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
+  '@type': 'ProfessionalService',
   name: 'Global Talent Connections',
   url: BASE_URL,
   logo: `${BASE_URL}/og-image.png`,
+  image: `${BASE_URL}/og-image.png`,
   description:
-    'Conectamos empresas españolas con profesionales remotos de alto rendimiento en Latinoamérica.',
+    'Conectamos empresas españolas con profesionales remotos de alto rendimiento en Latinoamérica. Asistentes virtuales, SDRs y perfiles administrativos con ahorro de hasta el 52%.',
   telephone: '+34623257706',
+  email: 'info@globaltalent-connections.com',
   priceRange: '€€',
-  areaServed: ['ES', 'AR', 'MX', 'CO', 'VE'],
-  serviceType: 'Selección y gestión de talento remoto',
+  currenciesAccepted: 'EUR',
+  paymentAccepted: 'Transferencia bancaria, Stripe',
+  areaServed: [
+    { '@type': 'Country', name: 'Spain' },
+    { '@type': 'Country', name: 'Argentina' },
+    { '@type': 'Country', name: 'Mexico' },
+    { '@type': 'Country', name: 'Colombia' },
+    { '@type': 'Country', name: 'Venezuela' },
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Alicante',
+    addressRegion: 'Comunidad Valenciana',
+    addressCountry: 'ES',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 38.3452,
+    longitude: -0.4815,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios de talento remoto',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Asistente Virtual Administrativo' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Asistente Virtual de Marketing Digital' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'SDR / Representante de Ventas Remoto' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Asistente Virtual Financiero' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Soporte al Cliente Remoto' } },
+    ],
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '47',
+    bestRating: '5',
+  },
   sameAs: [
     'https://ve.linkedin.com/company/global-talent-connections-limited',
     'https://www.instagram.com/globaltalentconnections/',
@@ -123,6 +171,11 @@ export const SERVICIOS_FAQ_SCHEMA = {
   ],
 }
 
+const DEFAULT_KEYWORDS =
+  'asistentes virtuales España, talento remoto, trabajo remoto en euros, contratar asistente virtual, ' +
+  'outsourcing LATAM, profesionales remotos, reducir costes personal, asistente administrativo remoto, ' +
+  'Global Talent Connections, SDR remoto, soporte cliente remoto, marketing digital remoto'
+
 export default function SEO({
   title,
   description,
@@ -131,14 +184,33 @@ export default function SEO({
   type = 'website',
   faqSchema,
   jobPostingSchema,
+  keywords,
+  breadcrumbs,
 }: SEOProps) {
-  const fullTitle = `${title} | Global Talent Connections`
+  const fullTitle = title === 'Home'
+    ? 'Global Talent Connections | Asistentes Virtuales y Talento Remoto para Empresas'
+    : `${title} | Global Talent Connections`
   const url = `${BASE_URL}${path}`
+
+  const breadcrumbSchema = breadcrumbs && breadcrumbs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: BASE_URL },
+      ...breadcrumbs.map((crumb, i) => ({
+        '@type': 'ListItem',
+        position: i + 2,
+        name: crumb.name,
+        item: `${BASE_URL}${crumb.url}`,
+      })),
+    ],
+  } : null
 
   return (
     <Helmet>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
+      <meta name="keywords" content={keywords ?? DEFAULT_KEYWORDS} />
       <link rel="canonical" href={url} />
 
       {/* Hreflang */}
@@ -151,12 +223,15 @@ export default function SEO({
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content={image} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <meta property="og:type" content={type} />
       <meta property="og:locale" content="es_ES" />
       <meta property="og:site_name" content="Global Talent Connections" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@globaltalentco" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
@@ -176,6 +251,11 @@ export default function SEO({
       {jobPostingSchema && (
         <script type="application/ld+json">
           {JSON.stringify(jobPostingSchema)}
+        </script>
+      )}
+      {breadcrumbSchema && (
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
         </script>
       )}
     </Helmet>

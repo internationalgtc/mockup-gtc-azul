@@ -71,8 +71,10 @@ export default function ContactoPage() {
     <>
       <SEO
         title="Contacto"
-        description="Solicitá tu asesoría gratuita. Te contactamos en menos de 24h para ayudarte a contratar talento remoto de alto rendimiento."
+        description="Solicitá tu asesoría gratuita. Te contactamos en menos de 24h para ayudarte a contratar talento remoto de alto rendimiento desde €600/mes."
         path="/contacto"
+        keywords="contacto Global Talent Connections, contratar asistente virtual, asesoría talento remoto gratis, teléfono Global Talent, solicitar asistente virtual España"
+        breadcrumbs={[{ name: 'Contacto', url: '/contacto' }]}
       />
       {/* HERO */}
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
@@ -85,6 +87,88 @@ export default function ContactoPage() {
           <p className="text-white/60 text-lg max-w-2xl">
             {t('contacto_page_subtitle')}
           </p>
+        </div>
+      </section>
+
+      {/* INFO + MAPA */}
+      <section className="bg-off-white py-16 lg:py-20 border-b border-border-soft">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-start">
+          {/* Datos de contacto */}
+          <div>
+            <span className="text-blue-prime text-xs font-label uppercase tracking-widest font-bold mb-4 block">Dónde encontrarnos</span>
+            <h2 className="font-headline text-2xl md:text-3xl text-navy mb-8">
+              Oficina en <span className="text-gold">Alicante, España</span>
+            </h2>
+            <ul className="space-y-5 text-dark-gray">
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-prime/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-5 h-5 text-blue-prime" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-label text-xs uppercase tracking-widest text-navy/60 font-bold mb-1">Teléfono</p>
+                  <a href="tel:+34623257706" className="text-navy font-medium hover:text-blue-prime transition-colors">+34 623 257 706</a>
+                </div>
+              </li>
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-prime/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-5 h-5 text-blue-prime" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-label text-xs uppercase tracking-widest text-navy/60 font-bold mb-1">Email</p>
+                  <a href="mailto:info@globaltalent-connections.com" className="text-navy font-medium hover:text-blue-prime transition-colors">info@globaltalent-connections.com</a>
+                </div>
+              </li>
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-prime/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-5 h-5 text-blue-prime" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-label text-xs uppercase tracking-widest text-navy/60 font-bold mb-1">Horario</p>
+                  <p className="text-navy font-medium">Lunes a Viernes · 9:00 – 18:00 (CET)</p>
+                </div>
+              </li>
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-prime/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-5 h-5 text-blue-prime" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-label text-xs uppercase tracking-widest text-navy/60 font-bold mb-1">Ubicación</p>
+                  <p className="text-navy font-medium">Alicante, España</p>
+                  <a
+                    href="https://www.google.com/maps/search/Global+Talent+Connections+Alicante"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-prime text-sm hover:underline mt-1 inline-block"
+                  >
+                    Ver en Google Maps →
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* Google Maps embed */}
+          <div className="rounded-xl overflow-hidden border border-border-soft shadow-sm h-[380px]">
+            <iframe
+              title="Global Talent Connections — Alicante"
+              src="https://maps.google.com/maps?q=Alicante,+Alicante,+Spain&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              style={{ border: 0 }}
+              aria-label="Mapa de ubicación de Global Talent Connections en Alicante, España"
+            />
+          </div>
         </div>
       </section>
 

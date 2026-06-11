@@ -50,10 +50,11 @@ export default function HomePage() {
   return (
     <>
       <SEO
-        title="Talento remoto de alto rendimiento"
-        description="Conectamos empresas con profesionales remotos de alto rendimiento. Selección, gestión y supervisión integral. +52 clientes activos."
+        title="Home"
+        description="Ahorrá hasta un 52% contratando talento remoto de alto rendimiento. Conectamos PYMEs en España con Asistentes Virtuales, SDRs y perfiles administrativos top. Selección, gestión y supervisión integral."
         path="/"
         faqSchema={HOME_FAQ_SCHEMA}
+        keywords="asistentes virtuales España, talento remoto para empresas, contratar asistente virtual barato, trabajo remoto en euros, outsourcing LATAM, profesionales remotos España, reducir costes de personal, SDR remoto, Global Talent Connections"
       />
       {/* HERO */}
       <section className="relative bg-navy min-h-screen flex items-center pt-32 pb-20 overflow-hidden">

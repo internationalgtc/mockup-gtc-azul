@@ -60,9 +60,11 @@ export default function NosotrosPage() {
   return (
     <>
       <SEO
-        title="Sobre nosotros"
-        description="Conocé a Global Talent Connections: equipo, misión y por qué +52 empresas confían en nuestros profesionales remotos."
+        title="Sobre Nosotros"
+        description="Conocé a Global Talent Connections: equipo, misión y por qué +52 empresas en España confían en nuestros profesionales remotos de Latinoamérica."
         path="/nosotros"
+        keywords="quienes somos Global Talent Connections, empresa talento remoto España, agencia asistentes virtuales, outsourcing Latinoamérica, equipo Global Talent"
+        breadcrumbs={[{ name: 'Nosotros', url: '/nosotros' }]}
       />
       {/* HERO */}
       <section className="bg-[#0c1a2e] min-h-[600px] lg:min-h-[700px] flex items-center relative overflow-hidden">

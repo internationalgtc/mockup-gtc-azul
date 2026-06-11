@@ -74,10 +74,12 @@ export default function ServiciosPage() {
   return (
     <>
       <SEO
-        title="Servicios"
-        description="Asistentes virtuales y profesionales remotos para marketing, administración, diseño, desarrollo, ventas, RRHH y más. Un perfil para cada necesidad."
+        title="Servicios de Talento Remoto"
+        description="Asistentes virtuales y profesionales remotos para marketing, administración, diseño, desarrollo, ventas, RRHH y más. Perfiles desde €600/mes."
         path="/servicios"
         faqSchema={SERVICIOS_FAQ_SCHEMA}
+        keywords="servicios asistente virtual, asistente virtual marketing, asistente administrativo remoto, SDR remoto, diseñador gráfico remoto, desarrollador remoto, atención cliente remoto, RRHH remoto, contratar profesional remoto España"
+        breadcrumbs={[{ name: 'Servicios', url: '/servicios' }]}
       />
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full" />
