@@ -7,8 +7,6 @@ import fotoGladymar from '@/assets/equipo/gladymar.png'
 import fotoAna from '@/assets/equipo/ana.png'
 import fotoReyna from '@/assets/equipo/reyna.png'
 import fotoFabiola from '@/assets/equipo/fabiola.png'
-import fotoSuany from '@/assets/equipo/suany.png'
-import fotoSebastian from '@/assets/equipo/sebastian.png'
 import fotoLarisa from '@/assets/equipo/larisa.png'
 import fotoDelfina from '@/assets/equipo/delfina.png'
 import fotoNelson from '@/assets/equipo/nelson.png'
@@ -39,14 +37,12 @@ export const equipo: TeamMember[] = [
   { id: 7, nombre: 'Ana Martinez', foto: fotoAna, rol: 'Marketing & Sales Lead', rolEn: 'Marketing & Sales Lead', email: 'amartinez@globaltalent-connections.com', linkedin: '', nivel: 'lider' },
 
   // OPERATIVO
-  { id: 8, nombre: 'Sebastián Acevedo', foto: fotoSebastian, rol: 'Quality & Ops Lead', rolEn: 'Quality & Ops Lead', email: 'sacevedo@globaltalent-connections.com', linkedin: '', nivel: 'lider' },
   { id: 9, nombre: 'Reyna Contreras', foto: fotoReyna, rol: 'HR Analyst', rolEn: 'HR Analyst', email: 'rcontreras@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
   { id: 10, nombre: 'Larisa Spatafora', foto: fotoLarisa, rol: 'Data & AI Analyst', rolEn: 'Data & AI Analyst', email: 'lspatafora@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
   { id: 11, nombre: 'Nelson Alonso', foto: fotoNelson, rol: 'AI & Automation', rolEn: 'AI & Automation', email: 'nalonso@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
   { id: 12, nombre: 'Javier Martinez', foto: fotoJavier, rol: 'IT Analyst', rolEn: 'IT Analyst', email: 'jmartinez@globaltalent-connections.com', linkedin: 'https://www.linkedin.com/in/javierjmc/', nivel: 'operativo' },
   { id: 13, nombre: 'Fabiola Lozano', foto: fotoFabiola, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'flozano@globaltalent-connections.com', linkedin: 'https://www.linkedin.com/in/fabiolalozano/', nivel: 'operativo' },
   { id: 15, nombre: 'Delfina Palacio', foto: fotoDelfina, rol: 'Community Manager', rolEn: 'Community Manager', email: 'dpalacio@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
-  { id: 16, nombre: 'Suany Artica', foto: fotoSuany, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'sartica@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
   { id: 17, nombre: 'Rocío Rojas', foto: fotoRocio, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'rrojas@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
 ]
 
