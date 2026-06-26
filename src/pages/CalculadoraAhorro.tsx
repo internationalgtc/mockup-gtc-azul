@@ -70,8 +70,11 @@ export default function CalculadoraAhorro() {
     } finally {
       setLoading(false)
       setSubmitted(true)
-      triggerDownload()
+      // Disparar el evento ANTES de la descarga: así el beacon de analytics/ads
+      // ya salió cuando el navegador se pone a bajar el Excel. Antes iba al revés
+      // y se perdía ~85% de los leads de la calculadora en GA4/Ads.
       trackLead('calculadora_ahorro')
+      triggerDownload()
     }
   }
 
