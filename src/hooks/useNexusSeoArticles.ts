@@ -18,9 +18,20 @@ type NexusArticle = {
   created_at: string
 }
 
+// El generador suele abrir el cuerpo repitiendo el título como <h2>. Como el
+// título ya se muestra en la cabecera del artículo, lo sacamos para que no
+// parezca un documento con el título dos veces.
+function stripDuplicateTitle(html: string, title: string): string {
+  const norm = (s: string) => s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().toLowerCase()
+  const m = html.match(/^\s*<h2>([\s\S]*?)<\/h2>/i)
+  if (m && norm(m[1]) === norm(title)) return html.replace(/^\s*<h2>[\s\S]*?<\/h2>/i, '')
+  return html
+}
+
 function toBlogPost(a: NexusArticle): BlogPost {
   const dateStr = new Date(a.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })
   const excerpt = a.meta_description ?? ''
+  const body = stripDuplicateTitle(a.body_html, a.title)
   return {
     id: a.slug,
     title: { es: a.title, en: a.title },
@@ -30,7 +41,7 @@ function toBlogPost(a: NexusArticle): BlogPost {
     readTime: '5 min',
     category: { es: 'SEO', en: 'SEO' },
     image: FALLBACK_IMAGE,
-    content: { es: a.body_html, en: a.body_html },
+    content: { es: body, en: body },
   }
 }
 
