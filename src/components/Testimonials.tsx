@@ -75,27 +75,33 @@ const VideoModal: FC<{ testimonio: Testimonio | null; cerrar: () => void }> = ({
 const TestimonioCard: FC<{ testimonio: Testimonio; abrirModal: (t: Testimonio) => void }> = ({ testimonio, abrirModal }) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const t = useT()
+  // Si el video no carga (ej. el host devuelve 401), en vez de un box vacío
+  // mostramos una tarjeta de testimonio de texto limpia.
+  const [videoError, setVideoError] = useState(false)
 
   return (
     <div className="bg-white rounded-xl border border-border-soft hover:border-blue-prime/30 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
-      <div className="relative w-full aspect-video bg-navy group">
-        <video
-          ref={videoRef}
-          src={testimonio.video}
-          poster={testimonio.thumbnail ?? undefined}
-          controls
-          preload="metadata"
-          className="w-full h-full object-cover"
-        />
-        <button
-          onClick={() => abrirModal(testimonio)}
-          className="absolute top-2 right-2 bg-navy/70 hover:bg-blue-prime text-white rounded-md p-1.5 opacity-0 group-hover:opacity-100 transition-all duration-200"
-          title="Expand"
-          aria-label={testimonio.nombre}
-        >
-          <Maximize2 size={16} />
-        </button>
-      </div>
+      {!videoError && (
+        <div className="relative w-full aspect-video bg-navy group">
+          <video
+            ref={videoRef}
+            src={testimonio.video}
+            poster={testimonio.thumbnail ?? undefined}
+            controls
+            preload="metadata"
+            onError={() => setVideoError(true)}
+            className="w-full h-full object-cover"
+          />
+          <button
+            onClick={() => abrirModal(testimonio)}
+            className="absolute top-2 right-2 bg-navy/70 hover:bg-blue-prime text-white rounded-md p-1.5 opacity-0 group-hover:opacity-100 transition-all duration-200"
+            title="Expand"
+            aria-label={testimonio.nombre}
+          >
+            <Maximize2 size={16} />
+          </button>
+        </div>
+      )}
 
       <div className="p-5 flex flex-col flex-1">
         <Quote size={18} className="text-blue-prime mb-2" />

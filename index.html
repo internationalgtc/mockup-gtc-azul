@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#062E55" />
   <title>Global Talent Connections | Asistentes Virtuales y Talento Remoto para Empresas</title>
-  <!-- La meta description la pone cada página vía el componente SEO (react-helmet).
-       No se fija acá para no duplicarla. og:description sí queda abajo como fallback
-       estático para los bots sociales que no ejecutan JS. -->
+  <!-- Meta description ESTÁTICA (fallback para crawlers/auditorías que no ejecutan
+       JS — sin esto veían la página sin description). React-helmet la sobreescribe
+       por página cuando corre el JS, así que no se duplica en el resultado final. -->
+  <meta name="description" content="Ahorra hasta un 52% contratando talento remoto de alto rendimiento. Conectamos PYMEs en España con asistentes virtuales, SDRs y perfiles administrativos top. Solicita tu consulta gratuita." />
   <link rel="icon" type="image/png" href="/favicon.png" />
 
   <!-- Open Graph (fallback estático para bots que no ejecutan JS) -->
@@ -29,6 +30,80 @@
   <!-- Verificación dominios -->
   <meta name="facebook-domain-verification" content="tpk04qimy8h8hfg7o9evjn3cdd5g4t" />
   <meta name="msvalidate.01" content="EC1EEB6D6F39050A44D6F17DE0C48308" />
+
+  <!-- Perfiles sociales en JSON-LD ESTÁTICO: forma machine-readable estándar de
+       declarar las redes, visible para crawlers/auditorías que no ejecutan JS
+       (el footer con los íconos lo dibuja React, así que un bot sin JS no lo ve). -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Global Talent Connections",
+    "url": "https://www.globaltalent-connections.com/",
+    "logo": "https://www.globaltalent-connections.com/og-image.png",
+    "description": "Conectamos empresas en España con asistentes virtuales y talento remoto de Latinoamérica: administración, finanzas, marketing, desarrollo, SDRs y atención al cliente. Ahorra hasta un 52% frente a contratar localmente.",
+    "areaServed": "ES",
+    "sameAs": [
+      "https://www.linkedin.com/company/global-talent-connections-limited",
+      "https://www.instagram.com/globaltalentconnections/"
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "reviewCount": "4",
+      "bestRating": "5"
+    },
+    "review": [
+      { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "author": { "@type": "Person", "name": "Miguel Ángel Ramírez", "jobTitle": "CEO en Construcciones Ramírez" }, "reviewBody": "Me brindaron acompañamiento continuo y se adaptaron a mis necesidades, creo que como empresarios los asistentes virtuales nos proporcionan una gran ventaja." },
+      { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "author": { "@type": "Person", "name": "Arturo Sanz Santos", "jobTitle": "CEO en Areacad Ingeniería Audiovisual" }, "reviewBody": "Este modelo nos abrió la posibilidad de contar con más recursos humanos por un costo inferior, el personal es excepcional." },
+      { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "author": { "@type": "Person", "name": "Alex Andreu Peinado", "jobTitle": "CEO en PMV Factory" }, "reviewBody": "Los asistentes virtuales desde el momento uno se adaptaron a nosotros, tienen gran compromiso y profesionalismo." },
+      { "@type": "Review", "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }, "author": { "@type": "Person", "name": "Curro Sabás", "jobTitle": "CEO en Coseba, Seguros Paco Saban" }, "reviewBody": "Estamos muy satisfechos con la calidad de los asistentes y la facilidad de contratación que ofrece la modalidad de Global Talent Connections." }
+    ]
+  }
+  </script>
+
+  <!-- Servicios (datos estructurados) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Contratación de asistentes virtuales y talento remoto",
+    "provider": { "@type": "Organization", "name": "Global Talent Connections" },
+    "areaServed": "ES",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Perfiles disponibles",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Asistente administrativo" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Asistente financiero / contable" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Marketing digital" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Desarrollo web" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "SDR / ventas" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Atención al cliente" } }
+      ]
+    }
+  }
+  </script>
+
+  <!-- Preguntas frecuentes (datos estructurados). Contenido real basado en cómo
+       funciona el servicio — refuerza la dimensión de contenido y da respuestas
+       que los buscadores pueden mostrar. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "¿Qué perfiles puedo contratar con Global Talent Connections?", "acceptedAnswer": { "@type": "Answer", "text": "Conectamos tu empresa con profesionales remotos en administración, finanzas y contabilidad, marketing digital, desarrollo web, SDRs de ventas y atención al cliente, listos para integrarse a tu equipo desde el primer día." } },
+      { "@type": "Question", "name": "¿Por qué es más económico que contratar localmente?", "acceptedAnswer": { "@type": "Answer", "text": "Trabajamos con talento remoto de Latinoamérica, lo que permite acceder a la misma calidad profesional a una fracción del coste local, sin nóminas locales ni gestión administrativa. Nuestros clientes ahorran hasta un 52% frente a una contratación local equivalente." } },
+      { "@type": "Question", "name": "¿Tengo que gestionar nóminas, contratos o el reclutamiento?", "acceptedAnswer": { "@type": "Answer", "text": "No. Nosotros reclutamos, capacitamos y gestionamos al profesional, con seguimiento de calidad incluido. Tú solo diriges su trabajo; nosotros nos ocupamos de toda la gestión administrativa." } },
+      { "@type": "Question", "name": "¿Cómo es el proceso de selección?", "acceptedAnswer": { "@type": "Answer", "text": "Cuatro pasos: análisis de tus necesidades y del perfil ideal, búsqueda y preselección de talento a nivel mundial, evaluación integral (pruebas técnicas, entrevistas y encaje cultural) y presentación de los candidatos finales con seguimiento post-contratación." } },
+      { "@type": "Question", "name": "¿Puedo escalar el equipo con el tiempo?", "acceptedAnswer": { "@type": "Answer", "text": "Sí. Podés arrancar con un asistente y crecer a un equipo completo cuando lo necesites, sin contratos eternos y adaptándonos a tu ritmo." } },
+      { "@type": "Question", "name": "¿Los asistentes trabajan en mi mismo horario?", "acceptedAnswer": { "@type": "Answer", "text": "Sí. Al ser talento de Latinoamérica, hay solapamiento horario con España que permite una comunicación fluida y trabajo en tiempo real durante tu jornada laboral." } },
+      { "@type": "Question", "name": "¿Qué pasa si el perfil no encaja con mi empresa?", "acceptedAnswer": { "@type": "Answer", "text": "Hacemos seguimiento de calidad post-contratación para asegurar la integración del profesional a tu equipo. Nuestra evaluación previa (pruebas técnicas, entrevistas y encaje cultural) está diseñada para minimizar ese riesgo desde el inicio." } },
+      { "@type": "Question", "name": "¿En cuánto tiempo tengo al asistente trabajando?", "acceptedAnswer": { "@type": "Answer", "text": "Tras definir tu perfil ideal, ejecutamos la búsqueda, evaluación y presentación de candidatos finales. En pocos días tenés perfiles preseleccionados listos para integrarse a tu equipo." } }
+    ]
+  }
+  </script>
 
   <!-- Fonts: Montserrat (headlines) + Poppins (subtitles) + Lato (body) + Inter (UI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -86,6 +161,63 @@
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1296564382354555&ev=PageView&noscript=1" /></noscript>
 
   <div id="root"></div>
+
+  <!-- Contenido estático (fallback sin JS) que refleja el contenido real del
+       sitio para crawlers/auditorías que no ejecutan JavaScript. Los usuarios con
+       JS ven la app React completa; esto no se muestra con JS activo. No es
+       contenido distinto (no es cloaking): es el mismo mensaje del sitio en HTML. -->
+  <noscript>
+    <main>
+      <h1>Global Talent Connections — Asistentes virtuales y talento remoto para empresas</h1>
+      <p>Conectamos tu empresa con profesionales especializados de Latinoamérica, listos para integrarse a tu equipo desde el día uno. Ahorra hasta un 52% frente a contratar localmente, sin nóminas ni complicaciones. <a href="https://www.globaltalent-connections.com/contacto">Solicita tu consulta gratuita</a>.</p>
+
+      <h2>Perfiles que puedes contratar</h2>
+      <ul>
+        <li>Asistente administrativo</li>
+        <li>Asistente financiero y contable</li>
+        <li>Marketing digital</li>
+        <li>Desarrollo web</li>
+        <li>SDR / ventas</li>
+        <li>Atención al cliente</li>
+      </ul>
+
+      <h2>Por qué ahorras hasta un 52%</h2>
+      <p>Accedes a la misma calidad profesional a una fracción del coste local, trabajando con talento remoto de Latinoamérica. Nosotros reclutamos, capacitamos y gestionamos al profesional con seguimiento de calidad incluido; tú solo diriges. Sin nóminas locales, sin gestión administrativa y sin contratos eternos: arrancas con un asistente y escalas a un equipo completo cuando quieras.</p>
+
+      <h2>Nuestro proceso en 4 pasos</h2>
+      <ol>
+        <li><strong>Análisis de necesidades:</strong> profundizamos en tus retos, cultura y metas para definir el perfil ideal.</li>
+        <li><strong>Búsqueda y preselección:</strong> búsqueda de talento a nivel mundial con verificación de referencias y antecedentes.</li>
+        <li><strong>Evaluación integral:</strong> pruebas técnicas, entrevistas por competencias y evaluación de encaje cultural.</li>
+        <li><strong>Presentación y selección:</strong> candidatos finales, apoyo en la negociación y seguimiento post-contratación.</li>
+      </ol>
+
+      <h2>Lo que dicen nuestros clientes</h2>
+      <blockquote>"Me brindaron acompañamiento continuo y se adaptaron a mis necesidades, creo que como empresarios los asistentes virtuales nos proporcionan una gran ventaja." — <strong>Miguel Ángel Ramírez</strong>, CEO en Construcciones Ramírez</blockquote>
+      <blockquote>"Este modelo nos abrió la posibilidad de contar con más recursos humanos por un costo inferior, el personal es excepcional." — <strong>Arturo Sanz Santos</strong>, CEO en Areacad Ingeniería Audiovisual</blockquote>
+      <blockquote>"Los asistentes virtuales desde el momento uno se adaptaron a nosotros, tienen gran compromiso y profesionalismo." — <strong>Alex Andreu Peinado</strong>, CEO en PMV Factory</blockquote>
+      <blockquote>"Estamos muy satisfechos con la calidad de los asistentes y la facilidad de contratación que ofrece la modalidad de Global Talent Connections." — <strong>Curro Sabás</strong>, CEO en Coseba, Seguros Paco Saban</blockquote>
+
+      <h2>Preguntas frecuentes</h2>
+      <h3>¿Tengo que gestionar nóminas o el reclutamiento?</h3>
+      <p>No. Nos ocupamos de reclutar, capacitar y gestionar al profesional. Tú solo diriges su trabajo.</p>
+      <h3>¿Puedo escalar el equipo con el tiempo?</h3>
+      <p>Sí, sin contratos eternos: arrancas con un asistente y creces a un equipo completo cuando lo necesites.</p>
+      <h3>¿Los asistentes trabajan en mi mismo horario?</h3>
+      <p>Sí. Al ser talento de Latinoamérica hay solapamiento horario con España, lo que permite comunicación fluida y trabajo en tiempo real durante tu jornada.</p>
+      <h3>¿Qué pasa si el perfil no encaja?</h3>
+      <p>Hacemos seguimiento de calidad post-contratación para asegurar la integración, y la evaluación previa (pruebas técnicas, entrevistas y encaje cultural) minimiza ese riesgo desde el inicio.</p>
+      <h3>¿En cuánto tiempo tengo al asistente trabajando?</h3>
+      <p>Tras definir el perfil ideal, en pocos días tenés candidatos preseleccionados listos para integrarse a tu equipo.</p>
+
+      <h2>Blog y recursos</h2>
+      <p>Publicamos contenido sobre contratación de asistentes virtuales, ahorro de costes con talento remoto de Latinoamérica y gestión de equipos para PYMEs en España. <a href="https://www.globaltalent-connections.com/blog">Lee nuestro blog</a> o calcula tu ahorro con nuestra <a href="https://www.globaltalent-connections.com/calculadora-ahorro">calculadora</a>.</p>
+
+      <h2>Síguenos</h2>
+      <p><a href="https://www.linkedin.com/company/global-talent-connections-limited" rel="noopener">LinkedIn de Global Talent Connections</a> · <a href="https://www.instagram.com/globaltalentconnections/" rel="noopener">Instagram de Global Talent Connections</a></p>
+    </main>
+  </noscript>
+
   <script type="module" src="/src/main.tsx"></script>
 
 </body>
