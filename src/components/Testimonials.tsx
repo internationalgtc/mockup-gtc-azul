@@ -12,15 +12,16 @@ interface Testimonio {
   thumbnail: string | null
 }
 
-const CLD = 'https://res.cloudinary.com/dax2r7ro2'
-const v = (id: string) => `${CLD}/video/upload/${id}.webm`
-const th = (id: string) => `${CLD}/image/upload/${id}.jpg`
+// Los videos se sirven desde public/videos/ — antes vivían en Cloudinary y la
+// cuenta quedó deshabilitada, dejando la sección sin videos (21-jul-2026).
+const v = (n: number) => `/videos/testimonio-${n}.mp4`
+const th = (n: number) => `/videos/testimonio-${n}.jpg`
 
 const TESTIMONIOS: Testimonio[] = [
-  { nombre: 'Miguel Ángel Ramírez', cargoKey: 'testi_t1_cargo', textoKey: 'testi_t1_texto', video: v('testimonio-1_w9vvjk'), thumbnail: th('t1_h390b4') },
-  { nombre: 'Arturo Sanz Santos', cargoKey: 'testi_t2_cargo', textoKey: 'testi_t2_texto', video: v('testimonio-2_lfxbdt'), thumbnail: th('t2_m1jyo3') },
-  { nombre: 'Alex Andreu Peinado', cargoKey: 'testi_t3_cargo', textoKey: 'testi_t3_texto', video: v('testimonio-3_xydej8'), thumbnail: th('t3_hvejtp') },
-  { nombre: 'Curro Sabás', cargoKey: 'testi_t4_cargo', textoKey: 'testi_t4_texto', video: v('testimonio-4_u393rn'), thumbnail: th('t4_gsihfc') },
+  { nombre: 'Miguel Ángel Ramírez', cargoKey: 'testi_t1_cargo', textoKey: 'testi_t1_texto', video: v(1), thumbnail: th(1) },
+  { nombre: 'Arturo Sanz Santos', cargoKey: 'testi_t2_cargo', textoKey: 'testi_t2_texto', video: v(2), thumbnail: th(2) },
+  { nombre: 'Alex Andreu Peinado', cargoKey: 'testi_t3_cargo', textoKey: 'testi_t3_texto', video: v(3), thumbnail: th(3) },
+  { nombre: 'Curro Sabás', cargoKey: 'testi_t4_cargo', textoKey: 'testi_t4_texto', video: v(4), thumbnail: th(4) },
 ]
 
 const VideoModal: FC<{ testimonio: Testimonio | null; cerrar: () => void }> = ({ testimonio, cerrar }) => {

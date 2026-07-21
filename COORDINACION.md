@@ -105,6 +105,7 @@
 
 | Fecha | Quién | Qué cambió |
 |-------|-------|------------|
+| 2026-07-21 | Larisa | Videos de testimonios: la cuenta de Cloudinary `dax2r7ro2` quedó deshabilitada (devolvía 401 en toda la cuenta) y la sección se veía sin videos. Los 4 videos + posters pasaron a `public/videos/`, recomprimidos a 720p30 MP4 (63 MB → 17,8 MB). Ya no dependen de un servicio externo. |
 | 2026-05-12 | MatheoTe | SEO: OG tags en index.html, imágenes blog a public/images/, fix DEFAULT_IMAGE en SEO.tsx |
 | 2026-05-12 | MatheoTe | Blog: 5 artículos con contenido completo sincronizados con página vieja |
 | 2026-05-12 | MatheoTe | Fix empleos: agregar job 81 Marketing Lead, desactivar 77/78 |
