@@ -35,6 +35,11 @@ const STAT_KEYS = [
   { value: '50%', key: 'stat_ahorro', color: 'text-gold' },
 ]
 
+// La grilla se ajusta a cuántos stats haya, para que no queden columnas
+// vacías si se agrega o se saca uno. Las clases van literales porque
+// Tailwind no detecta nombres construidos en runtime.
+const STAT_COLS = STAT_KEYS.length === 4 ? 'md:grid-cols-4' : 'md:grid-cols-3'
+
 const PROCESS_ICONS = [Search, Users, FileCheck, Headphones]
 const PROCESS_STEPS_META = ['01', '02', '03', '04']
 
@@ -109,7 +114,7 @@ export default function HomePage() {
       {/* STATS BAR */}
       <section className="relative z-20 -mt-12 max-w-5xl mx-auto px-6 lg:px-8">
         <div className="bg-white rounded-xl py-10 lg:py-12 px-8 lg:px-12 shadow-2xl border border-border-soft">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className={`grid grid-cols-3 gap-8 ${STAT_COLS}`}>
             {STAT_KEYS.map((stat, i) => (
               <div key={stat.key} className={`text-center ${i > 0 ? 'md:border-l md:border-border-soft' : ''}`}>
                 <div className={`${stat.color} text-3xl lg:text-4xl font-headline font-bold mb-1`}>{stat.value}</div>
