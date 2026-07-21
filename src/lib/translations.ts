@@ -27,7 +27,7 @@ const T: Record<string, Record<string, string>> = {
   stat_empresas: { es: 'empresas activas', en: 'active companies' },
   stat_profesionales: { es: 'profesionales', en: 'professionals' },
   stat_ahorro: { es: 'ahorro promedio', en: 'average savings' },
-  stat_micro: { es: 'Datos a Junio 2026', en: 'Data as of June 2026' },
+  stat_micro: { es: 'Datos a Julio 2026', en: 'Data as of July 2026' },
   stat_retencion: { es: 'retención', en: 'retention' },
 
   // ── LOGOS ──
