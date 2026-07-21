@@ -27,11 +27,12 @@ const CLIENT_LOGOS = [
   { src: l7, alt: 'Gabinete Studios' },
 ]
 
+// Datos verificados contra Nexus el 21-jul-2026: 56 clientes activos con al
+// menos un asistente trabajando y 101 asistentes activos.
 const STAT_KEYS = [
-  { value: '52', key: 'stat_empresas', color: 'text-blue-prime' },
-  { value: '93', key: 'stat_profesionales', color: 'text-blue-prime' },
+  { value: '56', key: 'stat_empresas', color: 'text-blue-prime' },
+  { value: '101', key: 'stat_profesionales', color: 'text-blue-prime' },
   { value: '50%', key: 'stat_ahorro', color: 'text-gold' },
-  { value: '95%', key: 'stat_retencion', color: 'text-gold' },
 ]
 
 const PROCESS_ICONS = [Search, Users, FileCheck, Headphones]
