@@ -38,7 +38,7 @@ const T: Record<string, Record<string, string>> = {
   cultura_titulo_1: { es: 'Humanizar la conexión', en: 'Humanizing the' },
   cultura_titulo_2: { es: 'global', en: 'global connection' },
   cultura_p1: { es: 'Somos tu partner operativo: seleccionamos, contratamos, supervisamos y reemplazamos si hace falta. Tú no gestionas nada.', en: "We're your operating partner: we select, hire, supervise and replace if needed. You don't manage anything." },
-  cultura_p2: { es: 'Con presencia en España y Miami, conectamos profesionales de alto rendimiento con empresas que necesitan más capacidad operativa sin inflar la nómina local.', en: 'With offices in Spain and Miami, we connect high-performance professionals with companies that need more operational capacity without inflating local payroll.' },
+  cultura_p2: { es: 'Con presencia en España y Estados Unidos, conectamos profesionales de alto rendimiento con empresas que necesitan más capacidad operativa sin inflar la nómina local.', en: 'With a presence in Spain and the United States, we connect high-performance professionals with companies that need more operational capacity without inflating local payroll.' },
   cultura_cta: { es: 'Conoce al equipo', en: 'Meet the team' },
   cultura_quote: { es: '"Seleccionamos y gestionamos talento de alto rendimiento para que tu empresa se enfoque en lo que importa."', en: '"We select and manage high-performance talent so your company can focus on what matters."' },
 
@@ -47,11 +47,11 @@ const T: Record<string, Record<string, string>> = {
   ventajas_titulo: { es: 'Por qué funciona.', en: 'Why it works.' },
   ventajas_cta: { es: 'Conoce el proceso', en: 'See how it works' },
   ventaja_1_titulo: { es: 'Match en 15 días', en: 'Match in 15 days' },
-  ventaja_1_desc: { es: 'De la primera llamada a tu asistente operando. Pruebas técnicas, shortlist de 2-3 candidatos, tú eliges.', en: 'From the first call to your assistant up and running. Technical tests, shortlist of 2-3 candidates, you choose.' },
+  ventaja_1_desc: { es: 'De la primera llamada a tu asistente trabajando. Te presentamos 2 o 3 candidatos ya evaluados y tú eliges.', en: 'From the first call to your assistant already working. We present 2 or 3 pre-evaluated candidates and you choose.' },
   ventaja_2_titulo: { es: 'Selección rigurosa', en: 'Rigorous selection' },
-  ventaja_2_desc: { es: 'Menos del 5% de tasa de aceptación. +11.000 candidatos validados con pruebas técnicas y conductuales.', en: 'Less than 5% acceptance rate. 11,000+ candidates validated with technical and behavioral tests.' },
-  ventaja_3_titulo: { es: 'Zero Overhead', en: 'Zero Overhead' },
-  ventaja_3_desc: { es: 'Nosotros contratamos, gestionamos y supervisamos. Tu empresa recibe una factura mensual. Reemplazo garantizado.', en: 'We hire, manage and supervise. Your company receives one monthly invoice. Replacement guaranteed.' },
+  ventaja_2_desc: { es: 'Solo 5 de cada 100 candidatos superan nuestro proceso. Más de 11.000 evaluados en pruebas de habilidades y actitud.', en: 'Only 5 out of every 100 candidates pass our process. Over 11,000 assessed on skills and attitude.' },
+  ventaja_3_titulo: { es: 'Tú no gestionas nada', en: 'You manage nothing' },
+  ventaja_3_desc: { es: 'Nosotros contratamos, gestionamos y supervisamos. Tu empresa solo recibe una factura al mes. Si algo no funciona, lo reemplazamos.', en: 'We hire, manage and supervise. Your company just receives one invoice a month. If something is not working, we replace it.' },
 
   // ── PROCESO ──
   proceso_label: { es: 'Cómo funciona', en: 'How it works' },
@@ -60,7 +60,7 @@ const T: Record<string, Record<string, string>> = {
   proceso_1_titulo: { es: 'Cuéntanos qué necesitas', en: 'Tell us what you need' },
   proceso_1_desc: { es: 'Analizamos el perfil ideal para tu empresa: funciones, herramientas, horario y presupuesto.', en: 'We analyze the ideal profile for your company: tasks, tools, schedule and budget.' },
   proceso_2_titulo: { es: 'Te presentamos candidatos', en: 'We present candidates' },
-  proceso_2_desc: { es: 'En menos de 15 días recibes una shortlist de 2-3 candidatos pre-seleccionados con pruebas técnicas.', en: 'In less than 15 days you receive a shortlist of 2-3 pre-selected candidates with technical tests.' },
+  proceso_2_desc: { es: 'En menos de 15 días recibes 2 o 3 candidatos pre-seleccionados, ya evaluados en las habilidades que necesitas.', en: 'In less than 15 days you receive 2 or 3 pre-selected candidates, already assessed on the skills you need.' },
   proceso_3_titulo: { es: 'Tú eliges, nosotros contratamos', en: 'You choose, we hire' },
   proceso_3_desc: { es: 'Entrevistas al candidato que prefieras. Nosotros nos encargamos de la contratación y el onboarding.', en: 'Interview your preferred candidate. We handle hiring and onboarding.' },
   proceso_4_titulo: { es: 'Supervisión continua', en: 'Ongoing supervision' },
@@ -69,8 +69,8 @@ const T: Record<string, Record<string, string>> = {
   // ── TESTIMONIOS ──
   testimonios_label: { es: 'Testimonios', en: 'Testimonials' },
   testimonios_titulo: { es: 'Lo que dicen nuestros clientes.', en: 'What our clients say.' },
-  testimonios_cta: { es: '¿Listo para reducir tus costos operativos?', en: 'Ready to reduce your operating costs?' },
-  testimonios_cta_btn: { es: 'Agendar call', en: 'Book a call' },
+  testimonios_cta: { es: '¿Listo para contratar talento mundial?', en: 'Ready to hire world-class talent?' },
+  testimonios_cta_btn: { es: 'Agenda una llamada gratis', en: 'Book a free call' },
 
   // ── CONTACTO INLINE ──
   contacto_label: { es: 'Contacto', en: 'Contact' },
@@ -362,6 +362,11 @@ const T: Record<string, Record<string, string>> = {
   testi_t3_cargo: { es: 'CEO en PMV Factory', en: 'CEO at PMV Factory' },
   testi_t4_texto: { es: 'Estamos muy satisfechos con la calidad de los asistentes y la facilidad de contratación que ofrece Global Talent Connections.', en: 'We are very satisfied with the quality of the assistants and how easy hiring is with Global Talent Connections.' },
   testi_t4_cargo: { es: 'CEO en Coseba, Seguros Paco Saban', en: 'CEO at Coseba, Seguros Paco Saban' },
+  testi_ver_caso: { es: 'Ver el caso', en: 'View case' },
+  testi_asistentes: { es: 'asistentes contratados', en: 'assistants hired' },
+  testi_asistente_sing: { es: 'asistente contratado', en: 'assistant hired' },
+  testi_modal_cta_texto: { es: '¿Quieres un equipo así en tu empresa?', en: 'Want a team like this in your company?' },
+  testi_modal_cta_btn: { es: 'Agenda una llamada gratis', en: 'Book a free call' },
 }
 
 export function t(key: string, lang: string): string {

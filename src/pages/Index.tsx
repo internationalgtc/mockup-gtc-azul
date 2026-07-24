@@ -39,9 +39,9 @@ const PROCESS_STEPS_META = ['01', '02', '03', '04']
 
 const ADVANTAGE_ICONS = [Zap, Brain, Handshake]
 const ADVANTAGE_KEYS = [
-  { titleKey: 'ventaja_1_titulo', descKey: 'ventaja_1_desc' },
-  { titleKey: 'ventaja_2_titulo', descKey: 'ventaja_2_desc' },
-  { titleKey: 'ventaja_3_titulo', descKey: 'ventaja_3_desc' },
+  { titleKey: 'ventaja_1_titulo', descKey: 'ventaja_1_desc', anchor: '15d' },
+  { titleKey: 'ventaja_2_titulo', descKey: 'ventaja_2_desc', anchor: '<5%' },
+  { titleKey: 'ventaja_3_titulo', descKey: 'ventaja_3_desc', anchor: '€0' },
 ]
 
 export default function HomePage() {
@@ -201,7 +201,6 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {ADVANTAGE_KEYS.map((adv, i) => {
               const Icon = ADVANTAGE_ICONS[i]
-              const anchors = ['<5%', '15d', '€0']
               return (
                 <div
                   key={adv.titleKey}
@@ -211,7 +210,7 @@ export default function HomePage() {
                     <div className="w-14 h-14 rounded-full bg-blue-prime/10 flex items-center justify-center group-hover:bg-blue-prime group-hover:scale-110 transition-all">
                       <Icon className="w-6 h-6 text-blue-prime group-hover:text-white transition-colors" />
                     </div>
-                    <span className="text-coral font-headline font-bold text-2xl">{anchors[i]}</span>
+                    <span className="text-coral font-headline font-bold text-2xl">{adv.anchor}</span>
                   </div>
                   <h3 className="text-navy font-headline font-bold text-2xl mb-4">{t(adv.titleKey)}</h3>
                   <p className="text-dark-gray font-light leading-relaxed">{t(adv.descKey)}</p>

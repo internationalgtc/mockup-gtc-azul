@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, FC } from 'react'
-import { Maximize2, ArrowLeft, Quote, ArrowRight } from 'lucide-react'
+import { Maximize2, ArrowLeft, Quote, ArrowRight, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
@@ -10,6 +10,12 @@ interface Testimonio {
   textoKey: string
   video: string
   thumbnail: string | null
+  /**
+   * Asistentes que la empresa tiene contratados con GTC.
+   * Pendiente de confirmar los números reales con Romina — hasta entonces
+   * queda sin definir y el dato simplemente no se muestra en el modal.
+   */
+  asistentes?: number
 }
 
 const CLD = 'https://res.cloudinary.com/dax2r7ro2'
@@ -63,9 +69,34 @@ const VideoModal: FC<{ testimonio: Testimonio | null; cerrar: () => void }> = ({
             className="w-full h-full bg-navy"
           />
         </div>
-        <div className="mt-4 px-2">
-          <p className="text-off-white font-headline text-lg">{testimonio.nombre}</p>
-          <p className="text-blue-light text-xs font-label uppercase tracking-widest">{t(testimonio.cargoKey)}</p>
+        <div className="mt-4 px-2 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-off-white font-headline text-lg">{testimonio.nombre}</p>
+            <p className="text-blue-light text-xs font-label uppercase tracking-widest">{t(testimonio.cargoKey)}</p>
+          </div>
+          {testimonio.asistentes !== undefined && (
+            <div className="flex items-center gap-3 bg-blue-prime/10 border border-blue-prime/30 rounded-lg px-4 py-2.5">
+              <Users className="w-5 h-5 text-blue-light shrink-0" />
+              <div>
+                <span className="text-gold font-headline font-bold text-2xl leading-none">{testimonio.asistentes}</span>
+                <span className="block text-blue-light text-[10px] font-label uppercase tracking-widest font-extrabold mt-1">
+                  {t(testimonio.asistentes === 1 ? 'testi_asistente_sing' : 'testi_asistentes')}
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-4 pt-4 px-2 border-t border-blue-prime/20 flex flex-wrap items-center justify-between gap-4">
+          <p className="text-off-white/70 font-light">{t('testi_modal_cta_texto')}</p>
+          <Link
+            to="/contacto"
+            onClick={cerrar}
+            className="inline-flex items-center gap-3 bg-coral text-white px-8 py-3.5 rounded-md font-label font-bold text-sm tracking-widest uppercase hover:bg-coral/90 transition-all shadow-lg shadow-coral/20"
+          >
+            {t('testi_modal_cta_btn')}
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </div>
@@ -103,16 +134,26 @@ const TestimonioCard: FC<{ testimonio: Testimonio; abrirModal: (t: Testimonio) =
         </div>
       )}
 
-      <div className="p-5 flex flex-col flex-1">
+      {/* El área de texto abre el caso completo. Va aparte del <video> para no
+          pisar sus controles nativos con el click. */}
+      <button
+        type="button"
+        onClick={() => abrirModal(testimonio)}
+        className="p-5 flex flex-col flex-1 text-left w-full group/caso focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-prime focus-visible:ring-inset"
+      >
         <Quote size={18} className="text-blue-prime mb-2" />
         <p className="text-dark-gray font-light leading-relaxed text-sm flex-1">
           "{t(testimonio.textoKey)}"
         </p>
-        <div className="mt-4 pt-4 border-t border-border-soft">
+        <div className="mt-4 pt-4 border-t border-border-soft w-full">
           <p className="font-headline text-navy font-bold">{testimonio.nombre}</p>
           <p className="text-blue-prime text-xs font-label uppercase tracking-widest mt-0.5">{t(testimonio.cargoKey)}</p>
+          <span className="mt-3 inline-flex items-center gap-2 text-blue-prime font-label font-bold text-xs uppercase tracking-widest group-hover/caso:gap-3 transition-all">
+            {t('testi_ver_caso')}
+            <ArrowRight className="w-3.5 h-3.5" />
+          </span>
         </div>
-      </div>
+      </button>
     </div>
   )
 }
