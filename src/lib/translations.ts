@@ -5,7 +5,7 @@ const T: Record<string, Record<string, string>> = {
   nav_nosotros: { es: 'Nosotros', en: 'About Us' },
   nav_blog: { es: 'Blog', en: 'Blog' },
   nav_contacto: { es: 'Contacto', en: 'Contact' },
-  nav_cta: { es: 'Agendar call', en: 'Book a call' },
+  nav_cta: { es: 'Agendar llamada gratuita', en: 'Book a free call' },
   nav_calculadora: { es: 'Calculadora', en: 'Calculator' },
 
   // ── HERO ──
