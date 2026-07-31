@@ -294,6 +294,84 @@ function qualifyLead(role: string, budget: string, need: string, urgency: string
   return { label, emoji, score }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Ingesta en Nexus Agentic.
+//
+// Hasta ahora este endpoint solo reenviaba el lead COMPLETO al CRM
+// (globaltalentconnections.online) al terminar las 7 preguntas. Nexus no
+// recibía nada: ni la conversación, ni el lead, ni el pipeline. Y quien
+// abandonaba antes del final se perdía entero, en todos los sistemas.
+//
+// Ahora se llama en CADA mensaje, así que la conversación queda guardada desde
+// la primera palabra. El endpoint de Nexus es idempotente por `conversationId`:
+// reenviar lo mismo no duplica nada.
+//
+// Por qué se ESPERA (await) en vez de dispararlo y olvidarlo: este proyecto no
+// tiene `@vercel/functions`, así que no hay `waitUntil`. Una promesa sin await
+// puede morir en cuanto la función responde — que es exactamente el fallo que
+// tenía `forwardLead` y que hacía perder leads en silencio. El coste real es
+// bajo: la llamada va después de Gemini, que ya tarda 1-3 s.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const NEXUS_URL = process.env.NEXUS_INGEST_URL ?? 'https://nexus-agentic-ten.vercel.app'
+const NEXUS_TIMEOUT_MS = 2500
+
+type NexusIngestPayload = {
+  conversationId: string
+  visitorId?: string
+  messages: Message[]
+  lead?: Record<string, unknown> | null
+  meta?: Record<string, unknown> | null
+}
+
+async function ingestToNexus(payload: NexusIngestPayload): Promise<boolean> {
+  const embedKey = process.env.NEXUS_EMBED_KEY
+  if (!embedKey) {
+    // Sin clave no se puede escribir en Nexus. Se registra en vez de fallar en
+    // silencio: es un fallo de configuración, no del visitante.
+    console.error('[nexus-ingest] NEXUS_EMBED_KEY sin configurar — la conversación NO llega a Nexus')
+    return false
+  }
+
+  // Dos intentos: el primero cubre el caso normal, el segundo un corte puntual
+  // de red. Más reintentos harían esperar al visitante sin ganar fiabilidad,
+  // porque el widget reenvía el historial COMPLETO en cada mensaje: un fallo
+  // pasajero se recupera solo en el turno siguiente.
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), NEXUS_TIMEOUT_MS)
+    try {
+      const res = await fetch(`${NEXUS_URL}/api/chat/ingest`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ embedKey, ...payload }),
+        signal: controller.signal,
+      })
+      clearTimeout(timer)
+
+      if (res.ok) {
+        const data = await res.json().catch(() => ({})) as { persisted?: boolean; leadId?: string }
+        console.log(`[nexus-ingest] ok conv=${payload.conversationId} persisted=${data.persisted} lead=${data.leadId ?? '-'}`)
+        return data.persisted !== false
+      }
+
+      // 4xx = petición mal formada o clave inválida: reintentar no arregla nada.
+      if (res.status >= 400 && res.status < 500) {
+        const body = await res.text().catch(() => '')
+        console.error(`[nexus-ingest] rechazado ${res.status} conv=${payload.conversationId}: ${body.slice(0, 200)}`)
+        return false
+      }
+      console.warn(`[nexus-ingest] intento ${attempt} devolvió ${res.status}`)
+    } catch (err) {
+      clearTimeout(timer)
+      console.warn(`[nexus-ingest] intento ${attempt} falló:`, err instanceof Error ? err.message : err)
+    }
+  }
+
+  console.error(`[nexus-ingest] NO se pudo guardar en Nexus conv=${payload.conversationId} — se reintentará con el próximo mensaje`)
+  return false
+}
+
 async function forwardLead(leadData: {
   name: string; company: string; email: string
   role: string; need: string; budget: string; budget_label: string; urgency: string
@@ -336,14 +414,55 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
   try {
-    const { messages, lang: rawLang, utm_source, utm_medium, utm_campaign, utm_content, gclid, fbclid, landing_url } = req.body as {
+    const {
+      messages, lang: rawLang, conversationId, visitorId,
+      utm_source, utm_medium, utm_campaign, utm_content, gclid, fbclid, landing_url,
+    } = req.body as {
       messages: Message[]; lang?: string
+      conversationId?: string; visitorId?: string
       utm_source?: string; utm_medium?: string; utm_campaign?: string
       utm_content?: string; gclid?: string; fbclid?: string; landing_url?: string
     }
     const lang: Lang = rawLang === 'en' ? 'en' : 'es'
     const s = STRINGS[lang]
     const g = s.gate
+
+    const meta = {
+      utm_source, utm_medium, utm_campaign, utm_content,
+      gclid, fbclid, landing_url, lang,
+      referrer: (req.headers['referer'] as string) ?? null,
+    }
+
+    /**
+     * Responde al visitante Y deja la conversación guardada en Nexus.
+     *
+     * Todas las salidas del handler pasan por aquí a propósito: antes había
+     * cinco `return res.json(...)` distintos y era cuestión de tiempo que
+     * alguien añadiera el sexto olvidándose de persistir. Incluidos los
+     * caminos que NO generan lead (candidato, portón sin elegir): la
+     * conversación ocurrió y debe quedar registrada; sin email no se crea
+     * ficha, así que el pipeline no se ensucia con candidatos.
+     */
+    async function reply(
+      payload: Record<string, unknown>,
+      opts?: { history?: Message[]; lead?: Record<string, unknown> | null },
+    ) {
+      const history = opts?.history ?? messages ?? []
+      if (conversationId && history.length) {
+        const persisted = await ingestToNexus({
+          conversationId,
+          visitorId,
+          messages: history,
+          lead: opts?.lead ?? null,
+          meta,
+        })
+        // `nexusPersisted` viaja en la respuesta para que el widget sepa si el
+        // mensaje llegó de verdad y pueda reintentar. Nunca se responde
+        // "todo bien" sobre algo que no se guardó.
+        return res.json({ ...payload, nexusPersisted: persisted })
+      }
+      return res.json(payload)
+    }
 
     // Etapa 0 — apertura: el portón con botones (determinista, SIEMPRE muestra botones)
     if (!messages?.length) {
@@ -360,26 +479,27 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (intent === 'candidate') {
       // Es un candidato → a vacantes. NUNCA se crea lead de cliente.
-      return res.json({
+      return reply({
         message: g.candidateMsg,
         leadCreated: false,
         redirect: CANDIDATE_URL,
         redirectLabel: g.seeJobsLabel,
-      })
+      }, { history: [...messages, { role: 'assistant', content: g.candidateMsg }] })
     }
 
     if (intent === 'unclear') {
       // Escribió en vez de elegir → re-mostrar el portón con botones.
-      return res.json({
+      return reply({
         message: g.question,
         leadCreated: false,
         quickReplies: [g.optionCompany, g.optionCandidate],
-      })
+      }, { history: [...messages, { role: 'assistant', content: g.question }] })
     }
 
     // intent === 'company' → arranca el flujo real de calificación.
     if (users.length === 1) {
-      return res.json({ message: s.greeting, leadCreated: false })
+      return reply({ message: s.greeting, leadCreated: false },
+        { history: [...messages, { role: 'assistant', content: s.greeting }] })
     }
 
     // Quitamos el intercambio del portón (1ª pregunta del bot + la elección del
@@ -394,16 +514,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // (ej. "estoy buscando trabajo" en el campo de empresa), redirigir en el acto
     // en vez de seguir pidiéndole datos hasta el final.
     if (looksLikeCandidate(lastUserMsg)) {
-      return res.json({
+      return reply({
         message: g.candidateMsg,
         leadCreated: false,
         redirect: CANDIDATE_URL,
         redirectLabel: g.seeJobsLabel,
-      })
+      }, { history: [...messages, { role: 'assistant', content: g.candidateMsg }] })
     }
 
     if (/correo|e-?mail/i.test(lastBotMsg) && !EMAIL_REGEX.test(lastUserMsg.trim())) {
-      return res.json({ message: s.invalidEmail(lastUserMsg.trim()), leadCreated: false })
+      const retry = s.invalidEmail(lastUserMsg.trim())
+      return reply({ message: retry, leadCreated: false },
+        { history: [...messages, { role: 'assistant', content: retry }] })
     }
 
     const apiKey = process.env.GEMINI_CHATBOT_KEY ?? process.env.GEMINI_API_KEY
@@ -418,6 +540,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const leadMatch    = rawMessage.match(/GTC_LEAD:(\{[\s\S]*?\})/)
     const cleanMessage = rawMessage.replace(/\s*GTC_LEAD:\{[\s\S]*?\}/, '').trim()
     let leadCreated    = false
+    let leadForNexus: Record<string, unknown> | null = null
 
     if (leadMatch) {
       try {
@@ -425,16 +548,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         // Red de seguridad: si pese al portón el nombre/empresa/cargo todavía
         // huele a alguien buscando empleo, NO se manda al canal de clientes.
         if (looksLikeCandidate(leadData.company, leadData.role, leadData.name)) {
-          return res.json({
+          return reply({
             message: g.candidateMsg,
             leadCreated: false,
             redirect: CANDIDATE_URL,
             redirectLabel: g.seeJobsLabel,
-          })
+          }, { history: [...messages, { role: 'assistant', content: g.candidateMsg }] })
         }
         if (leadData.email && EMAIL_REGEX.test(leadData.email)) {
-          forwardLead({ ...leadData, utm_source, utm_medium, utm_campaign, utm_content, gclid, fbclid, landing_url })
+          const temp = qualifyLead(leadData.role, leadData.budget, leadData.need, leadData.urgency)
+          // `await` y no fuego-y-olvido: sin `waitUntil` (este proyecto no lo
+          // tiene) la promesa puede morir en cuanto la función responde. Era
+          // una vía real de pérdida de leads hacia el CRM.
+          await forwardLead({ ...leadData, utm_source, utm_medium, utm_campaign, utm_content, gclid, fbclid, landing_url })
           leadCreated = true
+          // El mismo lead va a Nexus junto con la conversación completa.
+          leadForNexus = { ...leadData, score: temp.score, temperature: temp.label }
         }
       } catch {
         console.warn('Malformed GTC_LEAD JSON')
@@ -448,7 +577,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       msg === s.assistantTypeQuestion.trim()  ? s.assistantTypeOptions.map(o => o.label) :
       null
 
-    return res.json({ message: cleanMessage, leadCreated, ...(quickReplies ? { quickReplies } : {}) })
+    return reply(
+      { message: cleanMessage, leadCreated, ...(quickReplies ? { quickReplies } : {}) },
+      {
+        history: [...messages, { role: 'assistant', content: cleanMessage }],
+        lead: leadForNexus,
+      },
+    )
   } catch (err) {
     console.error('chat/lead error', err)
     return res.status(500).json({ error: 'Error interno' })
