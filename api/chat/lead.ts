@@ -206,9 +206,17 @@ GTC_LEAD:{"name":"[nombre]","company":"[empresa]","email":"[email]","role":"[car
     role: m.role === 'user' ? 'user' as const : 'model' as const,
     parts: [{ text: m.content }],
   }))
-  // Gemini exige que el historial arranque con un turno 'user'; la charla empieza
-  // con el saludo del bot ('model'), así que descartamos los model iniciales.
-  while (history.length && history[0]!.role === 'model') history.shift()
+  // Gemini exige que el historial arranque con un turno 'user'.
+  //
+  // Descartar los 'model' iniciales dejaba a Gemini SIN CONTEXTO de que ya
+  // había saludado y pedido el nombre: lo volvía a preguntar y la
+  // conversación entera quedaba corrida un turno — la empresa se guardaba
+  // como nombre y el email como empresa. En vez de borrar el saludo, se
+  // antepone un turno de usuario neutro para cumplir el requisito de la API
+  // sin perder el contexto.
+  if (history.length && history[0]!.role === 'model') {
+    history.unshift({ role: 'user' as const, parts: [{ text: 'Hola' }] })
+  }
 
   const chat = model.startChat({ history })
   const result = await chat.sendMessage(messages[messages.length - 1]!.content)
@@ -571,10 +579,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const msg = cleanMessage.trim()
+    // Se identifica QUÉ pregunta es, no si el texto coincide carácter a
+    // carácter con la constante.
+    //
+    // El prompt le pide a Gemini el texto literal, pero un modelo reformula
+    // siempre ("Gracias, Ariel. Ahora, ¿cuál es…"), así que la igualdad
+    // exacta no acertaba nunca: el visitante se quedaba sin botones y tenía
+    // que copiar la opción a mano. Solo aparecían en el portón inicial, que
+    // es texto fijo sin IA de por medio.
+    //
+    // Se conserva la comparación exacta como primer intento —cuando el modelo
+    // sí obedece, acierta sin evaluar nada más— y la detección por palabras
+    // clave actúa de red.
+    const asks = (re: RegExp) => re.test(msg)
     const quickReplies =
-      msg === s.budgetQuestion.trim()         ? s.budgetOptions.map(o => o.label) :
-      msg === s.urgencyQuestion.trim()        ? s.urgencyOptions.map(o => o.label) :
-      msg === s.assistantTypeQuestion.trim()  ? s.assistantTypeOptions.map(o => o.label) :
+      msg === s.budgetQuestion.trim()  || asks(/rango de inversi|inversi[oó]n mensual|investment range|monthly investment/i)
+        ? s.budgetOptions.map(o => o.label) :
+      msg === s.urgencyQuestion.trim() || asks(/incorpor|para cu[aá]ndo|when would you need|start date/i)
+        ? s.urgencyOptions.map(o => o.label) :
+      msg === s.assistantTypeQuestion.trim() || asks(/tipo de perfil|qu[eé] perfil|type of profile|what.*profile/i)
+        ? s.assistantTypeOptions.map(o => o.label) :
       null
 
     return reply(
