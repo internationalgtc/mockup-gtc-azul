@@ -193,6 +193,7 @@ export default function ChatWidget() {
       message?: string; quickReplies?: string[]
       redirect?: string; redirectLabel?: string
       leadCreated?: boolean; nexusPersisted?: boolean
+      conversationId?: string
     } | null = null
 
     for (let attempt = 1; attempt <= 2 && !data; attempt++) {
@@ -230,6 +231,15 @@ export default function ChatWidget() {
     // funcionó, y el historial completo se reenvía en el próximo mensaje.
     if (data.nexusPersisted === false) {
       console.warn('[chat] la conversación no se guardó en Nexus; se reintentará con el próximo mensaje')
+    }
+
+    // El servidor manda el id que ha usado. Si el nuestro se perdió (modo
+    // incógnito, almacenamiento bloqueado) se adopta el suyo, para que los
+    // mensajes siguientes caigan en la MISMA conversación en vez de abrir una
+    // nueva en cada turno.
+    if (data.conversationId && data.conversationId !== conversationIdRef.current) {
+      conversationIdRef.current = data.conversationId
+      try { window.sessionStorage.setItem(CONV_KEY, data.conversationId) } catch { /* sin almacén */ }
     }
 
     if (data.message) {

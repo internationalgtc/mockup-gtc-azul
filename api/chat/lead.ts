@@ -1,4 +1,5 @@
 /// <reference types="node" />
+import { createHash } from 'node:crypto'
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 type Message = { role: 'user' | 'assistant'; content: string }
@@ -332,6 +333,42 @@ type NexusIngestPayload = {
   meta?: Record<string, unknown> | null
 }
 
+/**
+ * Identificador de conversación cuando el cliente no manda ninguno.
+ *
+ * Pasó en producción: un visitante con la pestaña abierta de antes del
+ * despliegue sigue ejecutando el widget viejo, que no envía `conversationId`.
+ * El chat le funcionaba con normalidad y a Nexus no llegaba NADA — ni la
+ * conversación ni el lead — sin un solo error por ningún lado. Depender de que
+ * el navegador mande el dato era el fallo.
+ *
+ * Se deriva de la IP, el navegador y los primeros mensajes: como esos no
+ * cambian a lo largo de la charla, todas las peticiones de la misma
+ * conversación producen el mismo id y el upsert de Nexus actualiza una única
+ * fila.
+ *
+ * Limitación asumida: dos visitantes con la misma IP y el mismo navegador que
+ * empiecen igual comparten id y sus mensajes se mezclan en una conversación.
+ * Es un caso raro y transitorio (solo afecta a clientes viejos), y mezclar es
+ * mucho menos grave que perder: hoy esos leads se descartaban enteros.
+ */
+function fallbackConversationId(req: VercelRequest, messages: Message[]): string {
+  const fwd = req.headers['x-forwarded-for']
+  const ip = (Array.isArray(fwd) ? fwd[0] : fwd ?? '').split(',')[0]!.trim()
+  const ua = (req.headers['user-agent'] as string) ?? ''
+  // SOLO el primer mensaje del usuario. Con los dos primeros el id cambiaba
+  // entre el turno 1 y el 2 —en el primero todavía no existe el segundo
+  // mensaje— y cada visitante dejaba una conversación huérfana de tres líneas
+  // antes de estabilizarse. Con uno solo, el id es el mismo desde el primer
+  // envío hasta el último.
+  const first = messages.find(m => m.role === 'user')?.content ?? ''
+  const seed = `${ip}|${ua}|${first}`
+
+  const h = createHash('sha256').update(seed).digest('hex')
+  // Se le da forma de UUID v4 porque el endpoint de Nexus valida el formato.
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-8${h.slice(17, 20)}-${h.slice(20, 32)}`
+}
+
 async function ingestToNexus(payload: NexusIngestPayload): Promise<boolean> {
   const embedKey = process.env.NEXUS_EMBED_KEY
   if (!embedKey) {
@@ -456,20 +493,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       opts?: { history?: Message[]; lead?: Record<string, unknown> | null },
     ) {
       const history = opts?.history ?? messages ?? []
-      if (conversationId && history.length) {
-        const persisted = await ingestToNexus({
-          conversationId,
-          visitorId,
-          messages: history,
-          lead: opts?.lead ?? null,
-          meta,
-        })
-        // `nexusPersisted` viaja en la respuesta para que el widget sepa si el
-        // mensaje llegó de verdad y pueda reintentar. Nunca se responde
-        // "todo bien" sobre algo que no se guardó.
-        return res.json({ ...payload, nexusPersisted: persisted })
+      if (!history.length) return res.json(payload)
+
+      // El id NUNCA depende de que el cliente lo mande: si falta, se deriva.
+      // Antes, un widget viejo sin `conversationId` hacía que la conversación
+      // entera se perdiera sin dejar rastro.
+      const convId = conversationId || fallbackConversationId(req, history)
+      if (!conversationId) {
+        console.warn(`[nexus-ingest] petición sin conversationId (widget cacheado); usando id derivado ${convId}`)
       }
-      return res.json(payload)
+
+      const persisted = await ingestToNexus({
+        conversationId: convId,
+        visitorId,
+        messages: history,
+        lead: opts?.lead ?? null,
+        meta,
+      })
+
+      // `nexusPersisted` viaja en la respuesta para que el widget sepa si el
+      // mensaje llegó de verdad. `conversationId` se devuelve para que un
+      // cliente que no lo tenía pueda adoptarlo y seguir la misma charla.
+      // Nunca se responde "todo bien" sobre algo que no se guardó.
+      return res.json({ ...payload, conversationId: convId, nexusPersisted: persisted })
     }
 
     // Etapa 0 — apertura: el portón con botones (determinista, SIEMPRE muestra botones)
