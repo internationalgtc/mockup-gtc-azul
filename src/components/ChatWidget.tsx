@@ -12,6 +12,74 @@ const CHAT_API = import.meta.env.VITE_GTC_CHAT_URL
     // Sin var (preview de Vercel): mismo origen, pega contra el backend del propio deploy.
     : '/api/chat/lead'
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Identidad de la conversación.
+//
+// Antes el widget solo mandaba el array de mensajes: no había forma de saber
+// que dos peticiones pertenecían a la MISMA charla. Al conectar Nexus eso
+// habría creado una conversación nueva por cada mensaje enviado.
+//
+//   · visitorId       → localStorage. Sobrevive a cierres del navegador, así
+//                       que reconoce a quien vuelve otro día.
+//   · conversationId  → sessionStorage. Una conversación por visita; se
+//                       mantiene si el visitante recarga la página.
+//   · historial       → sessionStorage. Sin esto, recargar dejaba la charla en
+//                       blanco y el servidor recibía un historial más corto que
+//                       el guardado, que (con razón) lo rechaza para no
+//                       truncar la conversación buena.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const VISITOR_KEY = 'gtc_visitor_id'
+const CONV_KEY    = 'gtc_conversation_id'
+const HISTORY_KEY = 'gtc_chat_history'
+
+function newId(): string {
+  // `crypto.randomUUID` necesita contexto seguro; en http:// no existe.
+  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID()
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = (Math.random() * 16) | 0
+    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16)
+  })
+}
+
+/** Lee un id del almacén indicado y lo crea si no existe. */
+function persistentId(store: 'local' | 'session', key: string): string {
+  try {
+    const s = store === 'local' ? window.localStorage : window.sessionStorage
+    const found = s.getItem(key)
+    if (found) return found
+    const created = newId()
+    s.setItem(key, created)
+    return created
+  } catch {
+    // Modo incógnito o cookies bloqueadas: se usa un id de memoria. La
+    // conversación sigue llegando a Nexus, solo que no sobrevive al refresh.
+    return newId()
+  }
+}
+
+function loadHistory(): Message[] {
+  try {
+    const raw = window.sessionStorage.getItem(HISTORY_KEY)
+    if (!raw) return []
+    const parsed = JSON.parse(raw)
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
+
+function saveHistory(messages: Message[]) {
+  try { window.sessionStorage.setItem(HISTORY_KEY, JSON.stringify(messages)) } catch { /* sin almacén */ }
+}
+
+function resetConversation() {
+  try {
+    window.sessionStorage.removeItem(CONV_KEY)
+    window.sessionStorage.removeItem(HISTORY_KEY)
+  } catch { /* sin almacén */ }
+}
+
 function TypingDots() {
   return (
     <div className="flex items-start gap-2">
@@ -65,7 +133,10 @@ export default function ChatWidget() {
   const lang = i18n.language === 'en' ? 'en' : 'es'
 
   const [isOpen, setIsOpen]           = useState(false)
-  const [messages, setMessages]       = useState<Message[]>([])
+  // El historial arranca de sessionStorage: recargar la página no debe borrar
+  // la charla ni romper su continuidad en Nexus.
+  const [messages, setMessages]       = useState<Message[]>(() =>
+    typeof window === 'undefined' ? [] : loadHistory())
   const [input, setInput]             = useState('')
   const [isTyping, setIsTyping]       = useState(false)
   const [hasStarted, setHasStarted]   = useState(false)
@@ -75,60 +146,136 @@ export default function ChatWidget() {
   const [redirect, setRedirect]       = useState<{ url: string; label: string } | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef       = useRef<HTMLInputElement>(null)
+  // Se resuelven una sola vez por montaje: si se leyeran en cada render,
+  // cambiarían de valor y romperían la continuidad de la conversación.
+  const visitorIdRef      = useRef<string>('')
+  const conversationIdRef = useRef<string>('')
+  // Evita que dos envíos simultáneos (doble clic, Enter repetido) manden dos
+  // peticiones con el mismo historial.
+  const inFlightRef = useRef(false)
+
+  if (typeof window !== 'undefined' && !visitorIdRef.current) {
+    visitorIdRef.current      = persistentId('local', VISITOR_KEY)
+    conversationIdRef.current = persistentId('session', CONV_KEY)
+  }
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isTyping])
 
+  // Cada cambio del historial se persiste: si el visitante recarga a mitad de
+  // la charla, vuelve exactamente donde estaba.
+  useEffect(() => {
+    if (messages.length) saveHistory(messages)
+  }, [messages])
+
   const sendToAPI = useCallback(async (history: Message[], currentLang: string) => {
+    // Un solo envío en vuelo: el doble clic y el Enter repetido dejan de
+    // generar dos peticiones con el mismo historial.
+    if (inFlightRef.current) return
+    inFlightRef.current = true
     setIsTyping(true)
-    try {
-      const res = await fetch(CHAT_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: history,
-          lang: currentLang,
-          ...getUTMs(),
-          landing_url: getLandingUrl(),
-        }),
-      })
-      const data = await res.json()
-      setMessages(prev => [...prev, { role: 'assistant', content: data.message }])
-      setQuickReplies(data.quickReplies ?? [])
-      if (data.redirect) {
-        // El visitante es candidato: lo mandamos a vacantes, no se crea lead.
-        setRedirect({ url: data.redirect, label: data.redirectLabel ?? 'Ver vacantes' })
-        setFinished(true)
+
+    const payload = JSON.stringify({
+      messages: history,
+      lang: currentLang,
+      conversationId: conversationIdRef.current,
+      visitorId: visitorIdRef.current,
+      ...getUTMs(),
+      landing_url: getLandingUrl(),
+    })
+
+    // Dos intentos con una pequeña espera: cubre el corte de red puntual y el
+    // cambio de wifi a datos móviles, que es donde más se perdían mensajes.
+    // El historial completo viaja en cada petición, así que un fallo aislado
+    // se recupera solo en el turno siguiente.
+    let data: {
+      message?: string; quickReplies?: string[]
+      redirect?: string; redirectLabel?: string
+      leadCreated?: boolean; nexusPersisted?: boolean
+      conversationId?: string
+    } | null = null
+
+    for (let attempt = 1; attempt <= 2 && !data; attempt++) {
+      try {
+        const res = await fetch(CHAT_API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+        })
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        data = await res.json()
+      } catch (err) {
+        if (attempt === 2) {
+          console.error('[chat] no se pudo enviar el mensaje:', err)
+        } else {
+          await new Promise(r => setTimeout(r, 700))
+        }
       }
-      if (data.leadCreated) {
-        setFinished(true)
-        // Avisar a GA4 / Google Ads / Meta Pixel que el chatbot capturó un lead
-        // (antes el chatbot creaba el lead en el backend pero no disparaba el
-        // evento, así que esos leads eran invisibles para analytics/ads).
-        trackLead('chatbot')
-      }
-    } catch {
+    }
+
+    if (!data) {
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: lang === 'en'
-          ? 'Sorry, an error occurred. Please try again.'
-          : 'Lo siento, ocurrió un error. Por favor intentá de nuevo.',
+          ? 'Sorry, there was a connection problem. Please send your message again.'
+          : 'Lo siento, ha habido un problema de conexión. Vuelve a enviar tu mensaje, por favor.',
       }])
-    } finally {
       setIsTyping(false)
+      inFlightRef.current = false
+      return
     }
+
+    // Si el backend avisa de que la conversación no llegó a Nexus, queda
+    // registrado en consola. No se le muestra al visitante: para él el chat
+    // funcionó, y el historial completo se reenvía en el próximo mensaje.
+    if (data.nexusPersisted === false) {
+      console.warn('[chat] la conversación no se guardó en Nexus; se reintentará con el próximo mensaje')
+    }
+
+    // El servidor manda el id que ha usado. Si el nuestro se perdió (modo
+    // incógnito, almacenamiento bloqueado) se adopta el suyo, para que los
+    // mensajes siguientes caigan en la MISMA conversación en vez de abrir una
+    // nueva en cada turno.
+    if (data.conversationId && data.conversationId !== conversationIdRef.current) {
+      conversationIdRef.current = data.conversationId
+      try { window.sessionStorage.setItem(CONV_KEY, data.conversationId) } catch { /* sin almacén */ }
+    }
+
+    if (data.message) {
+      setMessages(prev => [...prev, { role: 'assistant', content: data!.message! }])
+    }
+    setQuickReplies(data.quickReplies ?? [])
+    if (data.redirect) {
+      // El visitante es candidato: lo mandamos a vacantes, no se crea lead.
+      setRedirect({ url: data.redirect, label: data.redirectLabel ?? 'Ver vacantes' })
+      setFinished(true)
+    }
+    if (data.leadCreated) {
+      setFinished(true)
+      // Avisar a GA4 / Google Ads / Meta Pixel que el chatbot capturó un lead
+      // (antes el chatbot creaba el lead en el backend pero no disparaba el
+      // evento, así que esos leads eran invisibles para analytics/ads).
+      trackLead('chatbot')
+    }
+
+    setIsTyping(false)
+    inFlightRef.current = false
   }, [lang])
 
   const openChat = useCallback(async () => {
     setIsOpen(true)
     setShowBadge(false)
-    if (!hasStarted) {
+    // Con historial restaurado de un refresh no se vuelve a pedir el saludo:
+    // se continúa la charla donde estaba.
+    if (!hasStarted && messages.length === 0) {
       setHasStarted(true)
       await sendToAPI([], lang)
+    } else if (!hasStarted) {
+      setHasStarted(true)
     }
     setTimeout(() => inputRef.current?.focus(), 100)
-  }, [hasStarted, sendToAPI, lang])
+  }, [hasStarted, sendToAPI, lang, messages.length])
 
   const handleSend = async (text?: string) => {
     const content = (text ?? input).trim()
@@ -149,6 +296,12 @@ export default function ChatWidget() {
   useEffect(() => {
     if (prevLangRef.current === lang) return
     prevLangRef.current = lang
+    // Cambiar de idioma vacía la charla, así que empieza una conversación
+    // NUEVA. Sin esto se seguiría usando el mismo conversationId con un
+    // historial más corto, y el servidor lo rechazaría (con razón) para no
+    // truncar la conversación ya guardada.
+    resetConversation()
+    conversationIdRef.current = persistentId('session', CONV_KEY)
     setMessages([])
     setQuickReplies([])
     setRedirect(null)

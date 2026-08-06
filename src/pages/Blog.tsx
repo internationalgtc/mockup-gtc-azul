@@ -1,13 +1,17 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Clock } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
-import { blogPosts } from '@/data/blogPosts'
+import { blogPosts as staticBlogPosts } from '@/data/blogPosts'
 import { useT, useLang, l } from '@/hooks/useT'
+import { useNexusSeoArticles } from '@/hooks/useNexusSeoArticles'
 import SEO from '@/components/shared/SEO'
 
 export default function BlogPage() {
   const t = useT()
   const lang = useLang()
+  // Los generados por Nexus van primero (más recientes), después los fijos.
+  const { posts: nexusPosts } = useNexusSeoArticles()
+  const blogPosts = [...nexusPosts, ...staticBlogPosts]
 
   return (
     <>

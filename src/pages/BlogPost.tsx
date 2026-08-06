@@ -1,14 +1,24 @@
 import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, Clock, User } from 'lucide-react'
-import { blogPosts } from '@/data/blogPosts'
+import { blogPosts as staticBlogPosts } from '@/data/blogPosts'
 import { useT, useLang, l } from '@/hooks/useT'
+import { useNexusSeoArticles } from '@/hooks/useNexusSeoArticles'
 import SEO from '@/components/shared/SEO'
 
 export default function BlogPostPage() {
   const { id } = useParams()
   const t = useT()
   const lang = useLang()
-  const post = blogPosts.find(p => p.id === id)
+  const { posts: nexusPosts, loading: nexusLoading } = useNexusSeoArticles()
+  const post = [...nexusPosts, ...staticBlogPosts].find(p => p.id === id)
+
+  if (!post && nexusLoading) {
+    return (
+      <div role="status" className="min-h-screen bg-off-white flex items-center justify-center pt-32">
+        <span className="text-navy/60">Cargando…</span>
+      </div>
+    )
+  }
 
   if (!post) {
     return (
