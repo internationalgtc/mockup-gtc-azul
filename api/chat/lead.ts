@@ -32,6 +32,7 @@ function getCorsHeaders(origin: string | null): Record<string, string> {
 
 type Lang = 'es' | 'en'
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const PHONE_SKIP  = /^(no|no tengo|sin tel[ée]fono?|sin n[uú]mero|omitir|skip|-)$/i
 
 const STRINGS = {
   es: {
@@ -60,12 +61,14 @@ const STRINGS = {
       { key: '7', label: 'RRHH / Reclutamiento' },
       { key: '8', label: 'Otro' },
     ],
-    namePrompt:     (name: string) => `¡Encantado, ${name}! ¿A qué empresa pertenece?`,
-    companyPrompt:  () => `Perfecto. ¿Cuál es su correo electrónico de contacto?`,
-    invalidEmail:   (val: string) => `"${val}" no es un email válido. Necesito tu dirección de correo electrónico (ejemplo: nombre@empresa.com).`,
-    emailPrompt:    (company: string) => `Gracias. ¿Cuál es su cargo o función en ${company}?`,
-    invalidBudget:  () => `Ese no parece un email válido. Por favor ingresá tu dirección de correo (ejemplo: nombre@empresa.com).`,
-    confirmation:   (name: string) => `¡Perfecto, ${name}! Su consulta ha quedado registrada ✅ Un asesor de GTC se pondrá en contacto a la brevedad.`,
+    namePrompt:          (name: string) => `¡Encantado, ${name}! ¿A qué empresa pertenece?`,
+    companyPrompt:       () => `Perfecto. ¿Cuál es su correo electrónico de contacto?`,
+    invalidEmail:        (val: string) => `"${val}" no es un email válido. Necesito tu dirección de correo electrónico (ejemplo: nombre@empresa.com).`,
+    phonePrompt:         () => `Gracias. ¿Cuál es su número de teléfono de contacto? (opcional — escribí "no" para continuar)`,
+    emailPrompt:         (company: string) => `Perfecto. ¿Cuál es su cargo o función en ${company}?`,
+    invalidBudget:       () => `Ese no parece un email válido. Por favor ingresá tu dirección de correo (ejemplo: nombre@empresa.com).`,
+    otherProfileQuestion: `Entendido. ¿Podés contarnos brevemente en qué área necesitás ayuda? Eso nos permite asignarte el asesor ideal.`,
+    confirmation:        (name: string) => `¡Perfecto, ${name}! Su consulta ha quedado registrada ✅ Un asesor de GTC se pondrá en contacto a la brevedad.`,
     gate: {
       question:        '¡Hola! Soy el asistente de Global Talent Connections 👋 Para ayudarte mejor: ¿qué estás buscando?',
       optionCompany:   'Quiero contratar talento',
@@ -100,12 +103,14 @@ const STRINGS = {
       { key: '7', label: 'HR / Recruitment' },
       { key: '8', label: 'Other' },
     ],
-    namePrompt:     (name: string) => `Nice to meet you, ${name}! What company do you work for?`,
-    companyPrompt:  () => `Perfect. What is your contact email address?`,
-    invalidEmail:   (val: string) => `"${val}" is not a valid email. Please enter your email address (e.g. name@company.com).`,
-    emailPrompt:    (company: string) => `Thank you. What is your role or position at ${company}?`,
-    invalidBudget:  () => `That doesn't look like a valid email. Please enter your email address (e.g. name@company.com).`,
-    confirmation:   (name: string) => `All set, ${name}! Your inquiry has been registered ✅ A GTC advisor will be in touch shortly.`,
+    namePrompt:          (name: string) => `Nice to meet you, ${name}! What company do you work for?`,
+    companyPrompt:       () => `Perfect. What is your contact email address?`,
+    invalidEmail:        (val: string) => `"${val}" is not a valid email. Please enter your email address (e.g. name@company.com).`,
+    phonePrompt:         () => `Thank you. What is your contact phone number? (optional — type "no" to skip)`,
+    emailPrompt:         (company: string) => `Perfect. What is your role or position at ${company}?`,
+    invalidBudget:       () => `That doesn't look like a valid email. Please enter your email address (e.g. name@company.com).`,
+    otherProfileQuestion: `Got it. Can you briefly tell us what area you need help with? That helps us match you with the right advisor.`,
+    confirmation:        (name: string) => `All set, ${name}! Your inquiry has been registered ✅ A GTC advisor will be in touch shortly.`,
     gate: {
       question:        'Hi! I\'m the Global Talent Connections assistant 👋 To help you better: what are you looking for?',
       optionCompany:   'I want to hire talent',
@@ -162,42 +167,48 @@ async function callGemini(messages: Message[], lang: Lang): Promise<string> {
   const systemPrompt = lang === 'en'
     ? `You are a recruitment assistant for Global Talent Connections. You help North American and European companies hire high-quality remote Latin American talent.
 
-Your mission is to collect exactly 7 data points from the visitor (a business owner or decision-maker who wants to hire), in this strict order, one at a time:
+Your mission is to collect the following data points from the visitor (a business owner or decision-maker who wants to hire), in this strict order, one at a time:
 1. Full name
 2. Company or business name
 3. Contact email
-4. Role or position at the company
-5. Monthly investment range — ALWAYS present the exact text: "${s.budgetQuestion}" — the system will show buttons automatically. If the user types instead of clicking a button, remind them to select one of the 3 options: ${s.budgetOptions.map(o => o.label).join(', ')}.
-6. Start date — ALWAYS present the exact text: "${s.urgencyQuestion}" — the system will show buttons automatically. If the user types instead, remind them to select one of the 4 options: ${s.urgencyOptions.map(o => o.label).join(', ')}.
-7. Profile type — ALWAYS present the exact text: "${s.assistantTypeQuestion}" — the system will show buttons automatically. If the user types instead, remind them to select one of the options: ${s.assistantTypeOptions.map(o => o.label).join(', ')}.
+4. Phone number — ALWAYS present the exact text: "${s.phonePrompt()}" — it is optional, the user may type "no" to skip. Accept any response and move on.
+5. Role or position at the company
+6. Monthly investment range — ALWAYS present the exact text: "${s.budgetQuestion}" — the system will show buttons automatically. If the user types instead of clicking a button, remind them to select one of the 3 options: ${s.budgetOptions.map(o => o.label).join(', ')}.
+7. Start date — ALWAYS present the exact text: "${s.urgencyQuestion}" — the system will show buttons automatically. If the user types instead, remind them to select one of the 4 options: ${s.urgencyOptions.map(o => o.label).join(', ')}.
+8. Profile type — ALWAYS present the exact text: "${s.assistantTypeQuestion}" — the system will show buttons automatically. If the user types instead, remind them to select one of the options: ${s.assistantTypeOptions.map(o => o.label).join(', ')}.
+   - SPECIAL CASE: if the user selects "Other", ALWAYS ask the exact text: "${s.otherProfileQuestion}" and use their free-text answer as the profile type.
 
 Strict rules:
 - Ask ONE question at a time, in the indicated order, without skipping any step
 - Do not advance to the next item until you have a valid answer for the current one
 - EMAIL VALIDATION: a valid email MUST contain @ and a domain. If the user types something without @, it is NOT an email — ask again
+- PHONE: any response is accepted (number or "no") — never re-ask it
 - Use a professional but friendly tone in English
 
-When you have all 7 valid data points, confirm the registration with a short friendly message. Then, in the SAME response on a separate line at the end, write exactly (no markdown):
-GTC_LEAD:{"name":"[name]","company":"[company]","email":"[email]","role":"[role]","need":"[profile type]","budget":"[1100|1300|1500]","budget_label":"[chosen option]","urgency":"[chosen option]"}`
+When you have all data points, confirm the registration with a short friendly message. Then, in the SAME response on a separate line at the end, write exactly (no markdown):
+GTC_LEAD:{"name":"[name]","company":"[company]","email":"[email]","phone":"[phone or empty]","role":"[role]","need":"[profile type or free-text if Other]","budget":"[1100|1300|1500]","budget_label":"[chosen option]","urgency":"[chosen option]"}`
     : `Eres un asistente de reclutamiento de Global Talent Connections. Ayudás a empresas norteamericanas y europeas a contratar talento remoto latinoamericano de alta calidad.
 
-Tu misión es recopilar exactamente 7 datos del visitante (dueño o responsable de una empresa que quiere contratar), en este orden estricto, uno por vez:
+Tu misión es recopilar los siguientes datos del visitante (dueño o responsable de una empresa que quiere contratar), en este orden estricto, uno por vez:
 1. Nombre completo
 2. Empresa o nombre del negocio
 3. Email de contacto
-4. Cargo o función en la empresa
-5. Rango de inversión mensual — SIEMPRE presentar el texto exacto: "${s.budgetQuestion}" — el sistema mostrará botones automáticamente. Si el usuario escribe algo en vez de elegir un botón, recordale que debe seleccionar una de las 3 opciones: ${s.budgetOptions.map(o => o.label).join(', ')}.
-6. Disponibilidad de incorporación — SIEMPRE presentar el texto exacto: "${s.urgencyQuestion}" — el sistema mostrará botones automáticamente. Si el usuario escribe algo en vez de elegir un botón, recordale que debe seleccionar una de las 4 opciones: ${s.urgencyOptions.map(o => o.label).join(', ')}.
-7. Tipo de perfil — SIEMPRE presentar el texto exacto: "${s.assistantTypeQuestion}" — el sistema mostrará botones automáticamente. Si el usuario escribe algo en vez de elegir un botón, recordale que debe seleccionar una de las opciones: ${s.assistantTypeOptions.map(o => o.label).join(', ')}.
+4. Número de teléfono — SIEMPRE presentar el texto exacto: "${s.phonePrompt()}" — es opcional, el usuario puede escribir "no" para omitirlo. Aceptá cualquier respuesta y avanzá.
+5. Cargo o función en la empresa
+6. Rango de inversión mensual — SIEMPRE presentar el texto exacto: "${s.budgetQuestion}" — el sistema mostrará botones automáticamente. Si el usuario escribe algo en vez de elegir un botón, recordale que debe seleccionar una de las 3 opciones: ${s.budgetOptions.map(o => o.label).join(', ')}.
+7. Disponibilidad de incorporación — SIEMPRE presentar el texto exacto: "${s.urgencyQuestion}" — el sistema mostrará botones automáticamente. Si el usuario escribe algo en vez de elegir un botón, recordale que debe seleccionar una de las 4 opciones: ${s.urgencyOptions.map(o => o.label).join(', ')}.
+8. Tipo de perfil — SIEMPRE presentar el texto exacto: "${s.assistantTypeQuestion}" — el sistema mostrará botones automáticamente. Si el usuario escribe algo en vez de elegir un botón, recordale que debe seleccionar una de las opciones: ${s.assistantTypeOptions.map(o => o.label).join(', ')}.
+   - CASO ESPECIAL: si el usuario elige "Otro", SIEMPRE preguntá el texto exacto: "${s.otherProfileQuestion}" y usá su respuesta libre como tipo de perfil.
 
 Reglas estrictas:
 - Haz UNA sola pregunta a la vez, en el orden indicado, sin saltarte ningún paso
 - No avances al siguiente dato hasta obtener una respuesta válida del anterior
 - VALIDACIÓN DE EMAIL: un email válido DEBE contener @ y un dominio. Si el usuario escribe algo sin @, NO es un email — pedilo de nuevo
+- TELÉFONO: cualquier respuesta es válida (número o "no") — nunca lo vuelvas a pedir
 - Usa español neutro, tono profesional pero cercano
 
-Cuando tengas los 7 datos válidos, confirmá el registro con un mensaje corto y amigable. Después, en la MISMA respuesta en una línea separada al final, escribí exactamente (sin markdown):
-GTC_LEAD:{"name":"[nombre]","company":"[empresa]","email":"[email]","role":"[cargo]","need":"[tipo de perfil]","budget":"[1100|1300|1500]","budget_label":"[opción elegida]","urgency":"[opción elegida]"}`
+Cuando tengas todos los datos, confirmá el registro con un mensaje corto y amigable. Después, en la MISMA respuesta en una línea separada al final, escribí exactamente (sin markdown):
+GTC_LEAD:{"name":"[nombre]","company":"[empresa]","email":"[email]","phone":"[teléfono o vacío]","role":"[cargo]","need":"[tipo de perfil o texto libre si eligió Otro]","budget":"[1100|1300|1500]","budget_label":"[opción elegida]","urgency":"[opción elegida]"}`
 
   // systemInstruction va en el modelo (no en startChat, ahí Google lo rechaza con 400)
   const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash', systemInstruction: systemPrompt })
@@ -226,24 +237,40 @@ function qualificationFlow(messages: Message[], lang: Lang): string {
   if (emailIndex === -1) return s.invalidBudget()
 
   const email = user[emailIndex]!.content.trim()
-  if (user.length === emailIndex + 1) return s.emailPrompt(user[1]!.content.trim())
-  if (user.length === emailIndex + 2) return s.budgetQuestion
 
-  const budget = parseBudget(user[emailIndex + 2]!.content.trim(), lang)
+  // Teléfono (opcional)
+  if (user.length === emailIndex + 1) return s.phonePrompt()
+  const phoneRaw = user[emailIndex + 1]!.content.trim()
+  const phone = PHONE_SKIP.test(phoneRaw) ? '' : phoneRaw
+
+  // Cargo
+  if (user.length === emailIndex + 2) return s.emailPrompt(user[1]!.content.trim())
+  if (user.length === emailIndex + 3) return s.budgetQuestion
+
+  const budget = parseBudget(user[emailIndex + 3]!.content.trim(), lang)
   if (!budget) return s.budgetQuestion
-  if (user.length === emailIndex + 3) return s.urgencyQuestion
+  if (user.length === emailIndex + 4) return s.urgencyQuestion
 
-  const urgency = user[emailIndex + 3]!.content.trim()
+  const urgency = user[emailIndex + 4]!.content.trim()
   if (!s.urgencyOptions.some(o => o.label.toLowerCase() === urgency.toLowerCase())) return s.urgencyQuestion
-  if (user.length === emailIndex + 4) return s.assistantTypeQuestion
+  if (user.length === emailIndex + 5) return s.assistantTypeQuestion
 
-  const needRaw = user[emailIndex + 4]!.content.trim()
+  const needRaw = user[emailIndex + 5]!.content.trim()
   if (!s.assistantTypeOptions.some(o => o.label.toLowerCase() === needRaw.toLowerCase())) return s.assistantTypeQuestion
 
-  const name = extractName(user[0]!.content)
+  const isOther = /^(otro|other)$/i.test(needRaw)
+  const name    = extractName(user[0]!.content)
   const company = user[1]!.content.trim()
-  const role = user[emailIndex + 1]!.content.trim()
-  return `${s.confirmation(name)}\nGTC_LEAD:{"name":"${name}","company":"${company}","email":"${email}","role":"${role}","need":"${needRaw}","budget":"${budget.value}","budget_label":"${budget.label}","urgency":"${urgency}"}`
+  const role    = user[emailIndex + 2]!.content.trim()
+
+  // Si eligió "Otro", preguntamos en qué área
+  if (isOther) {
+    if (user.length === emailIndex + 6) return s.otherProfileQuestion
+    const needFreeText = user[emailIndex + 6]!.content.trim()
+    return `${s.confirmation(name)}\nGTC_LEAD:{"name":"${name}","company":"${company}","email":"${email}","phone":"${phone}","role":"${role}","need":"${needFreeText}","budget":"${budget.value}","budget_label":"${budget.label}","urgency":"${urgency}"}`
+  }
+
+  return `${s.confirmation(name)}\nGTC_LEAD:{"name":"${name}","company":"${company}","email":"${email}","phone":"${phone}","role":"${role}","need":"${needRaw}","budget":"${budget.value}","budget_label":"${budget.label}","urgency":"${urgency}"}`
 }
 
 type LeadTemperature = { label: string; emoji: string; score: number }
@@ -295,12 +322,13 @@ function qualifyLead(role: string, budget: string, need: string, urgency: string
 }
 
 async function forwardLead(leadData: {
-  name: string; company: string; email: string
+  name: string; company: string; email: string; phone: string
   role: string; need: string; budget: string; budget_label: string; urgency: string
   utm_source?: string; utm_medium?: string; utm_campaign?: string
   utm_content?: string; gclid?: string; fbclid?: string; landing_url?: string
 }) {
   const temp = qualifyLead(leadData.role, leadData.budget, leadData.need, leadData.urgency)
+  const phoneStr = leadData.phone ? ` | Tel: ${leadData.phone}` : ''
   try {
     await fetch('https://www.globaltalentconnections.online/api/leads/public', {
       method: 'POST',
@@ -310,7 +338,7 @@ async function forwardLead(leadData: {
         contact_email:  leadData.email,
         company_name:   leadData.company,
         assistant_type: leadData.need,
-        description:    `Cargo: ${leadData.role} | Incorporación: ${leadData.urgency} | Temperatura: ${temp.emoji} ${temp.label} (${temp.score}pts)`,
+        description:    `Cargo: ${leadData.role}${phoneStr} | Incorporación: ${leadData.urgency} | Temperatura: ${temp.emoji} ${temp.label} (${temp.score}pts)`,
         budget_option:  leadData.budget,
         source:         'chatbot_web',
         utm_source:     leadData.utm_source,
