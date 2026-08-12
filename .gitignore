@@ -4,3 +4,6 @@ dist
 .env
 .env.local
 *.local
+
+# Permisos por usuario de Claude Code — nunca se comparten entre cuentas ni maquinas
+.claude/settings.local.json
