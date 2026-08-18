@@ -1,9 +1,12 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { captureUTMs } from '@/lib/utm'
+import { captureCountry } from '@/lib/geo'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { Layout } from '@/components/layout/Layout'
 import { ScrollToTop } from '@/components/shared/ScrollToTop'
+import ChatWidget from '@/components/ChatWidget'
 import HomePage from '@/pages/Index'
 
 const Nosotros = lazy(() => import('@/pages/Nosotros'))
@@ -11,9 +14,11 @@ const Contacto = lazy(() => import('@/pages/Contacto'))
 const Servicios = lazy(() => import('@/pages/Servicios'))
 const Empleos = lazy(() => import('@/pages/Empleos'))
 const DetallesDeEmpleo = lazy(() => import('@/pages/DetallesDeEmpleo'))
+const CalculadoraAhorro = lazy(() => import('@/pages/CalculadoraAhorro'))
 const Blog = lazy(() => import('@/pages/Blog'))
 const BlogPost = lazy(() => import('@/pages/BlogPost'))
-const CalculadoraAhorro = lazy(() => import('@/pages/CalculadoraAhorro'))
+const PoliticaPrivacidad = lazy(() => import('@/pages/PoliticaPrivacidad'))
+const Beneficios = lazy(() => import('@/pages/Beneficios'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 
 function PageLoader() {
@@ -25,6 +30,8 @@ function PageLoader() {
 }
 
 export default function App() {
+  useEffect(() => { captureUTMs(); captureCountry() }, [])
+
   return (
     <>
       <ScrollToTop />
@@ -37,13 +44,16 @@ export default function App() {
             <Route path="/servicios" element={<Servicios />} />
             <Route path="/empleos" element={<Empleos />} />
             <Route path="/empleos/:id" element={<DetallesDeEmpleo />} />
+            <Route path="/calculadora-ahorro" element={<CalculadoraAhorro />} />
             <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/calculadora" element={<CalculadoraAhorro />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="/politica-de-privacidad" element={<PoliticaPrivacidad />} />
+            <Route path="/beneficios" element={<Beneficios />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </Suspense>
+      <ChatWidget />
       <Analytics />
       <SpeedInsights />
     </>

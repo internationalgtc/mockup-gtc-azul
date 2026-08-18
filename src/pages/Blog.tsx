@@ -3,6 +3,7 @@ import { ArrowRight, Clock } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
 import { blogPosts } from '@/data/blogPosts'
 import { useT, useLang, l } from '@/hooks/useT'
+import SEO from '@/components/shared/SEO'
 
 export default function BlogPage() {
   const t = useT()
@@ -10,6 +11,11 @@ export default function BlogPage() {
 
   return (
     <>
+      <SEO
+        title="Blog"
+        description="Insights, casos de éxito y guías sobre talento remoto, gestión de equipos y crecimiento empresarial con asistentes virtuales."
+        path="/blog"
+      />
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">

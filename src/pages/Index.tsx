@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { trackLead } from '@/lib/tracking'
+import { getUTMs, getLandingUrl } from '@/lib/utm'
+import { getCountry } from '@/lib/geo'
 import { ArrowRight, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
 import Testimonials from '@/components/Testimonials'
+import SEO, { HOME_FAQ_SCHEMA } from '@/components/shared/SEO'
 
 import l1 from '@/assets/logos/l1.png'
 import l2 from '@/assets/logos/l2.jpg'
@@ -23,16 +27,21 @@ const CLIENT_LOGOS = [
   { src: l7, alt: 'Gabinete Studios' },
 ]
 
+// Datos verificados contra Nexus el 21-jul-2026: 56 clientes activos con al
+// menos un asistente trabajando y 101 asistentes activos.
 const STAT_KEYS = [
-  { value: '53', key: 'stat_empresas', color: 'text-blue-prime' },
-  { value: '111', key: 'stat_profesionales', color: 'text-blue-prime' },
+  { value: '56', key: 'stat_empresas', color: 'text-blue-prime' },
+  { value: '101', key: 'stat_profesionales', color: 'text-blue-prime' },
   { value: '50%', key: 'stat_ahorro', color: 'text-gold' },
-  { value: '95%', key: 'stat_retencion', color: 'text-gold' },
 ]
+
+// La grilla se ajusta a cuántos stats haya, para que no queden columnas
+// vacías si se agrega o se saca uno. Las clases van literales porque
+// Tailwind no detecta nombres construidos en runtime.
+const STAT_COLS = STAT_KEYS.length === 4 ? 'md:grid-cols-4' : 'md:grid-cols-3'
 
 const PROCESS_ICONS = [Search, Users, FileCheck, Headphones]
 const PROCESS_STEPS_META = ['01', '02', '03', '04']
-
 
 const ADVANTAGE_ICONS = [Zap, Brain, Handshake]
 const ADVANTAGE_KEYS = [
@@ -46,6 +55,13 @@ export default function HomePage() {
 
   return (
     <>
+      <SEO
+        title="Home"
+        description="Ahorrá hasta un 52% contratando talento remoto de alto rendimiento. Conectamos PYMEs en España con Asistentes Virtuales, SDRs y perfiles administrativos top. Selección, gestión y supervisión integral."
+        path="/"
+        faqSchema={HOME_FAQ_SCHEMA}
+        keywords="asistentes virtuales España, talento remoto para empresas, contratar asistente virtual barato, trabajo remoto en euros, outsourcing LATAM, profesionales remotos España, reducir costes de personal, SDR remoto, Global Talent Connections"
+      />
       {/* HERO */}
       <section className="relative bg-navy min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-prime/[0.08] blur-[120px] rounded-full -mr-48 -mt-48" />
@@ -96,9 +112,9 @@ export default function HomePage() {
       </section>
 
       {/* STATS BAR */}
-      <RevealSection className="relative z-20 -mt-12 max-w-5xl mx-auto px-6 lg:px-8">
+      <section className="relative z-20 -mt-12 max-w-5xl mx-auto px-6 lg:px-8">
         <div className="bg-white rounded-xl py-10 lg:py-12 px-8 lg:px-12 shadow-2xl border border-border-soft">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className={`grid grid-cols-3 gap-8 ${STAT_COLS}`}>
             {STAT_KEYS.map((stat, i) => (
               <div key={stat.key} className={`text-center ${i > 0 ? 'md:border-l md:border-border-soft' : ''}`}>
                 <div className={`${stat.color} text-3xl lg:text-4xl font-headline font-bold mb-1`}>{stat.value}</div>
@@ -110,7 +126,10 @@ export default function HomePage() {
             <span className="text-navy/40 text-[9px] font-label uppercase tracking-widest">{t('stat_micro')}</span>
           </div>
         </div>
-      </RevealSection>
+      </section>
+
+      {/* TESTIMONIOS */}
+      <Testimonials />
 
       {/* LOGO TICKER */}
       <section className="py-16 lg:py-20 bg-off-white overflow-hidden" aria-label="Clientes">
@@ -219,9 +238,6 @@ export default function HomePage() {
       {/* PROCESO */}
       <ProcessSection t={t} />
 
-      {/* TESTIMONIOS */}
-      <Testimonials />
-
       {/* CONTACTO INLINE */}
       <ContactSection />
     </>
@@ -231,31 +247,30 @@ export default function HomePage() {
 function ContactSection() {
   const t = useT()
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [form, setForm] = useState({ company_name: '', contact_name: '', email: '', phone: '', description: '' })
+  const [form, setForm] = useState({ company_name: '', contact_name: '', contact_email: '', contact_phone: '', description: '' })
 
   const API_URL = 'https://www.globaltalentconnections.online/api/leads/public'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!form.company_name || !form.contact_name || !form.email) return
+    if (!form.company_name || !form.contact_name || !form.contact_email) return
     setStatus('loading')
     try {
-      const params = new URLSearchParams(window.location.search)
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
           source: 'mockup_web',
-          utm_source: params.get('utm_source') || undefined,
-          utm_medium: params.get('utm_medium') || undefined,
-          utm_campaign: params.get('utm_campaign') || undefined,
-          landing_url: window.location.href,
+          ...getUTMs(),
+          country: getCountry(),
+          landing_url: getLandingUrl(),
         }),
       })
       if (!res.ok) throw new Error()
       setStatus('success')
-      setForm({ company_name: '', contact_name: '', email: '', phone: '', description: '' })
+      trackLead('home_form')
+      setForm({ company_name: '', contact_name: '', contact_email: '', contact_phone: '', description: '' })
     } catch {
       setStatus('error')
     }
@@ -316,16 +331,16 @@ function ContactSection() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <input
-                  value={form.email}
-                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                  value={form.contact_email}
+                  onChange={e => setForm(f => ({ ...f, contact_email: e.target.value }))}
                   type="email"
                   placeholder={t('contacto_email')}
                   required
                   className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
                 />
                 <input
-                  value={form.phone}
-                  onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                  value={form.contact_phone}
+                  onChange={e => setForm(f => ({ ...f, contact_phone: e.target.value }))}
                   type="tel"
                   placeholder={t('contacto_telefono')}
                   className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
@@ -337,14 +352,14 @@ function ContactSection() {
                 className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all duration-300"
               >
                 <option value="" disabled className="text-navy">{t('contacto_perfil')}</option>
-                <option value="Administrativo" className="text-navy">Administrativo</option>
-                <option value="Marketing Digital" className="text-navy">Marketing Digital</option>
-                <option value="Financiero / Contable" className="text-navy">Financiero / Contable</option>
-                <option value="Desarrollo Web" className="text-navy">Desarrollo Web</option>
-                <option value="Diseno Grafico" className="text-navy">Diseno Grafico</option>
-                <option value="Atencion al Cliente" className="text-navy">Atencion al Cliente</option>
-                <option value="RRHH / Reclutamiento" className="text-navy">RRHH / Reclutamiento</option>
-                <option value="Otro" className="text-navy">Otro</option>
+                <option value="Administrativo" className="text-navy">{t('serv_admin')}</option>
+                <option value="Marketing Digital" className="text-navy">{t('serv_marketing')}</option>
+                <option value="Financiero / Contable" className="text-navy">{t('serv_finanzas')}</option>
+                <option value="Desarrollo Web" className="text-navy">{t('serv_dev')}</option>
+                <option value="Diseno Grafico" className="text-navy">{t('serv_diseno')}</option>
+                <option value="Atencion al Cliente" className="text-navy">{t('serv_atencion')}</option>
+                <option value="RRHH / Reclutamiento" className="text-navy">{t('contacto_perfil_admin')}</option>
+                <option value="Otro" className="text-navy">{t('contacto_perfil_otro')}</option>
               </select>
               {status === 'error' && (
                 <div className="flex items-center gap-3 text-red-400 bg-red-500/10 p-3 rounded-lg text-sm">

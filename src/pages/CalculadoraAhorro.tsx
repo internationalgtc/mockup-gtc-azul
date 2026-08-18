@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { trackLead } from '@/lib/tracking'
+import { getUTMs } from '@/lib/utm'
+import { getCountry } from '@/lib/geo'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { Link } from 'react-router-dom'
 import { Download, CheckCircle, ArrowDown, ArrowRight } from 'lucide-react'
 import { useT } from '@/hooks/useT'
+import SEO from '@/components/shared/SEO'
 
 const API_URL =
   import.meta.env.VITE_PLATFORM_API_URL ||
@@ -39,20 +43,26 @@ export default function CalculadoraAhorro() {
   const onSubmit = async (data: FormData) => {
     setLoading(true)
     try {
-      const params = new URLSearchParams(window.location.search)
+      const utms = getUTMs()
       await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contact_name: data.contact_name,
-          email: data.contact_email,
+          contact_email: data.contact_email,
           company_name: data.company_name || undefined,
           source: 'web_formulario',
+          country: getCountry(),
           description: 'Descargó la Calculadora de Ahorro Estratégico',
-          utm_source: params.get('utm_source') || 'landing',
-          utm_medium: params.get('utm_medium') || 'calculadora',
-          utm_campaign: params.get('utm_campaign') || '',
-          utm_content: params.get('utm_content') || '',
+          // No pisar el origen real: si el visitante no trajo UTM, queda vacío
+          // (honesto) en vez de un falso "landing/calculadora" que tapaba de
+          // dónde vino (agencia, orgánico, etc.). El imán se marca en utm_content.
+          utm_source: utms.utm_source,
+          utm_medium: utms.utm_medium,
+          utm_campaign: utms.utm_campaign || '',
+          utm_content: utms.utm_content || 'calculadora',
+          gclid: utms.gclid,
+          fbclid: utms.fbclid,
         }),
       })
     } catch {
@@ -60,25 +70,21 @@ export default function CalculadoraAhorro() {
     } finally {
       setLoading(false)
       setSubmitted(true)
+      // Disparar el evento ANTES de la descarga: así el beacon de analytics/ads
+      // ya salió cuando el navegador se pone a bajar el Excel. Antes iba al revés
+      // y se perdía ~85% de los leads de la calculadora en GA4/Ads.
+      trackLead('calculadora_ahorro')
       triggerDownload()
-
-      if (window.gtag) {
-        window.gtag('event', 'generate_lead', {
-          event_category: 'calculadora_ahorro',
-          event_label: 'landing_calculadora',
-        })
-      }
-      if (window.fbq) {
-        window.fbq('track', 'Lead', {
-          content_name: 'calculadora_ahorro',
-          content_category: 'lead_magnet',
-        })
-      }
     }
   }
 
   return (
     <>
+      <SEO
+        title="Calculadora de ahorro: cuánto cuesta contratar talento remoto"
+        description="Calculá en segundos cuánto ahorra tu empresa contratando un asistente virtual o profesional remoto con GTC frente a una contratación local en España: hasta un 52% menos en costos."
+        path="/calculadora-ahorro"
+      />
       {/* HERO */}
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full -mr-48 -mt-24" />

@@ -25,6 +25,20 @@ const TYPE_MAP: Record<string, string> = {
   part_time: 'Tiempo Parcial',
 }
 
+// Mapeo de categoría → imagen existente en /public/img-empleos
+// Si la categoría no está acá, la card se renderiza sin imagen (no rota)
+const CATEGORY_IMAGE: Record<string, string> = {
+  administracion: '/img-empleos/administracion.jpg',
+  comercial: '/img-empleos/ecomerce.jpg',
+  construccion: '/img-empleos/arquitectura.jpg',
+  finanzas: '/img-empleos/contable.jpg',
+  marketing: '/img-empleos/marketing.jpg',
+  tecnologia: '/img-empleos/desarrollo.jpg',
+  rrhh: '/img-empleos/gestion.jpg',
+  operaciones: '/img-empleos/gestion.jpg',
+  calidad: '/img-empleos/calidad.jpg',
+}
+
 interface NexusJob {
   id: string
   title: string
@@ -37,17 +51,18 @@ interface NexusJob {
 
 // Transformar datos de Nexus al formato del sitio web
 function transformNexusJob(nexusJob: NexusJob): Job {
+  const category = nexusJob.category || ''
   return {
     id: nexusJob.id,
     active: true,
     title: nexusJob.title,
-    department: CATEGORY_MAP[nexusJob.category || 'otro'] || nexusJob.category || 'Otro',
+    department: CATEGORY_MAP[category] || category || 'Otro',
     location: nexusJob.location || 'Remoto',
     type: TYPE_MAP[nexusJob.remote_type || 'remote'] || 'Jornada Completa',
-    imageUrl: '/img-empleos/default.jpg', // Imagen por defecto
+    imageUrl: CATEGORY_IMAGE[category] || '', // '' = sin imagen → el componente la oculta
     description: nexusJob.description || '',
-    responsibilities: [], // Nexus no devuelve esto
-    requirements: [], // Nexus no devuelve esto
+    responsibilities: [], // Nexus no devuelve esto todavía
+    requirements: [], // Nexus no devuelve esto todavía
   }
 }
 

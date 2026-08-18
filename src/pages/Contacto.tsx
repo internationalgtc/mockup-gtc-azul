@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { trackLead } from '@/lib/tracking'
+import { getUTMs, getLandingUrl } from '@/lib/utm'
+import { getCountry } from '@/lib/geo'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
+import SEO from '@/components/shared/SEO'
+import { useT } from '@/hooks/useT'
 
 const API_URL = import.meta.env.VITE_PLATFORM_API_URL || 'https://www.globaltalentconnections.online/api/leads/public'
 
@@ -19,18 +24,19 @@ const ASSISTANT_TYPES = [
 ]
 
 const formSchema = z.object({
-  company_name: z.string().min(2, 'Nombre de empresa requerido'),
-  contact_name: z.string().min(2, 'Nombre de contacto requerido'),
-  email: z.string().email('Email inválido'),
-  phone: z.string().optional(),
+  company_name: z.string().min(2, 'Required'),
+  contact_name: z.string().min(2, 'Required'),
+  contact_email: z.string().email('Invalid email'),
+  contact_phone: z.string().optional(),
   company_size: z.string().optional(),
-  assistant_type: z.string().min(1, 'Selecciona un tipo'),
+  assistant_type: z.string().min(1, 'Required'),
   description: z.string().optional(),
 })
 
 type FormData = z.infer<typeof formSchema>
 
 export default function ContactoPage() {
+  const t = useT()
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
@@ -40,28 +46,21 @@ export default function ContactoPage() {
   const onSubmit = async (data: FormData) => {
     setStatus('loading')
     try {
-      // Capturar UTMs de la URL
-      const params = new URLSearchParams(window.location.search)
-      const utmData = {
-        utm_source: params.get('utm_source') || undefined,
-        utm_medium: params.get('utm_medium') || undefined,
-        utm_campaign: params.get('utm_campaign') || undefined,
-        utm_content: params.get('utm_content') || undefined,
-      }
-
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...data,
-          ...utmData,
+          ...getUTMs(),
+          country: getCountry(),
           source: 'web_form',
-          landing_url: window.location.href,
+          landing_url: getLandingUrl(),
         }),
       })
 
-      if (!res.ok) throw new Error('Error al enviar')
+      if (!res.ok) throw new Error('Error')
       setStatus('success')
+      trackLead('contacto_form')
       reset()
     } catch {
       setStatus('error')
@@ -70,17 +69,106 @@ export default function ContactoPage() {
 
   return (
     <>
+      <SEO
+        title="Contacto"
+        description="Solicitá tu asesoría gratuita. Te contactamos en menos de 24h para ayudarte a contratar talento remoto de alto rendimiento desde €600/mes."
+        path="/contacto"
+        keywords="contacto Global Talent Connections, contratar asistente virtual, asesoría talento remoto gratis, teléfono Global Talent, solicitar asistente virtual España"
+        breadcrumbs={[{ name: 'Contacto', url: '/contacto' }]}
+      />
       {/* HERO */}
       <section className="bg-navy pt-32 pb-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-prime/[0.06] blur-[120px] rounded-full -mr-48 -mt-24" />
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <span className="text-blue-light text-xs font-label uppercase tracking-widest font-bold mb-4 block">Contacto</span>
+          <span className="text-blue-light text-xs font-label uppercase tracking-widest font-bold mb-4 block">{t('contacto_page_label')}</span>
           <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl text-white mb-6">
-            Hablemos de lo que <span className="serif-italic text-gold">necesitas</span>.
+            {t('contacto_page_titulo_1')} <span className="serif-italic text-gold">{t('contacto_page_titulo_2')}</span>.
           </h1>
           <p className="text-white/60 text-lg max-w-2xl">
-            Cuéntanos sobre tu empresa y el perfil que buscas. En menos de 48 horas te presentamos candidatos pre-seleccionados.
+            {t('contacto_page_subtitle')}
           </p>
+        </div>
+      </section>
+
+      {/* INFO + MAPA */}
+      <section className="bg-off-white py-16 lg:py-20 border-b border-border-soft">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-start">
+          {/* Datos de contacto */}
+          <div>
+            <span className="text-blue-prime text-xs font-label uppercase tracking-widest font-bold mb-4 block">Dónde encontrarnos</span>
+            <h2 className="font-headline text-2xl md:text-3xl text-navy mb-8">
+              Oficina en <span className="text-gold">Alicante, España</span>
+            </h2>
+            <ul className="space-y-5 text-dark-gray">
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-prime/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-5 h-5 text-blue-prime" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-label text-xs uppercase tracking-widest text-navy/60 font-bold mb-1">Teléfono</p>
+                  <a href="tel:+34623257706" className="text-navy font-medium hover:text-blue-prime transition-colors">+34 623 257 706</a>
+                </div>
+              </li>
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-prime/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-5 h-5 text-blue-prime" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-label text-xs uppercase tracking-widest text-navy/60 font-bold mb-1">Email</p>
+                  <a href="mailto:info@globaltalent-connections.com" className="text-navy font-medium hover:text-blue-prime transition-colors">info@globaltalent-connections.com</a>
+                </div>
+              </li>
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-prime/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-5 h-5 text-blue-prime" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-label text-xs uppercase tracking-widest text-navy/60 font-bold mb-1">Horario</p>
+                  <p className="text-navy font-medium">Lunes a Viernes · 9:00 – 18:00 (CET)</p>
+                </div>
+              </li>
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-lg bg-blue-prime/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg className="w-5 h-5 text-blue-prime" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-label text-xs uppercase tracking-widest text-navy/60 font-bold mb-1">Ubicación</p>
+                  <p className="text-navy font-medium">Alicante, España</p>
+                  <a
+                    href="https://www.google.com/maps/search/Global+Talent+Connections+Alicante"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-prime text-sm hover:underline mt-1 inline-block"
+                  >
+                    Ver en Google Maps →
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* Google Maps embed */}
+          <div className="rounded-xl overflow-hidden border border-border-soft shadow-sm h-[380px]">
+            <iframe
+              title="Global Talent Connections — Alicante"
+              src="https://maps.google.com/maps?q=Alicante,+Alicante,+Spain&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              style={{ border: 0 }}
+              aria-label="Mapa de ubicación de Global Talent Connections en Alicante, España"
+            />
+          </div>
         </div>
       </section>
 
@@ -90,32 +178,32 @@ export default function ContactoPage() {
           {status === 'success' ? (
             <div className="text-center py-20">
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-6" />
-              <h2 className="font-headline text-3xl text-navy mb-4">Mensaje enviado</h2>
-              <p className="text-dark-gray text-lg">Nos pondremos en contacto contigo en menos de 48 horas.</p>
+              <h2 className="font-headline text-3xl text-navy mb-4">{t('contacto_page_enviado')}</h2>
+              <p className="text-dark-gray text-lg">{t('contacto_page_enviado_desc')}</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Empresa *
+                    {t('contacto_page_empresa')}
                   </label>
                   <input
                     {...register('company_name')}
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
-                    placeholder="Nombre de tu empresa"
+                    placeholder={t('ct_ph_empresa')}
                   />
                   {errors.company_name && <p className="text-red-500 text-xs mt-1">{errors.company_name.message}</p>}
                 </div>
 
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Nombre de contacto *
+                    {t('contacto_page_nombre')}
                   </label>
                   <input
                     {...register('contact_name')}
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
-                    placeholder="Tu nombre"
+                    placeholder={t('ct_ph_nombre')}
                   />
                   {errors.contact_name && <p className="text-red-500 text-xs mt-1">{errors.contact_name.message}</p>}
                 </div>
@@ -124,26 +212,26 @@ export default function ContactoPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Email *
+                    {t('contacto_email')}
                   </label>
                   <input
-                    {...register('email')}
+                    {...register('contact_email')}
                     type="email"
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
                     placeholder="email@empresa.com"
                   />
-                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                  {errors.contact_email && <p className="text-red-500 text-xs mt-1">{errors.contact_email.message}</p>}
                 </div>
 
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Teléfono
+                    {t('contacto_telefono')}
                   </label>
                   <input
-                    {...register('phone')}
+                    {...register('contact_phone')}
                     type="tel"
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
-                    placeholder="+34 600 000 000"
+                    placeholder={t('ct_ph_telefono')}
                   />
                 </div>
               </div>
@@ -151,32 +239,30 @@ export default function ContactoPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Tamaño de empresa
+                    {t('contacto_page_tamano')}
                   </label>
                   <select
                     {...register('company_size')}
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
                   >
-                    <option value="">Seleccionar</option>
-                    <option value="1-10">1-10 empleados</option>
-                    <option value="11-50">11-50 empleados</option>
-                    <option value="51-200">51-200 empleados</option>
-                    <option value="201-500">201-500 empleados</option>
-                    <option value="500+">500+ empleados</option>
+                    <option value="">{t('contacto_page_seleccionar')}</option>
+                    <option value="1-10">{t('ct_emp_1')}</option>
+                    <option value="11-50">{t('ct_emp_2')}</option>
+                    <option value="51-200">{t('ct_emp_3')}</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                    Tipo de asistente *
+                    {t('contacto_page_tipo')}
                   </label>
                   <select
                     {...register('assistant_type')}
                     className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all"
                   >
-                    <option value="">Seleccionar</option>
-                    {ASSISTANT_TYPES.map(t => (
-                      <option key={t} value={t}>{t}</option>
+                    <option value="">{t('contacto_page_seleccionar')}</option>
+                    {ASSISTANT_TYPES.map(at => (
+                      <option key={at} value={at}>{at}</option>
                     ))}
                   </select>
                   {errors.assistant_type && <p className="text-red-500 text-xs mt-1">{errors.assistant_type.message}</p>}
@@ -185,20 +271,20 @@ export default function ContactoPage() {
 
               <div>
                 <label className="block font-label text-xs uppercase tracking-widest text-navy/70 font-bold mb-2">
-                  Cuéntanos más sobre lo que necesitas
+                  {t('contacto_page_mas')}
                 </label>
                 <textarea
                   {...register('description')}
                   rows={4}
                   className="w-full px-4 py-3 rounded-lg border border-border-soft bg-white text-navy placeholder:text-navy/40 focus:ring-2 focus:ring-blue-prime focus:border-blue-prime outline-none transition-all resize-none"
-                  placeholder="Describe las tareas, horario preferido, herramientas que usa tu equipo..."
+                  placeholder={t('ct_ph_desc')}
                 />
               </div>
 
               {status === 'error' && (
                 <div className="flex items-center gap-3 text-red-500 bg-red-50 p-4 rounded-lg">
                   <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                  <p className="text-sm">Hubo un error al enviar. Intenta nuevamente o escribenos a info@internationalgtc.com</p>
+                  <p className="text-sm">{t('ct_error')}</p>
                 </div>
               )}
 
@@ -211,7 +297,7 @@ export default function ContactoPage() {
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <>
-                    Enviar solicitud
+                    {t('contacto_page_enviar')}
                     <Send className="w-4 h-4" />
                   </>
                 )}

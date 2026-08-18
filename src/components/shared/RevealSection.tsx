@@ -4,11 +4,11 @@ import { useScrollReveal } from '@/hooks/useScrollReveal'
 interface Props {
   children: ReactNode
   className?: string
-  as?: 'section' | 'div' | 'footer'
   id?: string
+  as?: 'section' | 'div' | 'footer'
 }
 
-export function RevealSection({ children, className = '', as: Tag = 'section', id }: Props) {
+export function RevealSection({ children, className = '', id, as: Tag = 'section' }: Props) {
   const { ref, isVisible } = useScrollReveal<HTMLElement>()
 
   return (
