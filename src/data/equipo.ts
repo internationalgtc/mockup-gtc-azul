@@ -12,6 +12,8 @@ import fotoDelfina from '@/assets/equipo/delfina.png'
 import fotoNelson from '@/assets/equipo/nelson.png'
 import fotoJavier from '@/assets/equipo/javier-2.png'
 import fotoRocio from '@/assets/equipo/rocio.png'
+import fotoSebastian from '@/assets/equipo/sebastian.png'
+import fotoSuany from '@/assets/equipo/suany.png'
 
 export interface TeamMember {
   id: number
@@ -44,6 +46,8 @@ export const equipo: TeamMember[] = [
   { id: 13, nombre: 'Fabiola Lozano', foto: fotoFabiola, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'flozano@globaltalent-connections.com', linkedin: 'https://www.linkedin.com/in/fabiolalozano/', nivel: 'operativo' },
   { id: 15, nombre: 'Delfina Palacio', foto: fotoDelfina, rol: 'Community Manager', rolEn: 'Community Manager', email: 'dpalacio@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
   { id: 17, nombre: 'Rocío Rojas', foto: fotoRocio, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'rrojas@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
+  { id: 19, nombre: 'Sebastián Acevedo', foto: fotoSebastian, rol: 'Quality & Ops Lead', rolEn: 'Quality & Ops Lead', email: 'sacevedo@globaltalent-connections.com', linkedin: '', nivel: 'lider' },
+  { id: 20, nombre: 'Suany Artica', foto: fotoSuany, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'sartica@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
 ]
 
 export const direccion = equipo.filter(m => m.nivel === 'direccion' || m.nivel === 'lider')
