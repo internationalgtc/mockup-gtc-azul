@@ -11,6 +11,8 @@ import fotoDelfina from '@/assets/equipo/delfina.png'
 import fotoNelson from '@/assets/equipo/nelson.png'
 import fotoJavier from '@/assets/equipo/javier-2.png'
 import fotoRocio from '@/assets/equipo/rocio.png'
+import fotoGiuliana from '@/assets/equipo/giuliana.jpg'
+import fotoRomina from '@/assets/equipo/romina.jpg'
 
 export interface TeamMember {
   id: number
@@ -36,8 +38,8 @@ export const equipo: TeamMember[] = [
 
   // OPERATIVO
   { id: 9, nombre: 'Reyna Contreras', foto: fotoReyna, rol: 'HR Analyst', rolEn: 'HR Analyst', email: 'rcontreras@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
-  { id: 21, nombre: 'Giuliana Lazzeretti', foto: null, rol: 'HR Analyst', rolEn: 'HR Analyst', email: 'glazzeretti@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
-  { id: 22, nombre: 'Romina Haro', foto: null, rol: 'Marketing Specialist', rolEn: 'Marketing Specialist', email: 'rharo@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
+  { id: 21, nombre: 'Giuliana Lazzeretti', foto: fotoGiuliana, rol: 'HR Analyst', rolEn: 'HR Analyst', email: 'glazzeretti@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
+  { id: 22, nombre: 'Romina Haro', foto: fotoRomina, rol: 'Marketing Specialist', rolEn: 'Marketing Specialist', email: 'rharo@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
   { id: 10, nombre: 'Larisa Spatafora', foto: fotoLarisa, rol: 'Developer', rolEn: 'Developer', email: 'lspatafora@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
   { id: 11, nombre: 'Nelson Alonso', foto: fotoNelson, rol: 'Developer', rolEn: 'Developer', email: 'nalonso@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
   { id: 12, nombre: 'Javier Martinez', foto: fotoJavier, rol: 'Developer', rolEn: 'Developer', email: 'jmartinez@globaltalent-connections.com', linkedin: 'https://www.linkedin.com/in/javierjmc/', nivel: 'operativo' },
