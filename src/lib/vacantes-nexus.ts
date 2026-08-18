@@ -56,6 +56,19 @@ const DEPARTAMENTO_POR_CATEGORIA: Record<string, string> = {
   ecommerce: 'Ecommerce',
 }
 
+/** Imagen de la card segun la categoria de Nexus (archivos ya existentes del sitio). */
+const IMAGEN_POR_CATEGORIA: Record<string, string> = {
+  tecnologia: '/img-empleos/automatizador.jpg',
+  marketing: '/img-empleos/marketing.jpg',
+  comercial: '/img-empleos/prospeccion.jpg',
+  finanzas: '/img-empleos/contable.jpg',
+  administracion: '/img-empleos/administrativo.jpg',
+  rrhh: '/img-empleos/gestion.jpg',
+  calidad: '/img-empleos/calidad.jpg',
+  construccion: '/img-empleos/arquitectura.jpg',
+  ecommerce: '/img-empleos/ecomerce.jpg',
+}
+
 const SENIORITY_ES: Record<string, string> = {
   junior: 'Junior',
   semi_senior: 'Semi Senior',
@@ -91,7 +104,7 @@ function aJob(v: VacanteNexus): Job {
     department: departamento,
     location: v.location || 'Remoto',
     type: 'Jornada Completa',
-    imageUrl: '/img-empleos/gestion.jpg',
+    imageUrl: (v.category && IMAGEN_POR_CATEGORIA[v.category]) || '/img-empleos/gestion.jpg',
     description: v.description || '',
     responsibilities: [],
     // `requirements` viene vacio en la base real: los requisitos son las
@@ -126,8 +139,12 @@ export async function traerVacantes(signal?: AbortSignal): Promise<ResultadoVaca
     }
 
     // Dos clientes pueden pedir el mismo puesto: en la web es un aviso, no dos.
+    // Las busquedas VIVAS van antes que los perfiles generales para que, si un
+    // titulo esta repetido, el aviso que queda sea el de contenido real (brief
+    // curado) y no la ficha generica de una linea.
+    const ordenadas = [...vacantes].sort((a, b) => Number(a.is_evergreen) - Number(b.is_evergreen))
     const porTitulo = new Map<string, Job>()
-    for (const v of vacantes) {
+    for (const v of ordenadas) {
       const job = aJob(v)
       if (!porTitulo.has(normaliza(job.title))) porTitulo.set(normaliza(job.title), job)
     }
