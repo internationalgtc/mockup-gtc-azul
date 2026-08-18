@@ -1,6 +1,9 @@
+import { useEffect, useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft, MapPin, Briefcase, GraduationCap, Clock, ExternalLink } from 'lucide-react'
 import { JOBS, JOBS_EN, DEPT_EN, TYPE_EN, LOCATION_EN } from '@/data/jobs'
+import type { Job } from '@/data/jobs'
+import { traerVacantes } from '@/lib/vacantes-nexus'
 import { useT, useLang } from '@/hooks/useT'
 import SEO from '@/components/shared/SEO'
 import { buildJobPostingSchema } from '@/lib/jobPosting'
@@ -11,7 +14,36 @@ export default function DetallesDeEmpleoPage() {
   const t = useT()
   const lang = useLang()
   const { id } = useParams()
-  const job = JOBS.find(j => j.id === id)
+  // Primero el archivo local (render inmediato, sin red). Si el id no esta ahi,
+  // es una vacante que vino de Nexus: se resuelve contra la misma fuente que
+  // arma el listado. Sin este paso, TODA card de Nexus caia en "no encontrada".
+  const staticJob = useMemo(() => JOBS.find(j => j.id === id), [id])
+  const [job, setJob] = useState<Job | undefined>(staticJob)
+  const [buscando, setBuscando] = useState(!staticJob)
+
+  useEffect(() => {
+    setJob(staticJob)
+    if (staticJob) {
+      setBuscando(false)
+      return
+    }
+    setBuscando(true)
+    const ctrl = new AbortController()
+    traerVacantes(ctrl.signal).then(({ jobs }) => {
+      if (ctrl.signal.aborted) return
+      setJob(jobs.find(j => j.id === id))
+      setBuscando(false)
+    })
+    return () => ctrl.abort()
+  }, [id, staticJob])
+
+  if (buscando) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-off-white pt-20">
+        <p className="text-dark-gray">Cargando vacante…</p>
+      </div>
+    )
+  }
 
   if (!job) {
     return (
@@ -77,7 +109,7 @@ export default function DetallesDeEmpleoPage() {
             <div className="lg:col-span-2 space-y-10">
               <div>
                 <h2 className="font-headline text-2xl text-navy mb-4">{t('det_descripcion')}</h2>
-                <p className="text-dark-gray leading-relaxed">{lang === 'en' && JOBS_EN[job.id] ? JOBS_EN[job.id].description : job.description}</p>
+                <p className="text-dark-gray leading-relaxed whitespace-pre-line">{lang === 'en' && JOBS_EN[job.id] ? JOBS_EN[job.id].description : job.description}</p>
               </div>
 
               {responsibilities.length > 0 && (
