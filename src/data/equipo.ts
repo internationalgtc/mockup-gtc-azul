@@ -3,7 +3,7 @@ import fotoDaniel from '@/assets/equipo/daniel.jpg'
 import fotoAntonio from '@/assets/equipo/antonio.jpg'
 import fotoPilar from '@/assets/equipo/mariangel.jpg'
 import fotoAriel from '@/assets/equipo/ariel.jpg'
-import fotoGladymar from '@/assets/equipo/gladymar.png'
+import fotoGladymar from '@/assets/equipo/gladymar.jpg'
 import fotoReyna from '@/assets/equipo/reyna.jpg'
 import fotoFabiola from '@/assets/equipo/fabiola.jpg'
 import fotoLarisa from '@/assets/equipo/larisa.jpg'
@@ -53,11 +53,11 @@ const porId = (ids: number[]) =>
 
 // Filas de la pagina /nosotros tal como las definio Ariel (18-ago-2026).
 // El orden ES el layout: cada sub-array es una fila del grid.
-// Gladymar quedo fuera de las filas por instruccion de Ariel de ese dia.
+// Gladymar reincorporada a la fila 4 (Ariel, 18-ago: 'sumala obvio').
 export const direccion = porId([18, 1, 3, 5])           // Inma · Daniel · Antonio · Ariel
 export const filasOperativo: TeamMember[][] = [
   porId([4, 9, 21, 22]),   // Pilar · Reyna · Giuliana · Romina
   porId([12, 11, 10]),     // Javier · Nelson · Larisa (equipo de desarrollo)
-  porId([13, 17, 15]),     // Fabiola · Rocio · Delfina
+  porId([6, 13, 17, 15]),  // Gladymar · Fabiola · Rocio · Delfina
 ]
 export const operativo = filasOperativo.flat()
