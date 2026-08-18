@@ -4,7 +4,6 @@ import fotoAntonio from '@/assets/equipo/antonio.png'
 import fotoPilar from '@/assets/equipo/mariangel.png'
 import fotoAriel from '@/assets/equipo/ariel.png'
 import fotoGladymar from '@/assets/equipo/gladymar.png'
-import fotoAna from '@/assets/equipo/ana.png'
 import fotoReyna from '@/assets/equipo/reyna.png'
 import fotoFabiola from '@/assets/equipo/fabiola.png'
 import fotoLarisa from '@/assets/equipo/larisa.png'
@@ -12,8 +11,6 @@ import fotoDelfina from '@/assets/equipo/delfina.png'
 import fotoNelson from '@/assets/equipo/nelson.png'
 import fotoJavier from '@/assets/equipo/javier-2.png'
 import fotoRocio from '@/assets/equipo/rocio.png'
-import fotoSebastian from '@/assets/equipo/sebastian.png'
-import fotoSuany from '@/assets/equipo/suany.png'
 
 export interface TeamMember {
   id: number
@@ -36,7 +33,6 @@ export const equipo: TeamMember[] = [
   { id: 4, nombre: 'M. Pilar Marin', foto: fotoPilar, rol: 'HR & Commercial Lead', rolEn: 'HR & Commercial Lead', email: 'mmarin@globaltalent-connections.com', linkedin: 'https://www.linkedin.com/in/mariangel-pilar-marin-a786a8148/', nivel: 'lider' },
   { id: 5, nombre: 'Ariel Jimenez', foto: fotoAriel, rol: 'AI & Automation Lead', rolEn: 'AI & Automation Lead', email: 'ajimenez@globaltalent-connections.com', linkedin: '', nivel: 'lider' },
   { id: 6, nombre: 'Gladymar Torres', foto: fotoGladymar, rol: 'HR Business Partner', rolEn: 'HR Business Partner', email: 'gtorres@globaltalent-connections.com', linkedin: 'https://www.linkedin.com/in/gladymar-torres-825827188/', nivel: 'operativo' },
-  { id: 7, nombre: 'Ana Martinez', foto: fotoAna, rol: 'Marketing & Sales Lead', rolEn: 'Marketing & Sales Lead', email: 'amartinez@globaltalent-connections.com', linkedin: '', nivel: 'lider' },
 
   // OPERATIVO
   { id: 9, nombre: 'Reyna Contreras', foto: fotoReyna, rol: 'HR Analyst', rolEn: 'HR Analyst', email: 'rcontreras@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
@@ -46,8 +42,6 @@ export const equipo: TeamMember[] = [
   { id: 13, nombre: 'Fabiola Lozano', foto: fotoFabiola, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'flozano@globaltalent-connections.com', linkedin: 'https://www.linkedin.com/in/fabiolalozano/', nivel: 'operativo' },
   { id: 15, nombre: 'Delfina Palacio', foto: fotoDelfina, rol: 'Community Manager', rolEn: 'Community Manager', email: 'dpalacio@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
   { id: 17, nombre: 'Rocío Rojas', foto: fotoRocio, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'rrojas@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
-  { id: 19, nombre: 'Sebastián Acevedo', foto: fotoSebastian, rol: 'Quality & Ops Lead', rolEn: 'Quality & Ops Lead', email: 'sacevedo@globaltalent-connections.com', linkedin: '', nivel: 'lider' },
-  { id: 20, nombre: 'Suany Artica', foto: fotoSuany, rol: 'Quality Analyst', rolEn: 'Quality Analyst', email: 'sartica@globaltalent-connections.com', linkedin: '', nivel: 'operativo' },
 ]
 
 export const direccion = equipo.filter(m => m.nivel === 'direccion' || m.nivel === 'lider')
