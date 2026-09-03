@@ -1,6 +1,27 @@
 const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'gclid', 'fbclid'] as const
 const STORAGE_KEY = 'gtc_utm'
 const LANDING_KEY = 'gtc_landing_url'
+const REFERRER_KEY = 'gtc_referrer'
+
+/**
+ * De dónde venía la persona, si venía de fuera. Es lo ÚNICO que explica al
+ * visitante que llega sin UTM — o sea, casi todos: los UTM solo existen si
+ * alguien etiquetó el enlace, y quien busca en Google nunca viene etiquetado.
+ * Ese tráfico es el que produce el 98% de los clientes ganados de GTC y hasta
+ * el 3-sep-2026 llegaba a Nexus sin ningún origen.
+ *
+ * Si el referrer es del propio dominio, la persona ya estaba dentro: no informa.
+ */
+function externalReferrer(): string | null {
+  if (typeof document === 'undefined' || !document.referrer) return null
+  try {
+    const from = new URL(document.referrer).hostname.replace(/^www\./, '')
+    const self = window.location.hostname.replace(/^www\./, '')
+    return from === self ? null : document.referrer
+  } catch {
+    return null
+  }
+}
 
 export function captureUTMs(): void {
   const params = new URLSearchParams(window.location.search)
@@ -15,8 +36,23 @@ export function captureUTMs(): void {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(utms))
   }
 
+  // Solo el primero de la visita: manda por dónde entró, no dónde terminó.
+  if (!sessionStorage.getItem(REFERRER_KEY)) {
+    const ref = externalReferrer()
+    if (ref) sessionStorage.setItem(REFERRER_KEY, ref)
+  }
+
   if (!sessionStorage.getItem(LANDING_KEY)) {
     sessionStorage.setItem(LANDING_KEY, window.location.href)
+  }
+}
+
+/** Se manda a Nexus junto con los UTM. `undefined` si la visita no trae origen externo. */
+export function getReferrer(): string | undefined {
+  try {
+    return sessionStorage.getItem(REFERRER_KEY) ?? externalReferrer() ?? undefined
+  } catch {
+    return undefined
   }
 }
 

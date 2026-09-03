@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { trackLead } from '@/lib/tracking'
-import { getUTMs } from '@/lib/utm'
+import { getUTMs, getReferrer } from '@/lib/utm'
 import { getCountry } from '@/lib/geo'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -63,6 +63,7 @@ export default function CalculadoraAhorro() {
           utm_content: utms.utm_content || 'calculadora',
           gclid: utms.gclid,
           fbclid: utms.fbclid,
+          referrer: getReferrer(),
         }),
       })
     } catch {

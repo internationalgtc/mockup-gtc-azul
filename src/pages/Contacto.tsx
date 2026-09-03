@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { trackLead } from '@/lib/tracking'
-import { getUTMs, getLandingUrl } from '@/lib/utm'
+import { getUTMs, getReferrer, getLandingUrl } from '@/lib/utm'
 import { getCountry } from '@/lib/geo'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -52,6 +52,7 @@ export default function ContactoPage() {
         body: JSON.stringify({
           ...data,
           ...getUTMs(),
+          referrer: getReferrer(),
           country: getCountry(),
           source: 'web_form',
           landing_url: getLandingUrl(),
