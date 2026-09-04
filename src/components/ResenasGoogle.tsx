@@ -105,13 +105,17 @@ export default function ResenasGoogle() {
   const deGoogle = datos?.reviews ?? []
   const reviews: Resena[] = deGoogle.length > 0
     ? deGoogle
-    : RESENAS_GOOGLE.map((r) => ({
-        autor: r.autor,
-        foto: null,
-        puntaje: r.puntaje,
-        cuando: haceCuanto(r.fecha, lang),
-        texto: r.texto[lang],
-      }))
+    : [...RESENAS_GOOGLE]
+        // La más reciente primero: es lo que espera quien lee reseñas, y el
+        // archivo queda libre de tener que mantener el orden a mano.
+        .sort((a, b) => b.fecha.localeCompare(a.fecha))
+        .map((r) => ({
+          autor: r.autor,
+          foto: null,
+          puntaje: r.puntaje,
+          cuando: haceCuanto(r.fecha, lang),
+          texto: r.texto[lang],
+        }))
 
   const rating = datos?.rating ?? RESUMEN_GOOGLE.rating
   const total = datos?.total ?? RESUMEN_GOOGLE.total

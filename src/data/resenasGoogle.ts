@@ -62,8 +62,15 @@ export const RESENAS_GOOGLE: ResenaLocal[] = [
       en: 'Very professional, and they found the profile I needed. Fully recommended if you want to bring talent into your company.',
     },
   },
-  // Falta la de Ingrid De Cordido (5★, nov-2025): en el panel sale cortada
-  // («Su enfoque… Ver la opinión completa») y no se publica media reseña.
+  {
+    autor: 'Ingrid De Cordido',
+    puntaje: 5,
+    fecha: '2025-11-14',
+    texto: {
+      es: 'Global Talent Connections es más que un proveedor de servicios; es un socio clave para el crecimiento mutuo. Su enfoque en el desarrollo productivo del equipo remoto para empresas apunta a la constante evolución de la gestión de trabajo en tiempo de IA. Entienden que el éxito requiere equipos motivados y en constante aprendizaje. Una experiencia altamente satisfactoria y recomendada para líderes empresariales que miran hacia la innovación y para todo profesional que se enfoca en el crecimiento constante en proyectos gestionados en remoto.',
+      en: 'Global Talent Connections is more than a service provider; it is a key partner for mutual growth. Their focus on the productive development of remote teams for companies is aimed at the constant evolution of work management in the age of AI. They understand that success requires motivated teams that keep learning. A highly satisfying experience, recommended for business leaders looking towards innovation and for any professional focused on constant growth in remotely managed projects.',
+    },
+  },
 ]
 
 /** Lo que muestra el perfil: 5,0 sobre 7 opiniones (4-sep-2026). */
