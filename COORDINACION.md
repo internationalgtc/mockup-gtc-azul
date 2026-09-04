@@ -44,6 +44,7 @@
 | Empleos | ✅ Sincronizado con sitio viejo | MatheoTe |
 | Footer | ✅ Completo | - |
 | i18n ES/EN | ✅ Completo en translations.ts | Larisa + Mateo |
+| Reseñas de Google | ✅ 5 reseñas + botón «déjanos tu reseña» (4 sep 2026) | MatheoTe |
 
 ---
 
@@ -66,6 +67,29 @@
 - Delfina Palacio (Community Manager)
 
 **Eliminados:** Victor Dominguez, Andersson Figueroa (PR #7, 9 mayo 2026)
+
+---
+
+## Reseñas de Google (4 sep 2026)
+
+El perfil está en **5,0 con 7 opiniones**. En la home se publican **5**: las dos
+que faltan puntuaron sin dejar texto.
+
+**Se actualizan A MANO** en `src/data/resenasGoogle.ts`, copiándolas del panel
+de Google Business → «Leer opiniones». La fecha se guarda absoluta; el «hace N
+meses» lo calcula la pantalla sola.
+
+**Por qué a mano:** la Places API pide cuenta de Google Cloud con facturación,
+cobra por consulta y devuelve como mucho 5 — menos de las que hay. Con este
+volumen no compensa.
+
+**Para que se actualicen solas** (cuando el perfil crezca): basta con poner
+`GOOGLE_PLACES_API_KEY` en las variables de Vercel. `api/resenas.ts` ya está
+escrito con el Place ID adentro (`ChIJZR-nyJgOwoARUkVGDGJIOiY`); en cuanto
+conteste, lo local se apaga solo. No hay que tocar código.
+
+**El enlace para pedir reseñas** (el que va en los correos de Romina):
+`https://g.page/r/CVJFRgxiSDomEBM/review`
 
 ---
 
