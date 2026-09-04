@@ -10,7 +10,7 @@ function LinkedinIcon({ className }: { className?: string }) {
   )
 }
 import { RevealSection } from '@/components/shared/RevealSection'
-import { direccion, operativo, type TeamMember } from '@/data/equipo'
+import { direccion, filasOperativo, type TeamMember } from '@/data/equipo'
 
 function TeamCard({ member, size = 'lg', lang }: { member: TeamMember; size?: 'lg' | 'sm'; lang: 'es' | 'en' }) {
   const isLg = size === 'lg'
@@ -141,9 +141,13 @@ export default function NosotrosPage() {
             <span className="font-label uppercase tracking-widest text-white/60 text-xs font-bold block">{t('nosotros_equipo_operativo')}</span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
-            {operativo.map(member => (
-              <TeamCard key={member.id} member={member} size="sm" lang={lang} />
+          <div className="space-y-6 lg:space-y-8">
+            {filasOperativo.map((fila, i) => (
+              <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
+                {fila.map(member => (
+                  <TeamCard key={member.id} member={member} size="sm" lang={lang} />
+                ))}
+              </div>
             ))}
           </div>
         </div>

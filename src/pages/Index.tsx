@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { trackLead } from '@/lib/tracking'
-import { getUTMs, getLandingUrl } from '@/lib/utm'
+import { getUTMs, getReferrer, getLandingUrl } from '@/lib/utm'
 import { getCountry } from '@/lib/geo'
 import { ArrowRight, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones, Send, CheckCircle, AlertCircle } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
@@ -265,6 +265,7 @@ function ContactSection() {
           ...form,
           source: 'mockup_web',
           ...getUTMs(),
+          referrer: getReferrer(),
           country: getCountry(),
           landing_url: getLandingUrl(),
         }),
