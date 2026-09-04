@@ -101,9 +101,16 @@ export default function ResenasGoogle() {
     return () => { vivo = false }
   }, [])
 
-  // Google manda si contesta algo; si no, las escritas a mano.
+  // La fuente se elige UNA vez y se usa entera: reseñas y resumen tienen que
+  // venir del mismo lado.
+  //
+  // Antes se elegía campo por campo con `??` y el resumen salía «0 reseñas»:
+  // sin clave el endpoint contesta `total: 0`, que es un valor perfectamente
+  // válido y por lo tanto `0 ?? 7` da 0. `??` solo atrapa null y undefined.
   const deGoogle = datos?.reviews ?? []
-  const reviews: Resena[] = deGoogle.length > 0
+  const mandaGoogle = deGoogle.length > 0
+
+  const reviews: Resena[] = mandaGoogle
     ? deGoogle
     : [...RESENAS_GOOGLE]
         // La más reciente primero: es lo que espera quien lee reseñas, y el
@@ -117,8 +124,8 @@ export default function ResenasGoogle() {
           texto: r.texto[lang],
         }))
 
-  const rating = datos?.rating ?? RESUMEN_GOOGLE.rating
-  const total = datos?.total ?? RESUMEN_GOOGLE.total
+  const rating = mandaGoogle ? datos!.rating : RESUMEN_GOOGLE.rating
+  const total = mandaGoogle ? datos!.total : RESUMEN_GOOGLE.total
 
   return (
     <RevealSection className="py-20 lg:py-28 bg-cream/60">
