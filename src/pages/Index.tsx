@@ -7,6 +7,7 @@ import { ArrowRight, Zap, Brain, Handshake, Search, Users, FileCheck, Headphones
 import { RevealSection } from '@/components/shared/RevealSection'
 import { useT } from '@/hooks/useT'
 import Testimonials from '@/components/Testimonials'
+import ResenasGoogle from '@/components/ResenasGoogle'
 import SEO, { HOME_FAQ_SCHEMA } from '@/components/shared/SEO'
 
 import l1 from '@/assets/logos/l1.png'
@@ -130,6 +131,7 @@ export default function HomePage() {
 
       {/* TESTIMONIOS */}
       <Testimonials />
+      <ResenasGoogle />
 
       {/* LOGO TICKER */}
       <section className="py-16 lg:py-20 bg-off-white overflow-hidden" aria-label="Clientes">

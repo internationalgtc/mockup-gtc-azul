@@ -72,6 +72,17 @@ const T: Record<string, Record<string, string>> = {
   testimonios_cta: { es: '¿Listo para reducir tus costos operativos?', en: 'Ready to reduce your operating costs?' },
   testimonios_cta_btn: { es: 'Agendar call', en: 'Book a call' },
 
+  // ── RESEÑAS DE GOOGLE ──
+  resenas_kicker: { es: 'Reseñas en Google', en: 'Google reviews' },
+  resenas_titulo_1: { es: 'Lo que dicen', en: 'What they say' },
+  resenas_titulo_2: { es: 'de nosotros', en: 'about us' },
+  resenas_en_google: { es: 'reseñas en Google', en: 'reviews on Google' },
+  resenas_cta_texto: {
+    es: '¿Trabajaste con nosotros? Contalo en un minuto: nos ayuda a que otras empresas nos encuentren.',
+    en: 'Worked with us? Tell it in a minute — it helps other companies find us.',
+  },
+  resenas_cta_btn: { es: 'Déjanos tu reseña', en: 'Leave us a review' },
+
   // ── CONTACTO INLINE ──
   contacto_label: { es: 'Contacto', en: 'Contact' },
   contacto_titulo_1: { es: 'Empecemos a', en: "Let's start" },
