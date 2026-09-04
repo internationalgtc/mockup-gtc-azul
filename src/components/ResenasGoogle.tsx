@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Star, ExternalLink } from 'lucide-react'
 import { RevealSection } from '@/components/shared/RevealSection'
-import { useT } from '@/hooks/useT'
+import { useT, useLang } from '@/hooks/useT'
+import { RESENAS_GOOGLE, RESUMEN_GOOGLE } from '@/data/resenasGoogle'
 
 /**
  * Las reseñas de Google del perfil de GTC.
@@ -10,10 +11,14 @@ import { useT } from '@/hooks/useT'
  *
  *  - El botón «Déjanos tu reseña» es un enlace al perfil. Funciona siempre, sin
  *    API ni cuenta de Google Cloud, y es el que Romina necesita para sus correos.
- *  - Las reseñas las trae `/api/resenas`, que necesita `GOOGLE_PLACES_API_KEY`
- *    en Vercel. Mientras esa clave no exista, la llamada devuelve una lista
- *    vacía y la sección se queda solo con el botón — no se rompe ni queda un
- *    hueco con un error.
+ *  - Las reseñas salen de `@/data/resenasGoogle`, escritas a mano. Con 7
+ *    opiniones no compensa una cuenta de Google Cloud con facturación, que
+ *    además devolvería como mucho 5.
+ *
+ * `/api/resenas` queda enchufado igual: si algún día existe
+ * `GOOGLE_PLACES_API_KEY`, lo que devuelva Google GANA sobre lo escrito acá y
+ * las reseñas pasan a actualizarse solas. Sin clave contesta lista vacía y
+ * manda lo local. Nadie tiene que tocar este archivo para hacer el cambio.
  */
 
 type Resena = {
@@ -40,6 +45,20 @@ const Estrellas = ({ puntaje, size = 16 }: { puntaje: number; size?: number }) =
     ))}
   </div>
 )
+
+/**
+ * «hace 10 meses» calculado, no escrito: una fecha a mano en el repo envejece
+ * sola y termina diciendo «hace 4 semanas» dos años después.
+ */
+function haceCuanto(iso: string, lang: 'es' | 'en'): string {
+  const dias = Math.round((Date.now() - new Date(iso).getTime()) / 86_400_000)
+  if (Number.isNaN(dias)) return ''
+  const rtf = new Intl.RelativeTimeFormat(lang, { numeric: 'auto' })
+  if (dias < 30) return rtf.format(-Math.max(dias, 1), 'day')
+  const meses = Math.round(dias / 30.44)
+  if (meses < 12) return rtf.format(-meses, 'month')
+  return rtf.format(-Math.round(meses / 12), 'year')
+}
 
 const Tarjeta = ({ r }: { r: Resena }) => (
   <article className="bg-white rounded-2xl p-6 border border-navy/10 shadow-sm flex flex-col gap-4">
@@ -70,6 +89,7 @@ const Tarjeta = ({ r }: { r: Resena }) => (
 
 export default function ResenasGoogle() {
   const t = useT()
+  const lang = useLang()
   const [datos, setDatos] = useState<Payload | null>(null)
 
   useEffect(() => {
@@ -81,7 +101,20 @@ export default function ResenasGoogle() {
     return () => { vivo = false }
   }, [])
 
-  const reviews = datos?.reviews ?? []
+  // Google manda si contesta algo; si no, las escritas a mano.
+  const deGoogle = datos?.reviews ?? []
+  const reviews: Resena[] = deGoogle.length > 0
+    ? deGoogle
+    : RESENAS_GOOGLE.map((r) => ({
+        autor: r.autor,
+        foto: null,
+        puntaje: r.puntaje,
+        cuando: haceCuanto(r.fecha, lang),
+        texto: r.texto[lang],
+      }))
+
+  const rating = datos?.rating ?? RESUMEN_GOOGLE.rating
+  const total = datos?.total ?? RESUMEN_GOOGLE.total
 
   return (
     <RevealSection className="py-20 lg:py-28 bg-cream/60">
@@ -94,14 +127,14 @@ export default function ResenasGoogle() {
             {t('resenas_titulo_1')} <span className="serif-italic text-blue-deep">{t('resenas_titulo_2')}</span>.
           </h2>
 
-          {datos?.rating != null && (
+          {rating != null && (
             <div className="mt-6 inline-flex items-center gap-3 bg-white rounded-full px-5 py-2.5 border border-navy/10 shadow-sm">
               <span className="text-navy font-headline text-2xl leading-none">
-                {datos.rating.toFixed(1)}
+                {rating.toFixed(1)}
               </span>
-              <Estrellas puntaje={datos.rating} size={18} />
+              <Estrellas puntaje={rating} size={18} />
               <span className="text-navy/60 text-sm">
-                {datos.total} {t('resenas_en_google')}
+                {total} {t('resenas_en_google')}
               </span>
             </div>
           )}
