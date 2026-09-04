@@ -26,6 +26,7 @@ type Resena = {
   foto: string | null
   puntaje: number
   cuando: string
+  /** Vacío cuando la persona puntuó sin escribir. */
   texto: string
 }
 
@@ -61,7 +62,7 @@ function haceCuanto(iso: string, lang: 'es' | 'en'): string {
 }
 
 const Tarjeta = ({ r }: { r: Resena }) => (
-  <article className="bg-white rounded-2xl p-6 border border-navy/10 shadow-sm flex flex-col gap-4">
+  <article className="bg-white rounded-2xl p-6 border border-navy/10 shadow-sm flex flex-col gap-4 self-start">
     <div className="flex items-center gap-3">
       {r.foto ? (
         <img
@@ -82,8 +83,12 @@ const Tarjeta = ({ r }: { r: Resena }) => (
       </div>
     </div>
     <Estrellas puntaje={r.puntaje} />
-    {/* Sin recortar el texto: una reseña cortada a la mitad no convence a nadie. */}
-    <p className="text-navy/75 text-sm leading-relaxed whitespace-pre-line">{r.texto}</p>
+    {/* Sin recortar el texto: una reseña cortada a la mitad no convence a nadie.
+        Y si puntuó sin escribir, la tarjeta se queda en las estrellas — meterle
+        una frase de relleno seria inventar una reseña. */}
+    {r.texto && (
+      <p className="text-navy/75 text-sm leading-relaxed whitespace-pre-line">{r.texto}</p>
+    )}
   </article>
 )
 
@@ -121,7 +126,7 @@ export default function ResenasGoogle() {
           foto: null,
           puntaje: r.puntaje,
           cuando: haceCuanto(r.fecha, lang),
-          texto: r.texto[lang],
+          texto: r.texto ? r.texto[lang] : '',
         }))
 
   const rating = mandaGoogle ? datos!.rating : RESUMEN_GOOGLE.rating

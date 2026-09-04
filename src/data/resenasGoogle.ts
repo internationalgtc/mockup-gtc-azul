@@ -10,8 +10,9 @@
  *
  * CÓMO SE ACTUALIZA
  * Panel de Google Business → «Leer opiniones». Se copian tal cual, sin editar el
- * texto de nadie. Las que no traen texto no se ponen: una tarjeta con estrellas
- * y nada escrito no le dice nada al que la lee.
+ * texto de nadie. Las que puntuaron sin escribir van igual, con la tarjeta corta
+ * (nombre, estrellas y cuándo): inventarles una frase seria falsificar una
+ * reseña.
  *
  * La fecha se guarda absoluta (aproximada al día que se publicó) y el «hace N
  * meses» lo calcula la pantalla: escribirlo a mano envejece mal.
@@ -22,7 +23,9 @@ export type ResenaLocal = {
   puntaje: number
   /** ISO. Aproximada: Google solo muestra «hace N semanas». */
   fecha: string
-  texto: { es: string; en: string }
+  /** `null` = puntuó sin escribir. La tarjeta se muestra igual, más corta: no
+   *  se le pone texto en la boca a nadie. */
+  texto: { es: string; en: string } | null
 }
 
 export const RESENAS_GOOGLE: ResenaLocal[] = [
@@ -70,6 +73,12 @@ export const RESENAS_GOOGLE: ResenaLocal[] = [
       es: 'Global Talent Connections es más que un proveedor de servicios; es un socio clave para el crecimiento mutuo. Su enfoque en el desarrollo productivo del equipo remoto para empresas apunta a la constante evolución de la gestión de trabajo en tiempo de IA. Entienden que el éxito requiere equipos motivados y en constante aprendizaje. Una experiencia altamente satisfactoria y recomendada para líderes empresariales que miran hacia la innovación y para todo profesional que se enfoca en el crecimiento constante en proyectos gestionados en remoto.',
       en: 'Global Talent Connections is more than a service provider; it is a key partner for mutual growth. Their focus on the productive development of remote teams for companies is aimed at the constant evolution of work management in the age of AI. They understand that success requires motivated teams that keep learning. A highly satisfying experience, recommended for business leaders looking towards innovation and for any professional focused on constant growth in remotely managed projects.',
     },
+  },
+  {
+    autor: 'Carlos',
+    puntaje: 5,
+    fecha: '2025-10-03',
+    texto: null, // puntuó sin escribir
   },
 ]
 
